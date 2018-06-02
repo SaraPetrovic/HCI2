@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="nav.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    table span{
+      display:block;
+      background-color: #09C;
+      height: 100%;
+      width: 100%;
+      }
+  </style>
+</head>
+<body>
+
+<div id="main">
+<div class="jumbotron text-center">
+  <h1>Dоbrodošli u Računarski Centar</h1>
+  <p>Fakultet tehničkih nauka</p> 
+</div>
+  
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">Dodaj predmet</a>
+  <a href="#">Dodaj učionicu</a>
+  <a href="#">Pomoć</a>
+</div>
+
+<div class="container">
+  <div>
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Meni</span>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Termin</th>
+            <th>Ponedeljak</th>
+            <th>Utorak</th>
+            <th>Sreda</th>
+            <th>Četvrtak</th>
+            <th>Petak</th>
+            <th>Subota</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span id="t1" draggable="false">08:00 - 08:45</span></td>
+            <td><span class="event" id="a" draggable="true">aaa</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span id="t2" droppable="false">09:00 - 09:45</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span id="t3" draggable="false">10:00 - 10:45</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span id="t4" draggable="false">11:00 - 11:45</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span id="t5" draggable="false">12:00 - 12:45</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span id="t6" draggable="false">13:00 - 13:45</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span id="t7" draggable="false">14:00 - 14:45</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span id="t8" draggable="false">15:00 - 15:45</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span id="t9" draggable="false">16:00 - 16:45</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span id="t10" draggable="false">17:00 - 17:45</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span id="t11" draggable="false">18:00 - 18:45</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-6">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Predmet (čas)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="event" id="p1" draggable="true">LPRS</span></td>
+          </tr>
+          <tr>
+            <td><span class="event" id="p2" draggable="true">SOK</span></td>
+          </tr>
+          <tr>
+            <td><span class="event" id="p3" draggable="true">Web</span></td>
+          </tr>
+          <tr>
+            <td><span class="event" id="p4" draggable="true">Snus</span></td>
+          </tr>
+          <tr>
+            <td><span class="event" id="p5" draggable="true">Statistika</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- DRAG&DROP -->
+<script>
+  $(document).ready(function(){
+    $('.event').on("dragstart", function (event) {
+        var dt = event.originalEvent.dataTransfer;
+        dt.setData('Text', $(this).attr('id'));
+      });
+      $('table td').on("dragenter dragover drop", function (event) {  
+       event.preventDefault();
+       if (event.type === 'drop') {
+        var data = event.originalEvent.dataTransfer.getData('Text',$(this).attr('id'));
+        if($(this).find('span').length===0){
+           de=$('#'+data).detach();
+           de.appendTo($(this));  
+          }
+       
+       };
+     });
+})
+</script>
+
+<!-- SIDE NAV -->
+<script>
+  function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+      //document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+  }
+
+  function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("main").style.marginLeft= "0";
+      //document.body.style.backgroundColor = "white";
+  }
+</script>
+</body>
+</html>

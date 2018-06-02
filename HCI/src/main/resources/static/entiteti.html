@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
+<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet"> 
+</head>
+<body>
+<div class="container"style="margin-top:5%;;margin-bottom:100px">
+
+  <h2>Entiteti</h2>
+  <ul class="nav nav-tabs" style="margin-bottom:20px;">
+    <li class="active"><a data-toggle="tab" href="#home">Predmeti</a></li>
+    <li><a data-toggle="tab" href="#menu1">Smerovi</a></li>
+    <li><a data-toggle="tab" href="#menu2">Učionice</a></li>
+    <li><a data-toggle="tab" href="#menu3">Softveri</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      <table id="predmeti" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Oznaka</th>
+                <th>Naziv</th>
+                <th>Opis</th>
+                <th>Smer</th>
+                <th>Velicina Grupe</th>
+                <th>OP sistem</th>
+                <th>Broj termina</th>
+                <th>Duzina termina</th>
+                <th>Projektor</th>
+                <th>Tabla</th>
+                <th>Pametna tabla</th>
+                
+            </tr>
+        </thead>
+        <tbody id="tableBodyPredmeti">
+           
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Oznaka</th>
+                <th>Naziv</th>
+                <th>Opis</th>
+                <th>Smer</th>
+                <th>Velicina Grupe</th>
+                <th>OP sistem</th>
+                <th>Broj termina</th>
+                <th>Duzina termina</th>
+                <th>Projektor</th>
+                <th>Tabla</th>
+                <th>Pametna tabla</th>
+            </tr>
+        </tfoot>
+    </table>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+     <table id="smerovi" class="table table-striped table-bordered" style="width:100%;margin-top:20px">
+        <thead>
+            <tr>
+                <th>Oznaka</th>
+                <th>Naziv</th>
+                <th>Datum</th>
+                <th>Opis</th>
+   
+            </tr>
+        </thead>
+        <tbody id="tableBodySmerovi">
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Oznaka</th>
+                <th>Naziv</th>
+                <th>Datum</th>
+                <th>Opis</th>
+            </tr>
+        </tfoot>
+    </table>
+    </div>
+    <div id="menu2" class="tab-pane fade" >
+      <table id="ucionice" class="table table-striped table-bordered" style="width:100%;margin-top:20px">
+        <thead>
+            <tr>
+                <th>Oznaka</th>
+                <th>Opis</th>
+                <th>Broj mesta</th>
+                <th>Projektor</th>
+                <th>Tabla</th>
+                <th>Pametna tabla</th>
+                <th>Operativni Sistem</th>
+             
+   
+            </tr>
+        </thead>
+        <tbody id="tableBodyUcionice">
+
+        </tbody>
+        <tfoot>
+            <tr>
+              <th>Oznaka</th>
+                <th>Opis</th>
+                <th>Broj mesta</th>
+                <th>Projektor</th>
+                <th>Tabla</th>
+                <th>Pametna tabla</th>
+                <th>Operativni Sistem</th>
+            </tr>
+        </tfoot>
+    </table>
+    </div>
+    <div id="menu3" class="tab-pane fade" >
+    	     <table id="softveri" class="table table-striped table-bordered" style="width:100%;margin-top:20px">
+        <thead>
+            <tr>
+                <th>Oznaka</th>
+                <th>Naziv</th>
+                <th>Proizvodjač</th>
+                <th>Sajt</th>
+                <th>Godina izadavanja</th>
+                <th>Opis</th>
+                <th>Cena</th>
+             
+   
+            </tr>
+        </thead>
+        <tbody id="tableBodySoftveri">
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Oznaka</th>
+                <th>Naziv</th>
+                <th>Proizvodjač</th>
+                <th>Sajt</th>
+                <th>Godina izadavanja</th>
+                <th>Opis</th>
+                <th>Cena</th>
+            </tr>
+        </tfoot>
+    </table>
+  </div>
+</div>
+</div>
+
+
+</body>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="dataTable.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+<script>
+$.ajax({
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(predmeti){
+				
+			  predmeti.forEach(function(predmet) {
+					var tableData = '';
+					tableData += '<tr>';
+					tableData += '<td>'+ predmet.oznaka +'</td>';
+					tableData += '<td>' + predmet.naziv + '</td>';
+					tableData += '<td>' + predmet.opis + '</td>';
+					tableData += '<td>' + predmet.smer.oznaka + '</td>';
+					tableData += '<td>' + predmet.velicinaGrupe + '</td>';
+					tableData += '<td>' + predmet.opSistem + '</td>';
+					tableData += '<td>' + predmet.brojTermina + '</td>';
+					tableData += '<td>' + predmet.duzinaTermina + '</td>';
+					//var projektor = ;
+					
+					tableData += '<td>' + ((predmet.projektor == true) ? 'da' : 'ne') + '</td>';
+					tableData += '<td>' + ((predmet.tabla == true) ? 'da' : 'ne') + '</td>';
+					tableData += '<td>' + ((predmet.pametnaTabla == true) ? 'da' : 'ne') + '</td></tr>';
+					$("#tableBodyPredmeti").append(tableData);
+					
+					
+				});
+			
+			  
+			  $('#predmeti').DataTable();
+			  $("#dodajEntitet_predmeti").click(function(){
+					alert("dodavanje predmeta");
+				});
+			  
+			    
+			    
+			    
+			    
+		
+    },
+    processData: false,
+    type: 'GET',
+    url: '/api/predmeti'
+});
+$.ajax({
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(smerovi){
+				
+			  smerovi.forEach(function(smer) {
+					var tableData = '';
+					tableData += '<tr>';
+					tableData += '<td>'+ smer.oznaka +'</td>';
+					tableData += '<td>' + smer.naziv + '</td>';
+					tableData += '<td>' + smer.datum + '</td>';
+					tableData += '<td>' + smer.opis + '</td></tr>';
+
+					
+					$("#tableBodySmerovi").append(tableData);
+					
+					
+				});
+			  
+			  $('#smerovi').DataTable();
+			  $("#dodajEntitet_smerovi").click(function(){
+					alert("dodavanje smerova");
+				});
+    },
+    processData: false,
+    type: 'GET',
+    url: '/api/smerovi'
+});
+$.ajax({
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(ucionice){
+				
+			  ucionice.forEach(function(ucionica) {
+					var tableData = '';
+					tableData += '<tr>';
+					tableData += '<td>'+ ucionica.oznaka +'</td>';
+					tableData += '<td>' + ucionica.opis + '</td>';
+					tableData += '<td>' + ucionica.brojMesta + '</td>';
+					tableData += '<td>' + ((ucionica.projektor == true) ? 'da' : 'ne') + '</td>';
+					tableData += '<td>' + ((ucionica.tabla == true) ? 'da' : 'ne')  + '</td>';
+					tableData += '<td>' + ((ucionica.pametnaTabla == true) ? 'da' : 'ne')  + '</td>';
+					tableData += '<td>' + ucionica.opSistem + '</td></tr>';
+					$("#tableBodyUcionice").append(tableData);
+					
+					
+				});
+			  
+			  $('#ucionice').DataTable();
+			  $("#dodajEntitet_ucionice").click(function(){
+					alert("dodavanje ucionica");
+				});
+    },
+    processData: false,
+    type: 'GET',
+    url: '/api/ucionice'
+});
+$.ajax({
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(softveri){
+				
+			  softveri.forEach(function(softver) {
+					var tableData = '';
+					tableData += '<tr>';
+					tableData += '<td>'+ softver.oznaka +'</td>';
+					tableData += '<td>' + softver.naziv + '</td>';
+					tableData += '<td>' + softver.proizvodjac + '</td>';
+					tableData += '<td><a href="http://' + softver.sajt + '">' + softver.sajt + '</a></td>';
+					tableData += '<td>' + softver.godinaIzdavanja + '</td>';
+					tableData += '<td>' + softver.opis + '</td>';
+					tableData += '<td>' + softver.cena + '</td></tr>';
+					$("#tableBodySoftveri").append(tableData);
+					
+					
+				});
+			  
+			  $('#softveri').DataTable();
+			  $("#dodajEntitet_softveri").click(function(){
+					alert("dodavanje softvera");
+				});
+    },
+    processData: false,
+    type: 'GET',
+    url: '/api/softveri'
+});
+function dodajEntitet(){
+	alert("asd");
+}
+$(document).ready(function() {
+
+} );
+
+</script>
+</html>
