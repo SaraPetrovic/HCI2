@@ -45,255 +45,10 @@
       // initialize the calendar
       // -----------------------------------------------------------------
 
-      $('#calendar').fullCalendar({
-        
-        hiddenDays: [ 0 ],
-        defaultView: 'agendaWeek',
-        allDaySlot: false,
-        slotEventOverlap: false,
-        slotDuration: '00:15:00',
-        slotLabelInterval: '01:45',
-        minTime: '07:00:00',
-        maxTime: '22:00:00',
-        eventOverlap: false,
-        defaultTimedEventDuration: '00:45:00',
-        eventDurationEditable : false,
-        editable: true,
-        droppable: true, // this allows things to be dropped onto the calendar
-        eventResize: function(event, delta, revertFunc) {
 
-          var duration = moment.duration(event.end - event.start);
-          var limit = moment.duration(45, 'minutes');
-          if ( duration < limit) {
-            alert("Class minimum duration is 45min!!!! Resize canceled!");
-            revertFunc();
-          }
-
-        },
-		
-			
-        drop: function(date, jsEvent, ui, resourceId) {
-          // is the "remove after drop" checkbox checked?
-		  console.log($(this).start)
-		  
-		  console.log(ui.start)
-          if ($('#drop-remove').is(':checked')) {
-            // if so, remove the element from the "Draggable Events" list
-
-            alert("Dropped on " + date.format());
-            $(this).remove();
-          }
-        },
-		eventDrop: function(event, delta, revertFunc) {
-            //inner column movement drop so get start and call the ajax function......
-			//alert(moment("07:00", "HH:mm"));
-			var momentStart = moment(event.start);
-			var momentEnd = moment(event.end);
-			var duration = moment.duration(event.end - event.start);
-			if (momentStart.hours() < moment("07:00:00", "HH:mm:ss").hours()){
-				//event.start = moment("07:00", "HH:mm").format();
-				
-				momentStart.hours(7).valueOf();
-				momentStart.minutes(0).valueOf();
-				momentEnd.hours(7 + duration.hours()).valueOf();
-				momentEnd.minutes(0 + duration.minutes()).valueOf();
-				event.end = momentEnd.format();
-				event.start = momentStart.format();
-				
-			}
-            $('#calendar').fullCalendar('updateEvent', event);
-
-        },
-      });
 
     
-	      $('#calendar1').fullCalendar({
-        
-        hiddenDays: [ 0 ],
-        defaultView: 'agendaWeek',
-        allDaySlot: false,
-        slotEventOverlap: false,
-        slotDuration: '00:15:00',
-        slotLabelInterval: '01:45',
-        minTime: '07:00:00',
-        maxTime: '22:00:00',
-        eventOverlap: false,
-        defaultTimedEventDuration: '00:45:00',
-        eventDurationEditable : false,
-        editable: true,
-        droppable: true, // this allows things to be dropped onto the calendar
-        eventResize: function(event, delta, revertFunc) {
 
-          var duration = moment.duration(event.end - event.start);
-          var limit = moment.duration(45, 'minutes');
-          if ( duration < limit) {
-            alert("Class minimum duration is 45min!!!! Resize canceled!");
-            revertFunc();
-          }
-
-        },
-		
-			
-        drop: function(date, jsEvent, ui, resourceId) {
-          // is the "remove after drop" checkbox checked?
-		  console.log($(this).start)
-		  
-		  console.log(ui.start)
-          if ($('#drop-remove').is(':checked')) {
-            // if so, remove the element from the "Draggable Events" list
-
-            alert("Dropped on " + date.format());
-            $(this).remove();
-          }
-        },
-		eventDrop: function(event, delta, revertFunc) {
-            //inner column movement drop so get start and call the ajax function......
-			//alert(moment("07:00", "HH:mm"));
-			var momentStart = moment(event.start);
-			var momentEnd = moment(event.end);
-			var duration = moment.duration(event.end - event.start);
-			if (momentStart.hours() < moment("07:00:00", "HH:mm:ss").hours()){
-				//event.start = moment("07:00", "HH:mm").format();
-				
-				momentStart.hours(7).valueOf();
-				momentStart.minutes(0).valueOf();
-				momentEnd.hours(7 + duration.hours()).valueOf();
-				momentEnd.minutes(0 + duration.minutes()).valueOf();
-				alert("start "  + momentStart.format() + "\nend " + momentEnd.format());
-				event.end = momentEnd.format();
-				event.start = momentStart.format();
-				
-			}
-            $('#calendar1').fullCalendar('updateEvent', event);
-
-        },
-      
-
-    });
-	      $('#calendar2').fullCalendar({
-        
-        hiddenDays: [ 0 ],
-        defaultView: 'agendaWeek',
-        allDaySlot: false,
-        slotEventOverlap: false,
-        slotDuration: '00:15:00',
-        slotLabelInterval: '01:45',
-        minTime: '07:00:00',
-        maxTime: '22:00:00',
-        eventOverlap: false,
-        defaultTimedEventDuration: '00:45:00',
-        eventDurationEditable : false,
-        editable: true,
-        droppable: true, // this allows things to be dropped onto the calendar
-        eventResize: function(event, delta, revertFunc) {
-
-          var duration = moment.duration(event.end - event.start);
-          var limit = moment.duration(45, 'minutes');
-          if ( duration < limit) {
-            alert("Class minimum duration is 45min!!!! Resize canceled!");
-            revertFunc();
-          }
-
-        },
-		
-			
-        drop: function(date, jsEvent, ui, resourceId) {
-          // is the "remove after drop" checkbox checked?
-		  console.log($(this).start)
-		  
-		  console.log(ui.start)
-          if ($('#drop-remove').is(':checked')) {
-            // if so, remove the element from the "Draggable Events" list
-
-            alert("Dropped on " + date.format());
-            $(this).remove();
-          }
-        },
-		eventDrop: function(event, delta, revertFunc) {
-            //inner column movement drop so get start and call the ajax function......
-			//alert(moment("07:00", "HH:mm"));
-			var momentStart = moment(event.start);
-			var momentEnd = moment(event.end);
-			var duration = moment.duration(event.end - event.start);
-			if (momentStart.hours() < moment("07:00:00", "HH:mm:ss").hours()){
-				//event.start = moment("07:00", "HH:mm").format();
-				
-				momentStart.hours(7).valueOf();
-				momentStart.minutes(0).valueOf();
-				momentEnd.hours(7 + duration.hours()).valueOf();
-				momentEnd.minutes(0 + duration.minutes()).valueOf();
-				alert("start "  + momentStart.format() + "\nend " + momentEnd.format());
-				event.end = momentEnd.format();
-				event.start = momentStart.format();
-				
-			}
-            $('#calendar2').fullCalendar('updateEvent', event);
-
-        },
-      });
-
-    
-	      $('#calendar3').fullCalendar({
-        
-        hiddenDays: [ 0 ],
-        defaultView: 'agendaWeek',
-        allDaySlot: false,
-        slotEventOverlap: false,
-        slotDuration: '00:15:00',
-        slotLabelInterval: '01:45',
-        minTime: '07:00:00',
-        maxTime: '22:00:00',
-        eventOverlap: false,
-        defaultTimedEventDuration: '00:45:00',
-        eventDurationEditable : false,
-        editable: true,
-        droppable: true, // this allows things to be dropped onto the calendar
-        eventResize: function(event, delta, revertFunc) {
-
-          var duration = moment.duration(event.end - event.start);
-          var limit = moment.duration(45, 'minutes');
-          if ( duration < limit) {
-            alert("Class minimum duration is 45min!!!! Resize canceled!");
-            revertFunc();
-          }
-
-        },
-		
-			
-        drop: function(date, jsEvent, ui, resourceId) {
-          // is the "remove after drop" checkbox checked?
-		  console.log($(this).start)
-		  
-		  console.log(ui.start)
-          if ($('#drop-remove').is(':checked')) {
-            // if so, remove the element from the "Draggable Events" list
-
-            alert("Dropped on " + date.format());
-            $(this).remove();
-          }
-        },
-		eventDrop: function(event, delta, revertFunc) {
-            //inner column movement drop so get start and call the ajax function......
-			//alert(moment("07:00", "HH:mm"));
-			var momentStart = moment(event.start);
-			var momentEnd = moment(event.end);
-			var duration = moment.duration(event.end - event.start);
-			if (momentStart.hours() < moment("07:00:00", "HH:mm:ss").hours()){
-				//event.start = moment("07:00", "HH:mm").format();
-				
-				momentStart.hours(7).valueOf();
-				momentStart.minutes(0).valueOf();
-				momentEnd.hours(7 + duration.hours()).valueOf();
-				momentEnd.minutes(0 + duration.minutes()).valueOf();
-				alert("start "  + momentStart.format() + "\nend " + momentEnd.format());
-				event.end = momentEnd.format();
-				event.start = momentStart.format();
-				
-			}
-            $('#calendar3').fullCalendar('updateEvent', event);
-
-        },
-      });
 });
     
 $( document ).ready(function() {
@@ -307,7 +62,121 @@ $( document ).ready(function() {
 	$(".fc-sat").children().html("<span>SUBOTA<span>");
 	
 });
+$.ajax({
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(ucionice){
+				var i = 0;
+			  ucionice.forEach(function(ucionica) {
+			  		var liClass = '';
+			  		var tab = '';
+			  		var tabContent = '';
+					if (i == 0){
+						liClass = 'class="active"';
+					}
+					var tab = '<li '+ liClass + '><a data-toggle="tab" href="#tab_' + ucionica.oznaka +'">' +ucionica.oznaka +'</a></li>';
+					$("#tabs").append(tab);
+					var tabContent = '<div id="tab_' + ucionica.oznaka +'" class="tab-pane fade in active"><div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div></div>';
+					$("#tabsContent").append(tabContent);
+					i++;
+				
+					
+					$("#calendar_" + ucionica.oznaka).css("max-width", "900px;");
+					$("#calendar_" + ucionica.oznaka).css("margin", "20px auto;");
+					initTable(ucionica.oznaka);
+					liClass = '';
+					
+				});
+			  
+			  
+    },
+    processData: false,
+    type: 'GET',
+    url: '/api/ucionice'
+});
+$.ajax({
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(predmeti){
+				
+			  predmeti.forEach(function(predmet) {
+				    var hours = Math.floor( (predmet.duzinaTermina * 45) / 60);          
+				    var minutes = (predmet.duzinaTermina*45) % 60;
+				    alert("duzina " + predmet.duzinaTermina + " dobijen rezultat "  + " sati " + hours + "minuti " + minutes);
+					var kartica = '<div class="fc-event" duration="' +hours + ':' + minutes +'">' + predmet.oznaka + '</div>';
+					$("#predmeti").append(kartica);
 
+									
+				});
+	
+    },
+    processData: false,
+    type: 'GET',
+    url: '/api/predmeti'
+});
+
+function initTable(id){
+	      $('#calendar_' + id).fullCalendar({
+        
+        hiddenDays: [ 0 ],
+        defaultView: 'agendaWeek',
+        allDaySlot: false,
+        slotEventOverlap: false,
+        slotDuration: '00:15:00',
+        slotLabelInterval: '01:45',
+        minTime: '07:00:00',
+        maxTime: '22:00:00',
+        eventOverlap: false,
+        defaultTimedEventDuration: '00:45:00',
+        eventDurationEditable : false,
+        editable: true,
+        droppable: true, // this allows things to be dropped onto the calendar
+        eventResize: function(event, delta, revertFunc) {
+
+          var duration = moment.duration(event.end - event.start);
+          var limit = moment.duration(45, 'minutes');
+          if ( duration < limit) {
+            alert("Class minimum duration is 45min!!!! Resize canceled!");
+            revertFunc();
+          }
+
+        },
+		
+			
+        drop: function(date, jsEvent, ui, resourceId) {
+          // is the "remove after drop" checkbox checked?
+		  console.log($(this).start)
+		  
+		  console.log(ui.start)
+          if ($('#drop-remove').is(':checked')) {
+            // if so, remove the element from the "Draggable Events" list
+
+            alert("Dropped on " + date.format());
+            $(this).remove();
+          }
+        },
+		eventDrop: function(event, delta, revertFunc) {
+            //inner column movement drop so get start and call the ajax function......
+			//alert(moment("07:00", "HH:mm"));
+			var momentStart = moment(event.start);
+			var momentEnd = moment(event.end);
+			var duration = moment.duration(event.end - event.start);
+			if (momentStart.hours() < moment("07:00:00", "HH:mm:ss").hours()){
+				//event.start = moment("07:00", "HH:mm").format();
+				
+				momentStart.hours(7).valueOf();
+				momentStart.minutes(0).valueOf();
+				momentEnd.hours(7 + duration.hours()).valueOf();
+				momentEnd.minutes(0 + duration.minutes()).valueOf();
+				event.end = momentEnd.format();
+				event.start = momentStart.format();
+				
+			}
+            $('#calendar_' + id).fullCalendar('updateEvent', event);
+
+        },
+      });
+}
   </script>
   <style>
     html, body {
@@ -339,7 +208,7 @@ $( document ).ready(function() {
       margin-left: 200px;
     }
 
-    #calendar {
+    .calendarCss {
       max-width: 900px;
       margin: 20px auto;
     }
@@ -363,49 +232,29 @@ $( document ).ready(function() {
   
   <div id='external-events'>
     <p>
-      <strong>Draggable Events</strong>
+      <strong>Predmeti</strong>
     </p>
-    <div class='fc-event' duration="01:00">My Event 1</div>
-    <div class='fc-event' duration="01:30">My Event 2</div>
-    <div class='fc-event' duration="01:00">My Event 3</div>
-    <div class='fc-event' duration="02:00">My Event 4</div>
-    <div class='fc-event' duration="02:30">My Event 5</div>
+    	<div id="predmeti">
+    	<div class='fc-event' duration="01:00">My Event 1</div>
+    	<div class='fc-event' duration="01:30">My Event 2</div>
+    	<div class='fc-event' duration="01:00">My Event 3</div>
+    	<div class='fc-event' duration="02:00">My Event 4</div>
+    	<div class='fc-event' duration="02:30">My Event 5</div>
+    	</div>
     <p>
       <input type='checkbox' id='drop-remove' />
       <label for='drop-remove'>remove after drop</label>
     </p>
   </div>
     <h2 style="margin-left:20%;">RASPORED</h2>
-  <ul class="nav nav-tabs" style="margin-bottom:20px;margin-left:20%;">
-    <li class="active"><a data-toggle="tab" href="#home">L1</a></li>
-    <li><a data-toggle="tab" href="#menu1">L2</a></li>
-    <li><a data-toggle="tab" href="#menu2">L3</a></li>
-    <li><a data-toggle="tab" href="#menu3">L4</a></li>
+  <ul class="nav nav-tabs" id="tabs" style="margin-bottom:20px;margin-left:20%;">
+    
+
   </ul>
-   <div class="tab-content">
- <div id="home" class="tab-pane fade in active">
-	<div class="calendar-container">
-		<div id='calendar'></div>
-	</div>
-</div>
- <div id="menu1" class="tab-pane fade in active">
- 	<div class="calendar-container">
-		<div id='calendar1'></div>
-		</div>
+   <div class="tab-content" id="tabsContent">
+ 		
 
-</div>
- <div id="menu2" class="tab-pane fade in active">
- 	<div class="calendar-container">
-		<div id='calendar2'></div>
-		</div>
-
-</div>
- <div id="menu3" class="tab-pane fade in active">
- 	<div class="calendar-container">
-		<div id='calendar3'></div>
 	</div>
-</div>
-</div>
 </body>
 
 
