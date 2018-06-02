@@ -14,15 +14,12 @@
   <script src='calendar-lib/fullcalendar.js'></script>
 
   <script>
-    $(function() {
+function ucitajKartice() {
 
       // initialize the external events
       // -----------------------------------------------------------------
-
+	  
       $('#external-events .fc-event').each(function() {
-		
-		
-		
 
         // store data so the calendar knows to render an event upon drop
         $(this).data('event', {
@@ -40,26 +37,12 @@
           revertDuration: 0  //  original position after the drag
         });
 
-      });
-
-      // initialize the calendar
-      // -----------------------------------------------------------------
-
-
-
-    
-
-});
+      });   
+};
     
 $( document ).ready(function() {
-    $(".fc-header-toolbar").empty();
 	
-	$(".fc-mon").children().html("<span>PONEDELJAK<span>");
-	$(".fc-tue").children().html("<span>UTORAK<span>");
-	$(".fc-wed").children().html("<span>SREDA<span>");
-	$(".fc-thu").children().html("<span>ČETVRTAK<span>");
-	$(".fc-fri").children().html("<span>PETAK<span>");
-	$(".fc-sat").children().html("<span>SUBOTA<span>");
+
 	
 });
 $.ajax({
@@ -94,6 +77,7 @@ $.ajax({
     type: 'GET',
     url: '/api/ucionice'
 });
+var predmetiUcitani = 0;
 $.ajax({
     contentType: 'application/json',
     dataType: 'json',
@@ -102,12 +86,10 @@ $.ajax({
 			  predmeti.forEach(function(predmet) {
 				    var hours = Math.floor( (predmet.duzinaTermina * 45) / 60);          
 				    var minutes = (predmet.duzinaTermina*45) % 60;
-				    alert("duzina " + predmet.duzinaTermina + " dobijen rezultat "  + " sati " + hours + "minuti " + minutes);
 					var kartica = '<div class="fc-event" duration="' +hours + ':' + minutes +'">' + predmet.oznaka + '</div>';
-					$("#predmeti").append(kartica);
-
-									
+					$("#predmeti").append(kartica);			
 				});
+			  ucitajKartice();
 	
     },
     processData: false,
@@ -176,6 +158,14 @@ function initTable(id){
 
         },
       });
+	      $(".fc-header-toolbar").empty();
+	  	
+	  	$(".fc-mon").children().html("<span>PONEDELJAK<span>");
+	  	$(".fc-tue").children().html("<span>UTORAK<span>");
+	  	$(".fc-wed").children().html("<span>SREDA<span>");
+	  	$(".fc-thu").children().html("<span>ČETVRTAK<span>");
+	  	$(".fc-fri").children().html("<span>PETAK<span>");
+	  	$(".fc-sat").children().html("<span>SUBOTA<span>");
 }
   </script>
   <style>
@@ -235,11 +225,7 @@ function initTable(id){
       <strong>Predmeti</strong>
     </p>
     	<div id="predmeti">
-    	<div class='fc-event' duration="01:00">My Event 1</div>
-    	<div class='fc-event' duration="01:30">My Event 2</div>
-    	<div class='fc-event' duration="01:00">My Event 3</div>
-    	<div class='fc-event' duration="02:00">My Event 4</div>
-    	<div class='fc-event' duration="02:30">My Event 5</div>
+
     	</div>
     <p>
       <input type='checkbox' id='drop-remove' />
