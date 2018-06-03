@@ -9,4 +9,5 @@ import hci.rcentar.domain.Ucionica;
 @Component
 public interface UcionicaService {
 	public List<Ucionica> getUcionice();
+	public Ucionica getUcionica(String oznaka);
 }

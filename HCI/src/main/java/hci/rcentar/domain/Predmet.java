@@ -45,7 +45,9 @@ public class Predmet {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE )
 	List<Softver> softveri;
 	
-	
+	public Predmet(String oznaka){
+		this.oznaka = oznaka;
+	}
 	
 	public Predmet() {
 		super();

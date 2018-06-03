@@ -17,5 +17,10 @@ public class UcionicaServiceImpl implements UcionicaService{
 		// TODO Auto-generated method stub
 		return ucionicaRepository.findAll();
 	}
+	@Override
+	public Ucionica getUcionica(String oznaka) {
+		// TODO Auto-generated method stub
+		return ucionicaRepository.findOne(oznaka);
+	}
 	
 }

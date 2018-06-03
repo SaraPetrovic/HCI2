@@ -6,20 +6,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import hci.rcentar.domain.Predmet;
+import hci.rcentar.domain.Raspored;
 import hci.rcentar.domain.Smer;
 import hci.rcentar.domain.Softver;
 import hci.rcentar.domain.Ucionica;
 import hci.rcentar.service.PredmetService;
+import hci.rcentar.service.RasporedService;
 import hci.rcentar.service.SmerService;
 import hci.rcentar.service.SoftverService;
 import hci.rcentar.service.UcionicaService;
 @RestController	
 public class EntityController {
+	@Autowired
+	RasporedService rasporedService;
 	@Autowired
 	PredmetService predmetService;
 	@Autowired
@@ -49,12 +55,50 @@ public class EntityController {
 	public ResponseEntity<List<Ucionica>> getUcionice(){
 		return new ResponseEntity<List<Ucionica>>(ucionicaService.getUcionice(), HttpStatus.OK);
 	}
+	@RequestMapping(value = "/api/ucionice/{oznaka}",
+					method = RequestMethod.GET,
+					produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<Ucionica> getUcionica(@PathVariable("oznaka") String oznaka){
+			Ucionica ucionica = ucionicaService.getUcionica(oznaka);
+			return new ResponseEntity<Ucionica>(ucionica, HttpStatus.OK);
+	}
 	@RequestMapping(
 			value = "/api/softveri",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Softver>> getSoftveri(){
 		return new ResponseEntity<List<Softver>>(softverService.getSoftvers(), HttpStatus.OK);
+	}
+	@RequestMapping(
+			value = "/api/raspored",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Raspored> saveRaspored(@RequestBody Raspored raspored){
+		System.out.println("Broj kartica : " + raspored.getKartice().size());
+		Raspored savedRaspored = rasporedService.SaveRaspored(raspored);
+		return new ResponseEntity<Raspored>(savedRaspored, HttpStatus.OK);
+	}
+	@RequestMapping(
+			value = "/api/raspored",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Raspored>> getRaspored(){
+		List<Raspored> rasporedi = rasporedService.getAll();
+		if (rasporedi.isEmpty()){
+			return null;
+		}else{
+			return new ResponseEntity<List<Raspored>>(rasporedi, HttpStatus.OK);
+		}
+	}
+	@RequestMapping(
+			value = "/api/raspored/{naziv}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Raspored> getRaspored(@PathVariable("naziv") String naziv){
+		Raspored rasp = rasporedService.getRaspored(naziv);
+		return new ResponseEntity<Raspored>(rasp, HttpStatus.OK);
 	}
 	
 	
