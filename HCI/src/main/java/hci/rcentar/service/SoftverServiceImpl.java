@@ -15,8 +15,23 @@ public class SoftverServiceImpl implements SoftverService{
 	SoftverRepository softverRepository;
 	@Override
 	public List<Softver> getSoftvers() {
-		// TODO Auto-generated method stub
 		return softverRepository.findAll();
+	}
+	@Override
+	public Softver dodajSoftver(Softver s) {
+		if(findByOznaka(s.getOznaka()) == null) {
+			return softverRepository.save(s);
+		}
+		return null;
+	}
+	@Override
+	public Softver findByNaziv(String naziv) {
+		return softverRepository.findByNaziv(naziv);
+	}
+	@Override
+	public Softver findByOznaka(String oznaka) {
+
+		return softverRepository.findByOznaka(oznaka);
 	}
 	
 }

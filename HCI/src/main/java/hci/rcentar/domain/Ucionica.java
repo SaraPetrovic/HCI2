@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 @Entity
 public class Ucionica {
 	@Id
-
 	String oznaka;
 	@Column(nullable = false)
 	String opis;

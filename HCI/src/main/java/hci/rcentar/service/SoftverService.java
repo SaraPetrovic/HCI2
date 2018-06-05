@@ -9,4 +9,7 @@ import hci.rcentar.domain.Softver;
 @Component
 public interface SoftverService {
 	public List<Softver> getSoftvers();
+	Softver dodajSoftver(Softver s);
+	Softver findByNaziv(String naziv);
+	Softver findByOznaka(String oznaka);
 }

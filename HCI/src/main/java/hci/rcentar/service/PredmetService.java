@@ -12,4 +12,5 @@ public interface PredmetService {
 	List<Predmet> getPredmetsSorted();
 	List<Predmet> getPredmetsBySmer(String smer);
 	List<Predmet> searchPredmetsByNaziv(String naziv);
+	Predmet dodajPredmet(Predmet p);
 }
