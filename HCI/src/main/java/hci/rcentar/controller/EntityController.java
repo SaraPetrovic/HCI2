@@ -34,6 +34,7 @@ public class EntityController {
 	UcionicaService ucionicaService;
 	@Autowired
 	SoftverService softverService;
+	
 	@RequestMapping(
 			value = "/api/predmeti",
 			method = RequestMethod.GET,
@@ -101,5 +102,66 @@ public class EntityController {
 		return new ResponseEntity<Raspored>(rasp, HttpStatus.OK);
 	}
 	
+	@RequestMapping(
+			value = "/api/dodajSmer",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			method = RequestMethod.POST)
+	public ResponseEntity<Smer> dodajSmer(@RequestBody Smer smer){
+
+
+		Smer s = smerService.dodajSmer(smer);
+		if(s != null) {
+			return new ResponseEntity<Smer>(s, HttpStatus.OK);
+		}
+		return new ResponseEntity<Smer>(s, HttpStatus.BAD_REQUEST);
+	}
 	
+	@RequestMapping(
+			value = "/api/dodajPredmet",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			method = RequestMethod.POST)
+	public ResponseEntity<Predmet> dodajPredmet(@RequestBody Predmet predmet){
+
+		predmet.setSmer(smerService.findByOznaka(predmet.getSmer().getOznaka()));
+
+		Predmet p = predmetService.dodajPredmet(predmet);
+		
+		if(p != null) {
+			return new ResponseEntity<Predmet>(p, HttpStatus.OK);
+		}
+		return new ResponseEntity<Predmet>(p, HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(
+			value = "/api/dodajSoftver",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			method = RequestMethod.POST)
+	public ResponseEntity<Softver> dodajSoftver(@RequestBody Softver softver){
+		
+		Softver s = softverService.dodajSoftver(softver);
+		
+		if(s != null) {
+			return new ResponseEntity<Softver>(s, HttpStatus.OK);
+		}
+		return new ResponseEntity<Softver>(s, HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(
+			value = "/api/dodajUcionicu",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			method = RequestMethod.POST)
+	public ResponseEntity<Ucionica> dodajUcionicu(@RequestBody Ucionica ucionica){
+
+		
+		Ucionica u = ucionicaService.dodajUcionicu(ucionica);
+		
+		if(u != null) {
+			return new ResponseEntity<Ucionica>(u, HttpStatus.OK);
+		}
+		return new ResponseEntity<Ucionica>(u, HttpStatus.BAD_REQUEST);
+	}
 }

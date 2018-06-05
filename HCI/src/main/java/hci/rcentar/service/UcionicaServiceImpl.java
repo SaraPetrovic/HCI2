@@ -12,15 +12,21 @@ public class UcionicaServiceImpl implements UcionicaService{
 
 	@Autowired
 	UcionicaRepository ucionicaRepository;
+	
 	@Override
 	public List<Ucionica> getUcionice() {
-		// TODO Auto-generated method stub
 		return ucionicaRepository.findAll();
 	}
 	@Override
 	public Ucionica getUcionica(String oznaka) {
-		// TODO Auto-generated method stub
 		return ucionicaRepository.findOne(oznaka);
+	}
+	@Override
+	public Ucionica dodajUcionicu(Ucionica u) {
+		if(ucionicaRepository.findByOznaka(u.getOznaka()) == null) {
+			return ucionicaRepository.save(u);		
+		}
+		return null;
 	}
 	
 }

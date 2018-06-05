@@ -45,6 +45,14 @@ public class PredmetServiceImpl implements PredmetService {
 		// TODO Auto-generated method stub
 		return predmetRepository.findAll();
 	}
+	@Override
+	public Predmet dodajPredmet(Predmet p) {
+	
+		if(predmetRepository.findByOznaka(p.getOznaka()) == null) {
+			return predmetRepository.save(p);
+		}
+		return null;	
+	}
 	
 	
 

@@ -10,4 +10,6 @@ import hci.rcentar.domain.Smer;
 public interface PredmetRepository extends JpaRepository<Predmet, String> {
 	public List<Predmet> findAllBySmer(Smer smer);
 	public List<Predmet> findByNazivContainingAllIgnoringCase(String naziv);
+	Predmet save(Predmet p);
+	Predmet findByOznaka(String oznaka);
 }

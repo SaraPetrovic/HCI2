@@ -14,9 +14,25 @@ public class SmerServiceImpl implements SmerService{
 	SmerRepository smerRepository;
 	@Override
 	public List<Smer> getSmers() {
-		// TODO Auto-generated method stub
-		
 		return smerRepository.findAll();
 	}
+	@Override
+	public Smer dodajSmer(Smer smer) {
+		if(smerRepository.findByOznaka(smer.getOznaka()) == null){
+			return smerRepository.save(smer);
+		}
+		return null;
+		
+	}
+	@Override
+	public Smer findByNaziv(String naziv) {
+		return smerRepository.findByNaziv(naziv);
+	}
+	
+	@Override
+	public Smer findByOznaka(String oznaka) {
+		return smerRepository.findByOznaka(oznaka);
+	}
 
+	
 }
