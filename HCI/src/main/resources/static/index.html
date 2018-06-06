@@ -36,12 +36,7 @@
 <body>
  
 <div id="main">
-    <button id="buttonZoomout" type="button" class="btn btn-default btn-sm" onclick="zoomout()">
-      <span class="glyphicon glyphicon-zoom-out"></span> Zoom-out
-    </button>
-    <button id="buttonZoomin" type="button" class="btn btn-default btn-sm" onclick="zoomin()">
-      <span class="glyphicon glyphicon-zoom-in"></span> Zoom-in
-    </button>
+	
  <div class="jumbotron text-center" style="height=70%;">
    <h2>Dоbrodošli u Računarski Centar</h2>
    <p>Fakultet tehničkih nauka</p>
@@ -53,7 +48,7 @@
   <a data-toggle="modal" data-target="#ucionica" href="#" onclick="ucitajSoftvere()">Dodaj učionicu</a>
   <a data-toggle="modal" data-target="#smer" href="#">Dodaj smer</a>
   <a data-toggle="modal" data-target="#softver" href="#">Dodaj softver</a>
-  <a data-toggle="modal" data-target="#prikaz" href="#">Prikaz entiteta</a>
+  <a href="raspored.html">Raspored</a>
   <a id="zoomIn" href="#" onclick="zoomin()">Zoom in</a>
   <a id="zoomOut" href="#" onclick="zoomout()">Zoom out</a>
   <a id="pomoc" href="pomoc.html" target="_blank"> Pomoć </a>
@@ -603,8 +598,18 @@ $(document).ready(function(){
  
  
 <div class="container">
-  <div>
-    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Meni</span>
+	<div class="row">
+	    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Meni</span> 
+		<div style="font-size:30px;margin-right:0px;margin-left: 67%;">
+			<a href="raspored.html" class="btn btn-default">Raspored</a> &nbsp; &nbsp; &nbsp;
+		    <button id="buttonZoomout" type="button" class="btn btn-default btn-sm" onclick="zoomout()" >
+		      <span class="glyphicon glyphicon-zoom-out"></span> Zoom-out
+		    </button>
+		    <button id="buttonZoomin" type="button" class="btn btn-default btn-sm" onclick="zoomin()">
+		      <span class="glyphicon glyphicon-zoom-in"></span> Zoom-in
+		    </button>
+		</div>
+    
   </div>
  
 <div class="container"style="margin-top:5%;;margin-bottom:100px">
