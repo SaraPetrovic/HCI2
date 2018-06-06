@@ -27,8 +27,9 @@ public class Ucionica {
 	@Column(nullable = false)
 	Boolean pametnaTabla;
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	OperativniSistem opSistem;
+	String opSistem;
+	//@Enumerated(EnumType.STRING)
+	//OperativniSistem opSistem;
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	List<Softver> softveri;
 	
@@ -37,7 +38,7 @@ public class Ucionica {
 	}
 	
 	public Ucionica(Long id, String oznaka, String opis, int brojMesta, Boolean projektor, Boolean tabla,
-			Boolean pametnaTabala, OperativniSistem opSistem, List<Softver> softveri) {
+			Boolean pametnaTabala, String opSistem, List<Softver> softveri) {
 		super();
 
 		this.oznaka = oznaka;
@@ -85,10 +86,10 @@ public class Ucionica {
 	public void setPametnaTabla(Boolean pametnaTabla) {
 		this.pametnaTabla = pametnaTabla;
 	}
-	public OperativniSistem getOpSistem() {
+	public String getOpSistem() {
 		return opSistem;
 	}
-	public void setOpSistem(OperativniSistem opSistem) {
+	public void setOpSistem(String opSistem) {
 		this.opSistem = opSistem;
 	}
 	public List<Softver> getSoftveri() {

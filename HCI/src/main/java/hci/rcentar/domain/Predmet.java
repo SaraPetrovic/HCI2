@@ -40,8 +40,9 @@ public class Predmet {
 	@Column(nullable = false)
 	Boolean pametnaTabla;
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	OperativniSistem opSistem;
+	String opSistem;
+	//@Enumerated(EnumType.STRING)
+	//OperativniSistem opSistem;
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE )
 	List<Softver> softveri;
 	
@@ -53,7 +54,7 @@ public class Predmet {
 		super();
 	}
 	public Predmet(String oznaka, String naziv, String opis, Smer smer, int velicinaGrupe, int duzinaTermina,
-			int brojTermina, Boolean projektor, Boolean tabla, Boolean pametnaTabla, OperativniSistem opSistem,
+			int brojTermina, Boolean projektor, Boolean tabla, Boolean pametnaTabla, String opSistem,
 			List<Softver> softver) {
 		super();
 		this.oznaka = oznaka;
@@ -129,10 +130,10 @@ public class Predmet {
 	public void setPametnaTabla(Boolean pametnaTabla) {
 		this.pametnaTabla = pametnaTabla;
 	}
-	public OperativniSistem getOpSistem() {
+	public String getOpSistem() {
 		return opSistem;
 	}
-	public void setOpSistem(OperativniSistem opSistem) {
+	public void setOpSistem(String opSistem) {
 		this.opSistem = opSistem;
 	}
 	public List<Softver> getSoftver() {

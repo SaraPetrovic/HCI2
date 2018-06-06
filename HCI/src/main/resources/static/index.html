@@ -12,11 +12,10 @@
   <script src="dataTable.js" charset="UTF-8"></script>
   <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js" charset="UTF-8"></script>
    
-  <script type="text/javascript" src="multiselect.js"></script>
-  <link rel="stylesheet" href="multi.css" type="text/css"/>
+  <script type="text/javascript" src="multiselect-lib/multiselect.js"></script>
+  <link rel="stylesheet" href="multiselect-lib/multiselect.css" type="text/css"/>
  
- 
- 
+  
  
   <style>
     table span{
@@ -31,6 +30,7 @@
    
 }
   </style>
+  
 </head>
  
 <body>
@@ -65,12 +65,12 @@
         <div class="col-xs-12 col-sm-12 col-md-12 ">
           <div class="panel panel-default">
               <div class="panel-heading">
-              <form id="predmetForm" method="POST" data-toggle="validator" class="form-vertical">
+              <form id="predmetForm" method="POST" data-toggle="validator" class="form-vertical" >
                 <div class="row">
                 <div class="form-group">
                   <div class="col-xs-12 col-sm-12 col-md-12">
                     <label for="naziv">Naziv predmeta:</label>
-                    <input type="text" class="form-control" id="nazivPredmeta" data-error="Morate uneti naziv predmeta" placeholder="Unesite naziv predmeta" required>
+                    <input type="text" class="form-control" id="nazivPredmeta" name="nazivPredmeta" data-error="Morate uneti naziv predmeta" placeholder="Unesite naziv predmeta" required>
                     <div class="help-block with-errors"></div>
                   </div>
                 </div></div>
@@ -78,7 +78,7 @@
                   <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                     <label for="oznaka">Oznaka predmeta:</label>
-                    <input type="text" class="form-control" id="oznakaPredmeta" data-error="Morate uneti oznaku predmeta" placeholder="Unesite oznaku (skracenicu) predmeta" required>
+                    <input type="text" class="form-control" id="oznakaPredmeta" name="oznakaPredmeta" data-error="Morate uneti oznaku predmeta" placeholder="Unesite oznaku (skracenicu) predmeta" required>
                     <div class="help-block with-errors"></div>
                   </div>
                 </div></div>
@@ -94,13 +94,13 @@
                   <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                       <label for="opis">Opis predmeta:</label>
-                      <textarea rows="3" cols="50" class="form-control" id="opisPredmeta" placeholder="Unesite znacajne karakteristike predmeta"></textarea>
+                      <textarea rows="3" cols="50" class="form-control" id="opisPredmeta" name="opisPredmeta" placeholder="Unesite znacajne karakteristike predmeta"></textarea>
                     </div>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6">
                      <div class="form-group">
                        <label for="velicinaGrupe">Broj studenata:</label>
-                       <input type="number" class="form-control input-sm" id="velicinaGrupe" data-error="Morate uneti broj studenata" placeholder="Unesite broj studenata za jednu grupu" required>
+                       <input type="number" class="form-control input-sm" id="velicinaGrupe" name="velicinaGrupe" data-error="Morate uneti broj studenata" placeholder="Unesite broj studenata za jednu grupu" required>
                      <div class="help-block with-errors"></div>
                  </div></div>
                 </div>
@@ -108,13 +108,13 @@
                 <div class="col-xs-6 col-sm-6 col-md-6">
                   <div class="form-group">
                     <label for="brojCasova">Broj nedeljnih termina: </label>
-                    <input type="number" class="form-control input-sm" id="brojTermina" data-error="Morate uneti broj termina" placeholder="Unesite broj termina na nedeljnom nivou" required>
+                    <input type="number" class="form-control input-sm" id="brojTermina" name="brojTermina" data-error="Morate uneti broj termina" placeholder="Unesite broj termina na nedeljnom nivou" required>
                   <div class="help-block with-errors"></div>
                 </div></div>
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <label for="velicinaGrupe">Broj casova po terminu:</label>
-                        <input type="number" class="form-control input-sm" id="duzinaTermina" data-error="Morate uneti broj casova" placeholder="Unesite broj casova od 45 min za termin" required>
+                        <input type="number" class="form-control input-sm" id="duzinaTermina" name="duzinaTermina" data-error="Morate uneti broj casova" placeholder="Unesite broj casova od 45 min za termin" required>
                     <div class="help-block with-errors"></div>
                 </div>
               </div></div>
@@ -136,14 +136,15 @@
                 <div class="row">
                   <div class="col-xs-9 col-sm-9 col-md-9">
                     <div class="radio">Operativni sistem:
-                        <label title="Oznaciti ako je Linux OS neophodan za odrzavanje nastave"><input id="linuxPredmet" title="Oznaciti ako je Linux OS neophodan za odrzavanje nastave" type="radio" name="OS" required>Linux </label>
-                        <label title="Oznaciti ako je Windows OS neophodan za odrzavanje nastave"><input id="windowsPredmet" title="Oznaciti ako je Windows OS neophodan za odrzavanje nastave" type="radio" name="OS" required>Windows </label>
-                        <label title="Oznaciti ako je svejedno koji je OS u pitanju"><input id="obaOsPredmet" title="Oznaciti ako je svejedno koji je OS u pitanju" type="radio" name="OS" required>Svejedno</label>
+                        <label title="Oznaciti ako je Linux OS neophodan za odrzavanje nastave"><input id="linuxPredmet" title="Oznaciti ako je Linux OS neophodan za odrzavanje nastave" type="radio" name="OS" checked >Linux </label>
+                        <label title="Oznaciti ako je Windows OS neophodan za odrzavanje nastave"><input id="windowsPredmet" title="Oznaciti ako je Windows OS neophodan za odrzavanje nastave" type="radio" name="OS" >Windows </label>
+                        <label title="Oznaciti ako je svejedno koji je OS u pitanju"><input id="obaOsPredmet" title="Oznaciti ako je svejedno koji je OS u pitanju" type="radio" name="OS" >Svejedno</label>
                         <div class="help-block">Morate oznaciti operativni sistem potreban za odrzavanje nastave</div>
                     </div></div>
                   <div class="col-xs-3 col-sm-3 col-md-3">
                   <div class="modal-footer">
-                    <button id="predmetSubmit" type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
+                    <input type="submit" name="Dodaj" value="Submit" id="predmetSubmit" class="btn btn-default" data-dismiss="modal">
+                    
                 </div></div></div>
               </form>
           </div>
@@ -451,7 +452,8 @@ $(document).ready(function(){
     $("#ucionicaSubmit").click(function(e){
        
         e.preventDefault();
-       
+        
+        //if($("#oznakaUcionice").val() == "" || $("#opisUcionice").val() == "" || $("#brojMesta").val() =="" ||)
         var ucionica = {};
         ucionica.oznaka = $("#oznakaUcionice").val();
         ucionica.opis = $("#opisUcionice").val();
@@ -493,6 +495,13 @@ $(document).ready(function(){
        
         e.preventDefault();
        
+        if($("#nazivPredmeta").val() =="" || $("#oznakaPredmeta").val() =="" || $("#velicinaGrupe").val()=="" || $("#duzinaTermina").val()==""
+        		|| $("#brojTermina").val()=="" || $("#brojTermina").val()==""){
+        	
+        	alert("Morate popuniti sva obavezna polja!");
+        	return false;
+        }
+       
         var predmet = {};
         predmet.naziv = $("#nazivPredmeta").val();
         predmet.oznaka = $("#oznakaPredmeta").val();
@@ -506,20 +515,24 @@ $(document).ready(function(){
  
        
         var linux = $('#linuxPredmet:checked').val()?true:false;
+        var windows = $('#windowsPredmet:checked').val()?true:false;
+        var winlinux = $('#obaOsPredmet:checked').val()?true:false;
         if(linux){
             predmet.opSistem = 'LINUX';
         }
-        var windows = $('#windowsPredmet:checked').val()?true:false;
-        if(windows){
+        else if(windows){
             predmet.opSistem = 'WINDOWS';
         }
-        var winlinux = $('#obaOsPredmet:checked').val()?true:false;
-        if(winlinux){
+        else if(winlinux){
             predmet.opSistem = 'WINLINUX';
+        }
+        else{
+            predmet.opSistem = '';
         }
         var smer = {"oznaka" : $("#smerSelect").val()};
         predmet["smer"] = {};
         predmet["smer"] = smer;
+        
       $.ajax({
             type: "POST",
             contentType: 'application/json',
@@ -600,7 +613,7 @@ $(document).ready(function(){
 <div class="container">
 	<div class="row">
 	    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Meni</span> 
-		<div style="font-size:30px;margin-right:0px;margin-left: 67%;">
+		<div style="font-size:30px;margin-right:0px;margin-left: 62%;">
 			<a href="raspored.html" class="btn btn-default">Raspored</a> &nbsp; &nbsp; &nbsp;
 		    <button id="buttonZoomout" type="button" class="btn btn-default btn-sm" onclick="zoomout()" >
 		      <span class="glyphicon glyphicon-zoom-out"></span> Zoom-out
