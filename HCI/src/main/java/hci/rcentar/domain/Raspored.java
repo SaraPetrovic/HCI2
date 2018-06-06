@@ -19,6 +19,8 @@ public class Raspored {
 	@Column(nullable = false)
 	private String naziv;
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Termin> termini;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Kartica> kartice;
 	public Long getId() {
 		return id;
@@ -37,6 +39,13 @@ public class Raspored {
 	}
 	public void setKartice(List<Kartica> kartice) {
 		this.kartice = kartice;
+	}
+	
+	public List<Termin> getTermini() {
+		return termini;
+	}
+	public void setTermini(List<Termin> termini) {
+		this.termini = termini;
 	}
 	public Raspored(Long id, String naziv, List<Kartica> kartice) {
 		super();

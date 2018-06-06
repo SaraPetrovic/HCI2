@@ -124,231 +124,233 @@ $.ajax({
 });
 
 function initTable(id, raspored){
-		var events = [];
-		var event;
-		if (raspored.length != 0){
-			raspored.kartice.forEach(function(kartica){
-				if (kartica.ucionica.oznaka == id){
-					var dateNow = new Date();
-					var dateStart = new Date();
-					var dateEnd = new Date();
-					var dayOfWeekNow = dateNow.getDay();
-					var dayOfWeekCard = kartica.dayOfWeek;
-					var daysToAdd = daysReversed[dayOfWeekCard] - dayOfWeekNow;
-					dateEnd = dateEnd.addDays(daysToAdd);
-					dateStart = dateStart.addDays(daysToAdd);
-					dateEnd.setHours(kartica.endHours);
-					dateEnd.setMinutes(kartica.endMinutes)
-					dateStart.setHours(kartica.startHours);
-					dateStart.setMinutes(kartica.startMinutes);
-					event = {start: moment(dateStart).format('YYYY-MM-DDTHH:mm:ss'), end: moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss') , title: kartica.predmet.oznaka};
-					events.push(event);
-					
+	var events = [];
+	var event;
+	if (raspored.length != 0){
+		raspored.termini.forEach(function(termin){
+			if (termin.ucionica.oznaka == id){
+				var dateNow = new Date();
+				var dateStart = new Date();
+				var dateEnd = new Date();
+				var dayOfWeekNow = dateNow.getDay();
+				var dayOfWeekCard = termin.dayOfWeek;
+				var daysToAdd = daysReversed[dayOfWeekCard] - dayOfWeekNow;
+				dateEnd = dateEnd.addDays(daysToAdd);
+				dateStart = dateStart.addDays(daysToAdd);
+				dateEnd.setHours(termin.endHours);
+				dateEnd.setMinutes(termin.endMinutes)
+				dateStart.setHours(termin.startHours);
+				dateStart.setMinutes(termin.startMinutes);
+				event = {start: moment(dateStart).format('YYYY-MM-DDTHH:mm:ss'), end: moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss') , title: termin.predmet.oznaka};
+				events.push(event);
+				
+			}
+		});
+
+		
+	}
+
+      $('#calendar_' + id).fullCalendar({
+	slotLabelFormat : 'HH:mm',
+   	events : events,
+    timezone: 'UTC',
+    timeFormat: 'H:mm',
+    hiddenDays: [ 0 ],
+    defaultView: 'agendaWeek',
+    allDaySlot: false,
+    slotEventOverlap: false,
+    slotDuration: '00:15:00',
+    slotLabelInterval: '01:45',
+    minTime: '07:00:00',
+    maxTime: '22:00:00',
+    eventOverlap: false,
+    defaultTimedEventDuration: '00:45:00',
+    eventDurationEditable : false,
+    editable: true,
+    droppable: true, // this allows things to be dropped onto the calendar
+    eventResize: function(event, delta, revertFunc) {
+
+      var duration = moment.duration(event.end - event.start);
+      var limit = moment.duration(45, 'minutes');
+      if ( duration < limit) {
+        revertFunc();
+      }
+
+    },
+	
+	eventAllow : function(dropLocation, draggedEvent){
+			var allowed = true;
+			var ucionicaName = $('.nav-tabs .active').text();
+			var predmetName = draggedEvent.title;
+			
+	  		var ucionica;
+	  		var predmet;
+			ucioniceGlobal.forEach(function(u){
+				if (u.oznaka == ucionicaName){
+					ucionica = u;
 				}
+				
 			});
+			predmetiGlobal.forEach(function(p){
+				if (p.oznaka == predmetName){
+					predmet = p;
+				}
+				
+			});
+			if (predmet.velicinaGrupe > ucionica.brojMesta){
+				greska("Učionica nema dovoljan broj mesta!");
+				allowed = false;
+			}
+	  		if (predmet.projektor == 1 && ucionica.projektor == 0 ){
+	  			greska("Učionica nema projektor!");
+	  			allowed = false;
+	  		}
+	  		if (predmet.tabla == 1 && ucionica.tabla == 0 ){
+	  			greska("Učionica nema tablu!");
+
+	  			allowed = false;
+	  		}
+	  		if (predmet.pametnaTabla == 1 && ucionica.pametnaTabla == 0 ){
+	  			greska("Učionica nema pametnu tablu!");
+	  			allowed = false;
+	  		}
+	  		if (ucionica.opSistem != "WINLINUX" && predmet.opSistem != ucionica.opSistem) {
+	  			greska("Učionica nema potreban operativni sistem!");
+	  			allowed = false;
+	  		}
+	  		
+	  		return allowed;
+
+	  		
+	},
+    drop: function(date, jsEvent, ui, resourceId) {
+    	// is the "remove after drop" checkbox checked?
+
+		  var brTermina = $(this).attr("brojTermina");
+		  brTermina = brTermina - 1;
+        if (brTermina < 1) {
+      	  $(this).remove();
+        }
+        $(this).text($(this).text().split(" ")[0] + " [" + brTermina + "]");
+        
+        $(this).attr("brojTermina", brTermina);
+		  
+        if ($('#drop-remove').is(':checked')) {
+          // if so, remove the element from the "Draggable Events" list
+
+          $(this).remove();
+        }
+    },
+	eventDrop: function(event, delta, revertFunc) {
+        //inner column movement drop so get start and call the ajax function......
+		//alert(moment("07:00", "HH:mm"));
+		var momentStart = moment(event.start);
+		var momentEnd = moment(event.end);
+		var duration = moment.duration(event.end - event.start);
+		if (momentStart.hours() < moment("07:00:00", "HH:mm:ss").hours()){
+			//event.start = moment("07:00", "HH:mm").format();
+			
+			momentStart.hours(7).valueOf();
+			momentStart.minutes(0).valueOf();
+			momentEnd.hours(7 + duration.hours()).valueOf();
+			momentEnd.minutes(0 + duration.minutes()).valueOf();
+			event.end = momentEnd.format();
+			event.start = momentStart.format();
+		}
+		if (momentEnd.hours() == moment("22:00:00", "HH:mm:ss").hours() && momentEnd.minutes() >0){
+			
+			momentEnd.hours(22).valueOf();
+			momentStart.hours(22 - duration.hours() - 1).valueOf();
+			momentEnd.minutes(0).valueOf();
+			momentStart.minutes(60 - duration.minutes()).valueOf();
+			alert(momentEnd.format());
+			event.end = momentEnd.format();
+			event.start = momentStart.format();
+		}else if (momentEnd.hours() > moment("22:00:00", "HH:mm:ss").hours() || momentEnd.hours() < momentStart.hours()){
+			if (momentEnd.hours() < momentStart.hours()){
+				momentEnd.date(momentEnd.date() - 1);
+				//alert(momentEnd().date());
+			}
+			momentEnd.hours(22).valueOf();
+			
+			momentStart.hours(22 - duration.hours() - 1).valueOf();
+			momentEnd.minutes(0).valueOf();
+			momentStart.minutes(60 - duration.minutes()).valueOf();
+			alert(momentEnd.format());
+			event.end = momentEnd.format();
+			event.start = momentStart.format();
 		}
 
-	      $('#calendar_' + id).fullCalendar({
-		slotLabelFormat : 'HH:mm',
-	   	events : events,
-        timezone: 'UTC',
-        timeFormat: 'H:mm',
-        hiddenDays: [ 0 ],
-        defaultView: 'agendaWeek',
-        allDaySlot: false,
-        slotEventOverlap: false,
-        slotDuration: '00:15:00',
-        slotLabelInterval: '01:45',
-        minTime: '07:00:00',
-        maxTime: '22:00:00',
-        eventOverlap: false,
-        defaultTimedEventDuration: '00:45:00',
-        eventDurationEditable : false,
-        editable: true,
-        droppable: true, // this allows things to be dropped onto the calendar
-        eventResize: function(event, delta, revertFunc) {
+        $('#calendar_' + id).fullCalendar('updateEvent', event);
 
-          var duration = moment.duration(event.end - event.start);
-          var limit = moment.duration(45, 'minutes');
-          if ( duration < limit) {
-            revertFunc();
-          }
-
-        },
-		
-		eventAllow : function(dropLocation, draggedEvent){
-				var allowed = true;
-				var ucionicaName = $('.nav-tabs .active').text();
-				var predmetName = draggedEvent.title;
-				
-		  		var ucionica;
-		  		var predmet;
-				ucioniceGlobal.forEach(function(u){
-					if (u.oznaka == ucionicaName){
-						ucionica = u;
-					}
-					
-				});
-				predmetiGlobal.forEach(function(p){
-					if (p.oznaka == predmetName){
-						predmet = p;
-					}
-					
-				});
-				if (predmet.velicinaGrupe > ucionica.brojMesta){
-					greska("Učionica nema dovoljan broj mesta!");
-					allowed = false;
-				}
-		  		if (predmet.projektor == 1 && ucionica.projektor == 0 ){
-		  			greska("Učionica nema projektor!");
-		  			allowed = false;
-		  		}
-		  		if (predmet.tabla == 1 && ucionica.tabla == 0 ){
-		  			greska("Učionica nema tablu!");
-
-		  			allowed = false;
-		  		}
-		  		if (predmet.pametnaTabla == 1 && ucionica.pametnaTabla == 0 ){
-		  			greska("Učionica nema pametnu tablu!");
-		  			allowed = false;
-		  		}
-		  		if (ucionica.opSistem != "WINLINUX" && predmet.opSistem != ucionica.opSistem) {
-		  			greska("Učionica nema potreban operativni sistem!");
-		  			allowed = false;
-		  		}
-		  		
-		  		return allowed;
-
-		  		
-		},
-        drop: function(date, jsEvent, ui, resourceId) {
-        	// is the "remove after drop" checkbox checked?
-  
-  		  var brTermina = $(this).attr("brojTermina");
-  		  brTermina = brTermina - 1;
-            if (brTermina < 1) {
-          	  $(this).remove();
+    },
+	eventDragStop: function( event, jsEvent, ui, view ) {
+        
+        if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
+        	
+            $('#calendar_' + id).fullCalendar('removeEvents', event._id);
+            var kartica = $("#kartica_" + event.title.split(" ")[0]);
+            if (kartica.exists() == true){
+            	//alert(kartica.attr("brojTermina"));
+    			var brTermina = parseInt(kartica.attr("brojTermina"));
+    			brTermina++;
+    			kartica.attr("brojTermina", brTermina);
+    			kartica.text(kartica.text().split(" ")[0] + " [" + brTermina + "]");
             }
-            $(this).text($(this).text().split(" ")[0] + " [" + brTermina + "]");
-            
-            $(this).attr("brojTermina", brTermina);
-  		  
-            if ($('#drop-remove').is(':checked')) {
-              // if so, remove the element from the "Draggable Events" list
-
-              $(this).remove();
-            }
-        },
-		eventDrop: function(event, delta, revertFunc) {
-            //inner column movement drop so get start and call the ajax function......
-			//alert(moment("07:00", "HH:mm"));
-			var momentStart = moment(event.start);
-			var momentEnd = moment(event.end);
-			var duration = moment.duration(event.end - event.start);
-			if (momentStart.hours() < moment("07:00:00", "HH:mm:ss").hours()){
-				//event.start = moment("07:00", "HH:mm").format();
-				
-				momentStart.hours(7).valueOf();
-				momentStart.minutes(0).valueOf();
-				momentEnd.hours(7 + duration.hours()).valueOf();
-				momentEnd.minutes(0 + duration.minutes()).valueOf();
-				event.end = momentEnd.format();
-				event.start = momentStart.format();
-			}
-			if (momentEnd.hours() == moment("22:00:00", "HH:mm:ss").hours() && momentEnd.minutes() >0){
-				
-				momentEnd.hours(22).valueOf();
-				momentStart.hours(22 - duration.hours() - 1).valueOf();
-				momentEnd.minutes(0).valueOf();
-				momentStart.minutes(60 - duration.minutes()).valueOf();
-				alert(momentEnd.format());
-				event.end = momentEnd.format();
-				event.start = momentStart.format();
-			}else if (momentEnd.hours() > moment("22:00:00", "HH:mm:ss").hours() || momentEnd.hours() < momentStart.hours()){
-				if (momentEnd.hours() < momentStart.hours()){
-					momentEnd.date(momentEnd.date() - 1);
-					//alert(momentEnd().date());
-				}
-				momentEnd.hours(22).valueOf();
-				
-				momentStart.hours(22 - duration.hours() - 1).valueOf();
-				momentEnd.minutes(0).valueOf();
-				momentStart.minutes(60 - duration.minutes()).valueOf();
-				alert(momentEnd.format());
-				event.end = momentEnd.format();
-				event.start = momentStart.format();
-			}
-
-            $('#calendar_' + id).fullCalendar('updateEvent', event);
-
-        },
-		eventDragStop: function( event, jsEvent, ui, view ) {
-            
-            if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
+            else {
             	
-                $('#calendar_' + id).fullCalendar('removeEvents', event._id);
-                var kartica = $("#kartica_" + event.title.split(" ")[0]);
-                if (kartica.exists() == true){
-                	//alert(kartica.attr("brojTermina"));
-        			var brTermina = parseInt(kartica.attr("brojTermina"));
-        			brTermina++;
-        			kartica.attr("brojTermina", brTermina);
-        			kartica.text(kartica.text().split(" ")[0] + " [" + brTermina + "]");
-                }
-                else {
-                	
-                	var momentStart = moment(event.start);
-                	var momentEnd = moment(event.end);
-                	var momentDuration = moment.duration(event.end - event.start);
-                	//alert(momentDuration);
-					var hours = momentDuration.hours();
-					var minutes = momentDuration.minutes();
-                	var el2 = $('<div id="kartica_'+ event.title +'" class="fc-event" duration="' + hours + ':' + minutes +'" brojTermina="1">' + event.title + ' [1]' + '</div>').appendTo("#predmeti");
-  					//alert(el2.attr("duration"));
-                	el2.data('event', {
-                        title: event.title,
-                        //id: event.id,
-              		  	duration: el2.attr("duration"),       		 	
-              		  	brojTermina: el2.attr("brojTermina"),
-                        stick: true // maintain when user navigates (see docs on the renderEvent method)
-                      });
-                	el2.draggable({
-                		zIndex: 999,
-                		containment: ".fc-agenda-body table",
-                		revert: true,
-                		revetDuration: 0
-                	});
-                	$('#calendar_' + id).fullCalendar('updateEvent', event);
-                	
-               	
-                }
-           }
-        }
-      });
-	      
-	      var isEventOverDiv = function(x, y) {
+            	var momentStart = moment(event.start);
+            	var momentEnd = moment(event.end);
+            	var momentDuration = moment.duration(event.end - event.start);
+            	//alert(momentDuration);
+				var hours = momentDuration.hours();
+				var minutes = momentDuration.minutes();
+            	var el2 = $('<div id="kartica_'+ event.title +'" class="fc-event" duration="' + hours + ':' + minutes +'" brojTermina="1">' + event.title + ' [1]' + '</div>').appendTo("#predmeti");
+					//alert(el2.attr("duration"));
+            	el2.data('event', {
+                    title: event.title,
+                    //id: event.id,
+          		  	duration: el2.attr("duration"),       		 	
+          		  	brojTermina: el2.attr("brojTermina"),
+                    stick: true // maintain when user navigates (see docs on the renderEvent method)
+                  });
+            	el2.draggable({
+            		zIndex: 999,
+            		containment: ".fc-agenda-body table",
+            		revert: true,
+            		revetDuration: 0
+            	});
+            	$('#calendar_' + id).fullCalendar('updateEvent', event);
+            	
+           	
+            }
+       }
+    }
+  });
+      
+      var isEventOverDiv = function(x, y) {
 
-		        var external_events = $( '#external-events' );
-		        var offset = external_events.offset();
-		        offset.right = external_events.width() + offset.left;
-		        offset.bottom = external_events.height() + offset.top;
-		
-		        // Compare
-		        if (x >= offset.left
-		            && y >= offset.top
-		            && x <= offset.right
-		            && y <= offset .bottom) { return true; }
-		        return false;
+	        var external_events = $( '#external-events' );
+	        var offset = external_events.offset();
+	        offset.right = external_events.width() + offset.left;
+	        offset.bottom = external_events.height() + offset.top;
+	
+	        // Compare
+	        if (x >= offset.left
+	            && y >= offset.top
+	            && x <= offset.right
+	            && y <= offset .bottom) { return true; }
+	        return false;
 
-		    }
-	      
-	    $(".fc-header-toolbar").empty();
-	  	$(".fc-mon").children().html("<span>PONEDELJAK<span>");
-	  	$(".fc-tue").children().html("<span>UTORAK<span>");
-	  	$(".fc-wed").children().html("<span>SREDA<span>");
-	  	$(".fc-thu").children().html("<span>ČETVRTAK<span>");
-	  	$(".fc-fri").children().html("<span>PETAK<span>");
-	  	$(".fc-sat").children().html("<span>SUBOTA<span>");
+	    }
+      
+    $(".fc-header-toolbar").empty();
+  	$(".fc-mon").children().html("<span>PONEDELJAK<span>");
+  	$(".fc-tue").children().html("<span>UTORAK<span>");
+  	$(".fc-wed").children().html("<span>SREDA<span>");
+  	$(".fc-thu").children().html("<span>ČETVRTAK<span>");
+  	$(".fc-fri").children().html("<span>PETAK<span>");
+  	$(".fc-sat").children().html("<span>SUBOTA<span>");
 }
 var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 var daysReversed = {'Sunday' : 0,'Monday' : 1,'Tuesday' : 2,'Wednesday' : 3,'Thursday': 4,'Friday' : 5,'Saturday' : 6}
@@ -358,6 +360,7 @@ Date.prototype.addDays = function(days) {
 	  return dat;
 }
 function save(){
+
 	swal({
 		  title: 'Unesite ime rasporeda',
 		  input: 'text',
@@ -370,7 +373,7 @@ function save(){
 		}).then((result) => {
 			
 		  if (result) {
-			  var kartice = [];
+			  var termini = [];
 				$.ajax({
 				    contentType: 'application/json',
 				    dataType: 'json',
@@ -397,12 +400,22 @@ function save(){
 								        }
 								        var endMinutes = end_date.getMinutes();
 								        var dayOfWeek = days[start_date.getDay()];
-								        var kartica = {ucionica : ucionica, predmet : title ,startHours: startHours, startMinutes : startMinutes, endHours : endHours, endMinutes : endMinutes, dayOfWeek : dayOfWeek };
-								        kartice.push(kartica);
+								        var termin = {ucionica : ucionica, predmet : title ,startHours: startHours, startMinutes : startMinutes, endHours : endHours, endMinutes : endMinutes, dayOfWeek : dayOfWeek };
+								        termini.push(termin);
 							  		} 
 				    		});
+								var kartice = [];
+								predmetiGlobal.forEach(function(predmet){
+									
+									if ($("#kartica_" + predmet.oznaka).attr("brojTermina") != null){
+										var kartica = {oznaka: predmet.oznaka, brojTermina : $("#kartica_" + predmet.oznaka).attr("brojTermina"), duration : $("#kartica_" + predmet.oznaka).attr("duration") };
+										kartice.push(kartica);
+										alert(JSON.stringify(kartica));
+									}
+									
+								});
 							  var naziv = result;
-							  var raspored = {kartice : kartice, naziv : naziv};
+							  var raspored = {kartice : kartice, termini : termini ,naziv : naziv};
 								sendRaspored(raspored);
 				    },
 				    processData: false,
@@ -462,6 +475,13 @@ function ucitajRaspored(){
 						    dataType: 'json',
 						    success: function(rasporedUcitan){
 									raspored = rasporedUcitan;
+									//POREDJAJ kartice levo
+									raspored.kartice.forEach(function(kartica){
+									    var kartica = '<div id="kartica_'+ kartica.oznaka +'" class="fc-event" duration="'+ kartica.duration +'" brojTermina="'+ kartica.brojTermina +'">' + kartica.oznaka + " [" + kartica.brojTermina + "]" + '</div>';					
+									    $("#predmeti").append(kartica);
+
+									});
+									ucitajKartice();
 										
 						    },
 						    processData: false,
@@ -471,6 +491,8 @@ function ucitajRaspored(){
 						$("#predmeti").empty();
 						$("#tabsContent").empty();
 						$("#tabs").empty();
+						
+						
 
 						$.ajax({
 						    contentType: 'application/json',
@@ -501,8 +523,11 @@ function ucitajRaspored(){
 											
 										});
 									  	tabeleOznake.forEach(function(oznaka){
+									  		
+									  		alert(JSON.stringify(raspored));
 									  		initTable(oznaka, raspored);
 									  	});
+									  	
 									  			  
 						    },
 						    processData: false,
