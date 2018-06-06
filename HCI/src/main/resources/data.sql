@@ -18,3 +18,18 @@ insert into ucionica(oznaka, opis, broj_mesta, projektor, tabla, pametna_tabla, 
 
 
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('VS15', 'Visual studio', 'Microsoft', 'www.microsoft.com', '2015', 'opis proizvoda', '2000')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('MTLB13', 'MATLAB R2013', 'MathWorks', 'www.mathworks.com', '2013', 'Matlab softver', '500')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('PYCH', 'PyCharm 2015', 'JetBrains', 'www.jetbrains.com', '2015', 'Python IDE', '1500')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('ECL', 'Eclipse Neon', 'Eclipse Foundation', 'www.eclipse.org', '2017', 'Eclipse IDE', '1700')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('AAA13', 'MATLABAA R2013', 'MathWorks', 'www.mathworks.com', '2013', 'Matlab softver', '500')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('BBB13', 'PyCharmBB 2015', 'JetBrains', 'www.jetbrains.com', '2015', 'Python IDE', '1500')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('ECL13', 'Eclipse13 Neon', 'Eclipse Foundation', 'www.eclipse.org', '2017', 'Eclipse IDE', '1700')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('MTLB213', 'MATLAehB R2013', 'MathWorks', 'www.mathworks.com', '2013', 'Matlab softver', '500')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('PYCHg', 'asdasd 2015', 'JetBrains', 'www.jetbrains.com', '2015', 'Python IDE', '1500')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('ECaL', 'WWW Neon', 'Eclipse Foundation', 'www.eclipse.org', '2017', 'Eclipse IDE', '1700')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('MTLbB13', 'MbBDAB R2013', 'MathWorks', 'www.mathworks.com', '2013', 'Matlab softver', '500')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('PYCHy', 'fQWFarm 2015', 'JetBrains', 'www.jetbrains.com', '2015', 'Python IDE', '1500')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('ECcL', 'QDHDHNeon', 'Eclipse Foundation', 'www.eclipse.org', '2017', 'Eclipse IDE', '1700')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('MTjLB13', 'dhehB R2013', 'MathWorks', 'www.mathworks.com', '2013', 'Matlab softver', '500')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('PtrYCH', 'xch015', 'JetBrains', 'www.jetbrains.com', '2015', 'Python IDE', '1500')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('ECsjL', 'chhweon', 'Eclipse Foundation', 'www.eclipse.org', '2017', 'Eclipse IDE', '1700')
