@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Računarski centar</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -14,8 +14,10 @@
    
   <script type="text/javascript" src="multiselect-lib/multiselect.js"></script>
   <link rel="stylesheet" href="multiselect-lib/multiselect.css" type="text/css"/>
- 
-  
+
+  <link href="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.js"></script>
+
  
   <style>
     table span{
@@ -28,7 +30,10 @@
       color: black;
       opacity: 1; /* Firefox */
    
-}
+	}
+	textarea {
+    resize: none;
+	}
   </style>
   
 </head>
@@ -61,11 +66,16 @@
  
     <!-- Modal content-->
     <div class="modal-content">
+    <div class="modal-header">
+    	<button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Dodavanje novog predmeta</h3>
+    </div>
     <div class="row centered-form">
         <div class="col-xs-12 col-sm-12 col-md-12 ">
           <div class="panel panel-default">
               <div class="panel-heading">
-              <form id="predmetForm" method="POST" data-toggle="validator" class="form-vertical" >
+
+              <form id="predmetForm" method="POST" autocomplete="off" data-toggle="validator" class="form-vertical" >
                 <div class="row">
                 <div class="form-group">
                   <div class="col-xs-12 col-sm-12 col-md-12">
@@ -94,7 +104,7 @@
                   <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                       <label for="opis">Opis predmeta:</label>
-                      <textarea rows="3" cols="50" class="form-control" id="opisPredmeta" name="opisPredmeta" placeholder="Unesite znacajne karakteristike predmeta"></textarea>
+                      <textarea rows="3" cols="50" class="form-control" id="opisPredmeta" name="opisPredmeta" placeholder="Opis nije neophodan"></textarea>
                     </div>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6">
@@ -119,33 +129,51 @@
                 </div>
               </div></div>
                 <div class="row">
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                  <div class="checkbox">
-                    <label title="Oznaciti ako je projektor neophodan za odrzavanje nastave"><input id="projektorPredmet" title="Oznaciti ako je projektor neophodan za odrzavanje nastave" type="checkbox"> Neophodnost projektora</label>
-                </div></div></div>
+                	<label style="padding-left:15px;"for="Neophodnost">Hardver u učionici nephodan za izvođenje nastave:</label>
+                </div>
                 <div class="row">
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="checkbox">
-                    <label title="Oznaciti ako je tabla neophodana za odrzavanje nastave"><input id="tablaPredmet" title="Oznaciti ako je tabla neophodana za odrzavanje nastave" type="checkbox"> Neophodnost table</label>
-                </div></div></div>
+                	<div class="form-group">
+                	<div class="col-xs-4 col-sm-4 col-md-4">
+                		 <div class="checkbox">
+                		 	<label><input id="projektorPredmet" title="Označiti ako je projektor neophodan za održavanje nastave" type="checkbox"> Projektor</label>
+                		 </div>
+                	</div>
+                	<div class="col-xs-4 col-sm-4 col-md-4">
+                		 <div class="checkbox">
+							<label><input id="tablaPredmet" title="Označiti ako je tabla neophodana za održavanje nastave" type="checkbox">Tabla</label>
+                		 </div>
+                	</div>
+                	<div class="col-xs-4 col-sm-4 col-md-4">
+                		 <div class="checkbox">
+		                    <label><input id="pametnaTablaPredmet" title="Označiti ako je pametna tabla neophodana za održavanje nastave" type="checkbox">Pametna tabla</label>
+                		 </div>
+                	</div> 
+                </div>    	
+                </div>
                 <div class="row">
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="checkbox">
-                    <label title="Oznaciti ako je pametna tabla neophodana za odrzavanje nastave"><input id="pametnaTablaPredmet" title="Oznaciti ako je pametna tabla neophodana za odrzavanje nastave" type="checkbox"> Neophodnost pametne table</label>
-                </div></div></div>
+		            <label style="padding-left:15px; padding-bottom:8px; padding-top:4px">Operativni sistem:</label>
+		        </div>
+		        
+		        <div class="form-group">        
                 <div class="row">
-                  <div class="col-xs-9 col-sm-9 col-md-9">
-                    <div class="radio">Operativni sistem:
-                        <label title="Oznaciti ako je Linux OS neophodan za odrzavanje nastave"><input id="linuxPredmet" title="Oznaciti ako je Linux OS neophodan za odrzavanje nastave" type="radio" name="OS" checked >Linux </label>
-                        <label title="Oznaciti ako je Windows OS neophodan za odrzavanje nastave"><input id="windowsPredmet" title="Oznaciti ako je Windows OS neophodan za odrzavanje nastave" type="radio" name="OS" >Windows </label>
-                        <label title="Oznaciti ako je svejedno koji je OS u pitanju"><input id="obaOsPredmet" title="Oznaciti ako je svejedno koji je OS u pitanju" type="radio" name="OS" >Svejedno</label>
-                        <div class="help-block">Morate oznaciti operativni sistem potreban za odrzavanje nastave</div>
-                    </div></div>
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                  <div class="modal-footer">
-                    <input type="submit" name="Dodaj" value="Submit" id="predmetSubmit" class="btn btn-default" data-dismiss="modal">
-                    
-                </div></div></div>
+
+                	<div class="col-xs-4 col-sm-4 col-md-4">
+                		<label style="font-weight: normal;"><input name="os" type="radio" id="linuxPredmet" title="Označiti ako u učionici postoji Linux OS" value="linux" checked> Linux</label>		                		
+                	</div>
+                	<div class="col-xs-4 col-sm-4 col-md-4">
+                		<label style="font-weight: normal;"><input name="os" id="windowsPredmet" title="Označiti ako u učionici postoji Windows OS" type="radio" value="windows" > Windows</label>      
+                	</div>
+                	<div class="col-xs-4 col-sm-4 col-md-4">
+                		<label style="font-weight: normal;"><input name="os" id="obaOsPredmet" title="Označiti ako u učionici postoje i Linux i Windows OS" type="radio" value="oba" > Linux i Windows</label>
+                	</div>
+                	<div style="padding-left:15px;" class="help-block">Morate označiti operativni sistem koji učionica sadrži</div>
+                </div></div>
+                <div class="row">
+                	
+                	<div class="modal-footer">
+                    	<button id="predmetSubmit" type="submit" class="btn btn-default" data-dismiss="modal">Dodaj predmet</button>
+                 </div></div>
+
               </form>
           </div>
       </div>
@@ -157,15 +185,19 @@
  
     <!-- Modal content-->
       <div class="modal-content">
+      <div class="modal-header">
+    	<button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Dodavanje učionice</h3>
+      </div>
           <div class="row centered-form">
               <div class="col-xs-12 col-sm-12 col-md-12 ">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                    <form id="ucionicaForm" method="post" data-toggle="validator" class="form-vertical">
+                    <form id="ucionicaForm" method="post" data-toggle="validator" class="form-vertical" autocomplete="off">
                       <div class="row">
                           <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                              <label for="oznakaUcionice">Oznaka ucionice:</label>
+                              <label for="oznakaUcionice">Oznaka učionice:</label>
                               <input type="text" class="form-control" id="oznakaUcionice" data-error="Morate uneti oznaku ucionice" placeholder="Unesite oznaku ucionice" required>
                               <div class="help-block with-errors"></div>
                             </div>
@@ -173,21 +205,21 @@
                         <div class="row">
                           <div class="col-xs-12 col-sm-12 col-md-12">
                               <div class="form-group">
-                                <label for="opisUcionice">Opis ucionice:</label>
+                                <label for="opisUcionice">Opis učionice:</label>
                                 <textarea rows="4" cols="50" class="form-control" id="opisUcionice" placeholder="Unesite znacajne karakteristike ucionice"></textarea>
                         </div></div></div>
                         <div class="row">
                           <div class="col-xs-6 col-sm-6 col-md-6">
                             <div class="form-group">
                               <label for="brojMesta">Broj radnih mesta: </label>
-                              <input type="text" class="form-control input-sm" id="brojMesta" data-error="Morate uneti broj radnih mesta" placeholder="Unesite broj radnih mesta u ucionici" required>
+                              <input type="number" class="form-control input-sm" id="brojMesta" data-error="Morate uneti broj radnih mesta" placeholder="Unesite broj radnih mesta u ucionici" required>
                             <div class="help-block with-errors"></div>
                           </div>
                         </div></div>
                         <div class="row">
                           <div class="col-xs-6 col-sm-6 col-md-6">
                             <div class="form-group" id="multiselect">
-                              <label for="brojMesta">Softveri u ucionici: </label>
+                              <label for="brojMesta">Softveri u učionici: </label>
                               <div>
                                   <span class="multiselect-native-select">
                                     <select id="example-confirmation" multiple="multiple">
@@ -198,35 +230,52 @@
                               </div>
                             </div>
                         </div></div>
-                       
-                        <div class="row">
-                            <div class="col-xs-6 col-sm-6 col-md-6">
-                            <label>Opremljenost učionice: </label>
-                            <div class="checkbox">
-                              <label title="Oznaciti ako u ucionici postoji projektor"><input id="projektorUcionica" title="Oznaciti ako u ucionici postoji projektor" type="checkbox"> Projektor</label>
-                        </div></div></div>
-                        <div class="row">
-                            <div class="col-xs-6 col-sm-6 col-md-6">
-                              <div class="checkbox">
-                              <label title="Oznaciti ako u ucionici postoji tabla"><input id="tablaUcionica" title="Oznaciti ako u ucionici postoji tabla" type="checkbox"> Tabla</label>
-                        </div></div></div>
-                        <div class="row">
-                            <div class="col-xs-6 col-sm-6 col-md-6">
-                              <div class="checkbox">
-                              <label title="Oznaciti ako u ucionici postoji pametna tabla"><input id="pametnaTablaUcionica" title="Oznaciti ako u ucionici postoji pametna tabla" type="checkbox"> Pametna tabla</label>
-                          </div></div></div>
-                        <div class="row">
-                          <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="checkbox">Operativni sistem:        
-                                <label title="Oznaciti ako u ucionici postoji Linux OS"><input name="os" type="radio" id="linuxUcionica" title="Oznaciti ako u ucionici postoji Linux OS" value="linux" required> Linux</label>
-                                <label title="Oznaciti ako u ucionici postoji Windows OS"><input name="os" id="windowsUcionica" title="Oznaciti ako u ucionici postoji Windows OS" type="radio" value="windows" required> Windows</label>
-                                <label title="Oznaciti ako u ucionici postoje i Linux i Windows OS"><input name="os" id="obaUcionica" title="Oznaciti ako u ucionici postoje i Linux i Windows OS" type="radio" value="oba" required> I Lunux i Windows</label>
-                                <div class="help-block">Morate oznaciti operativni sistem koji ucionica sadrzi</div>
-                        </div></div></div>
+                        
+		                <div class="row">
+		                	<label style="padding-left:15px;"for="Neophodnost">Opremljenost učionice:</label>
+		                </div>
+		                <div class="row">
+		                	
+		                	<div class="col-xs-4 col-sm-4 col-md-4">
+		                		 <div class="checkbox">
+		                		 	<label><input id="projektorPredmet" title="Označiti ako učionica poseduje projektor" type="checkbox"> Projektor</label>
+		                		 </div>
+		                	</div>
+		                	<div class="col-xs-4 col-sm-4 col-md-4">
+		                		 <div class="checkbox">
+									<label><input id="tablaPredmet" title="Označiti ako učionica poseduje tablu" type="checkbox">Tabla</label>
+		                		 </div>
+		                	</div>
+		                	<div class="col-xs-4 col-sm-4 col-md-4">
+		                		 <div class="checkbox">
+				                    <label><input id="pametnaTablaPredmet" title="Označiti ako učionica poseduje pametnu tablu" type="checkbox">Pametna tabla</label>
+		                		 </div>
+		                	</div>
+		                	
+		                </div>
+		                
+		                <div class="row">
+		                	<label style="padding-left:15px;">Operativni sistem:</label>
+		                </div>
+		                
+		                <div class="row">
+		                	<div class="col-xs-4 col-sm-4 col-md-4">
+		                		<label style="font-weight: normal;"><input name="os" type="radio" id="linuxUcionica" title="Označiti ako u učionici postoji Linux OS" value="linux" checked> Linux</label>		                		
+		                	</div>
+		                	<div class="col-xs-4 col-sm-4 col-md-4">
+		                		<label style="font-weight: normal;"><input name="os" id="windowsUcionica" title="Označiti ako u učionici postoji Windows OS" type="radio" value="windows" > Windows</label>      
+		                	</div>
+		                	<div class="col-xs-4 col-sm-4 col-md-4">
+		                		<label style="font-weight: normal;"><input name="os" id="obaUcionica" title="Označiti ako u učionici postoje i Linux i Windows OS" type="radio" value="oba" > Linux i Windows</label>
+		                	</div>
+		                	<div style="padding-left:15px; padding-bottom:8px; padding-top:4px" class="help-block">Morate označiti operativni sistem koji učionica sadrži</div>
+		                </div>
+                    
+                        
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="modal-footer">
-                              <button id="ucionicaSubmit" type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
+                              <button id="ucionicaSubmit" type="submit" class="btn btn-default" data-dismiss="modal">Dodaj učionicu</button>
                         </div></div></div>
                       </form>
                     </div>
@@ -241,8 +290,12 @@
  
        <!-- Modal content-->
        <div class="modal-content">
+       		<div class="modal-header">
+    			<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		<h3 class="modal-title">Dodavanje smera</h3>
+    		</div>
           <div class="container">
-              <form id="smerForm" method="post" class="form-vertical" data-toggle="validator" class="needs-validation" novalidate>
+              <form id="smerForm" method="post" class="form-vertical" data-toggle="validator" autocomplete="off" class="needs-validation" novalidate>
                 <div class="row">
                 <div class="form-group">
                   <div class="col-xs-6 col-sm-6 col-md-6">
@@ -276,7 +329,7 @@
               <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="modal-footer">
-                  <button type="submit" id="smerSubmit" class="btn btn-default" data-dismiss="modal">Submit</button>
+                  <button type="submit" id="smerSubmit" class="btn btn-default" data-dismiss="modal">Dodaj smer</button>
               </div></div></div>
           </form>
         </div>
@@ -291,11 +344,15 @@
  
        <!-- Modal content-->
        <div class="modal-content">
+	       <div class="modal-header">
+	    		<button type="button" class="close" data-dismiss="modal">&times;</button>
+	        	<h3 class="modal-title">Dodavanje novog softvera</h3>
+	       </div>
           <div class="row centered-form">
             <div class="col-xs-12 col-sm-12 col-md-12 ">
              <div class="panel panel-default">
              <div class="panel-heading">
-              <form id="smerForm" method="post" class="form-vertical" data-toggle="validator" class="needs-validation" novalidate>
+              <form id="smerForm" method="post" class="form-vertical" autocomplete="off" data-toggle="validator" class="needs-validation" novalidate>
                 <div class="row">
                 <div class="form-group">
                   <div class="col-xs-12 col-sm-12 col-md-12">
@@ -308,30 +365,31 @@
                   <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                     <label for="oznakaSmera">Oznaka softvera:</label>
-                    <input type="text" class="form-control" id="oznakaSoftvera" data-error="Morate uneti oznaku softvera" placeholder="Unesite oznaku softvera" required>
+                    <input type="text" class="form-control" id="oznakaSoftvera" data-error="Morate uneti oznaku softvera" placeholder="Unesite oznaku (skraćenicu) softvera" required>
                     <div class="help-block with-errors"></div>
                   </div>
                 </div></div>
                 <div class="row">
                   <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
-                        <label for="datumSmera">Datum izdavanja:</label>
-                        <input type="number" class="form-control" id="datumIzdavanja"  data-error="Morate uneti datum izdavanja softvera" placeholder="Unesite datum kada je softver izdat" required>
+                        <label for="datumSmera">Godina izdavanja:</label>
+                        <input type="number" class="form-control" id="datumIzdavanja"  data-error="Morate uneti godinu izdavanja softvera" placeholder="Unesite godinu kada je softver izdat" required>
                         <div class="help-block with-errors"></div>
                     </div>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <label for="oznakaSmera">Cena softvera:</label>
-                        <input type="number" class="form-control" id="cenaSoftvera" placeholder="Unesite cenu softvera" required>
+                        <input type="number" class="form-control" id="cenaSoftvera" data-error="Morate uneti cenu softvera" placeholder="Unesite cenu softvera" required>
+                        <div class="help-block with-errors"></div>
                     </div>
                   </div>
                   </div>
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                    <label for="oznakaSmera">Proizvodjac softvera:</label>
-                    <input type="text" class="form-control" id="proizvodjacSoftvera" data-error="Morate uneti proizvodjaca softvera" placeholder="Unesite oznaku (skracenicu) smera" required>
+                    <label for="oznakaSmera">Proizvođač softvera:</label>
+                    <input type="text" class="form-control" id="proizvodjacSoftvera" data-error="Morate uneti proizvođača softvera" placeholder="Unesite proizvođača softvera" required>
                     <div class="help-block with-errors"></div>
                   </div>
                 </div></div>
@@ -339,19 +397,20 @@
                   <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                     <label for="oznakaSmera">Sajt softvera:</label>
-                    <input type="text" class="form-control" id="sajtSoftvera" placeholder="Unesite sajt softvera" required>
+                    <input type="text" class="form-control" id="sajtSoftvera" data-error="Morate uneti sajt softvera" placeholder="Unesite sajt softvera" required>
+                    <div class="help-block with-errors"></div>
                   </div>
                 </div></div>
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12">
                   <div class="form-group">
                     <label for="opisSmera">Opis softvera:</label>
-                    <textarea rows="4" cols="50" class="form-control" id="opisSoftvera" placeholder="Unesite opis softvera"></textarea>
+                    <textarea rows="4" cols="50" class="form-control" id="opisSoftvera" placeholder="Unesite opis softvera (nije neophodno)"></textarea>
                 </div></div></div>
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12">
                   <div class="modal-footer">
-                    <button type="submit" id="softverSubmit" class="btn btn-default" data-dismiss="modal">Submit</button>
+                    <button type="submit" id="softverSubmit" class="btn btn-default" data-dismiss="modal">Dodaj softver</button>
               </div></div></div>
           </form>
         </div>
@@ -364,6 +423,8 @@
 </div>
  
 <script type="text/javascript">
+	
+	<!-- MULTISELECT ZA FORME (softver; forma DodajPredmet) -->
     $(document).ready(function() {
         $('#example-confirmation').multiselect({
             enableFiltering: true,
@@ -371,6 +432,12 @@
             maxHeight: 200
         });
     });
+    
+    <!-- ISPRAZNI FORME NAKON CLOSE -->
+    $('.modal').on('hidden.bs.modal', function(){
+        $(this).find('form')[0].reset();
+    });
+    
 </script>
  
  
@@ -405,25 +472,23 @@ function ucitajSoftvere(){
                     value: softver.oznaka,
                     text: softver.naziv
                   }));
-               
-               
-                /*
-                alert(softver.naziv);
-                var optionSoftver = document.createElement("OPTION");
-                selectSoftver.add(optionSoftver);
-                optionSoftver.value = softver.oznaka;
-               
-                optionSoftver.text = softver.naziv;
-            */});
+               });
             $("#example-confirmation").multiselect('rebuild');
         }
     });
 }
+
+<!-- SUBMIT Forme za dodavanje softvera -->
 $(document).ready(function(){
     $("#softverSubmit").click(function(e){
        
         e.preventDefault();
        
+        if($("#nazivSoftvera").val() == "" || $("#oznakaSoftvera").val() == "" || $("#proizvodjacSoftvera").val() == "" ||
+        	$("#sajtSoftvera").val() == "" || $("#datumIzdavanja").val() == "" || $("#cenaSoftvera").val() == ""){
+        	neuspesnoSwal("Morate popuniti sva obavezna polja!");
+        	return false;
+        }
         var softver = {};
         softver.naziv = $("#nazivSoftvera").val();
         softver.oznaka = $("#oznakaSoftvera").val();
@@ -438,22 +503,26 @@ $(document).ready(function(){
             url: "/api/dodajSoftver",
             data: JSON.stringify(softver),
             success:function(responce){
-                alert("Uspelo dodavanje");
+                uspesnoSwal("Softver uspešno dodat!");
             },
             error: function(err){
-                alert("Greska" + err);
+                neuspesnoSwal("Greška prilikom dodavanja softvera!");
             },
             processData: false,
       });
     });
   });
  
+<!-- SUBMIT Forme za dodavanje ucionice -->
 $(document).ready(function(){
     $("#ucionicaSubmit").click(function(e){
        
         e.preventDefault();
         
-        //if($("#oznakaUcionice").val() == "" || $("#opisUcionice").val() == "" || $("#brojMesta").val() =="" ||)
+        if($("#oznakaUcionice").val() == "" || $("#brojMesta").val() ==""){
+        	neuspesnoSwal("Morate popuniti sva obavezna polja!");
+        	return false;
+        }
         var ucionica = {};
         ucionica.oznaka = $("#oznakaUcionice").val();
         ucionica.opis = $("#opisUcionice").val();
@@ -480,28 +549,31 @@ $(document).ready(function(){
             url: "/api/dodajUcionicu",
             data: JSON.stringify(ucionica),
             success:function(responce){
-                alert("Uspelo dodavanje");
+                uspesnoSwal("Uspešno dodavanje učionice!");
             },
             error: function(err){
-                alert("Greska" + err);
+                neuspesnoSwal("Greška prilikom dodavanja učionice!");
             },
             processData: false,
       });
     });
   });
+  
  
+<!-- SUBMIT Forme za dodavanje predmeta -->
 $(document).ready(function(){
-    $("#predmetSubmit").click(function(e){
+    $("#predmetSubmit").click(function(e) {
        
-        e.preventDefault();
-       
+
         if($("#nazivPredmeta").val() =="" || $("#oznakaPredmeta").val() =="" || $("#velicinaGrupe").val()=="" || $("#duzinaTermina").val()==""
         		|| $("#brojTermina").val()=="" || $("#brojTermina").val()==""){
         	
-        	alert("Morate popuniti sva obavezna polja!");
+        	neuspesnoSwal("Morate popuniti sva obavezna polja!");
         	return false;
         }
-       
+
+    	e.preventDefault();
+        
         var predmet = {};
         predmet.naziv = $("#nazivPredmeta").val();
         predmet.oznaka = $("#oznakaPredmeta").val();
@@ -512,8 +584,7 @@ $(document).ready(function(){
         predmet.projektor = $('#projektorPredmet:checked').val()?true:false;
         predmet.tabla = $('#tablaPredmet:checked').val()?true:false;
         predmet.pametnaTabla = $('#pametnaTablaPredmet:checked').val()?true:false;
- 
-       
+   
         var linux = $('#linuxPredmet:checked').val()?true:false;
         var windows = $('#windowsPredmet:checked').val()?true:false;
         var winlinux = $('#obaOsPredmet:checked').val()?true:false;
@@ -539,21 +610,27 @@ $(document).ready(function(){
             url: "/api/dodajPredmet",
             data: JSON.stringify(predmet),
             success:function(responce){
-                alert("Uspelo dodavanje");
+                uspesnoSwal("Uspešno dodavanje predmet!");
             },
             error: function(err){
-                alert("Greska" + err);
+                neuspesnoSwal("Greška prilikom dodavanja predmeta");
             },
             processData: false,
       });
     });
   });
  
+<!-- SUBMIT Forme za dodavanje smera -->
 $(document).ready(function(){
     $("#smerSubmit").click(function(e){
        
         e.preventDefault();
        
+        if($("#nazivSmera").val() == "" || $("#oznakaSmera").val() == "" || $("#datumSmera").val() == ""){
+        	neuspesnoSwal("Morate popuniti sva obavezna polja!");
+        	return false;
+        }
+        
         var smer = {};
         smer.naziv = $("#nazivSmera").val();
         smer.oznaka = $("#oznakaSmera").val();
@@ -565,19 +642,42 @@ $(document).ready(function(){
             url: "/api/dodajSmer",
             data: JSON.stringify(smer),
             success:function(responce){
-                alert("Uspelo dodavanje");
+                uspesnoSwal("Uspešno dodavanje smera!");
+                //window.location.reload();
             },
                    
             error: function(err){
-                alert("Greska" + err);
+                neuspesnoSwal("Greška prilikom dodavanja smera!");
             },
             processData: false,
       });
     });
   });
+  
+<!-- SWAL za success -->
+function uspesnoSwal(poruka){
+		swal({
+			  type: 'success',
+			  title: 'Uspešno!',
+			  text: poruka
+		}).then(function(){ 
+		       location.reload();
+		   });
+}
+
+<!-- SWAL za unseccess -->
+function neuspesnoSwal(poruka){
+	swal({
+		  type: 'error',
+		  title: 'Greška!',
+		  text: poruka,
+		  
+		})
+}
 </script>
  
  
+<!-- ZOOM IN & ZOOM OUT -->
 <script>
  
      var currFFZoom = 1;
@@ -610,9 +710,11 @@ $(document).ready(function(){
 </script>
  
  
+<!-- Nav meni --> 
 <div class="container">
+
 	<div class="row">
-	    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Meni</span> 
+	    <span id="meniBtn" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Meni</span> 
 		<div style="font-size:30px;margin-right:0px;margin-left: 62%;">
 			<a href="raspored.html" class="btn btn-default">Raspored</a> &nbsp; &nbsp; &nbsp;
 		    <button id="buttonZoomout" type="button" class="btn btn-default btn-sm" onclick="zoomout()" >
@@ -622,9 +724,9 @@ $(document).ready(function(){
 		      <span class="glyphicon glyphicon-zoom-in"></span> Zoom-in
 		    </button>
 		</div>
-    
   </div>
- 
+ </div>
+<!-- Container entiteti --> 
 <div class="container"style="margin-top:5%;;margin-bottom:100px">
  
   <h2>Entiteti</h2>
@@ -644,10 +746,10 @@ $(document).ready(function(){
                 <th>Naziv</th>
                 <th>Opis</th>
                 <th>Smer</th>
-                <th>Velicina Grupe</th>
+                <th>Veličina Grupe</th>
                 <th>OP sistem</th>
                 <th>Broj termina</th>
-                <th>Duzina termina</th>
+                <th>Dužina termina</th>
                 <th>Projektor</th>
                 <th>Tabla</th>
                 <th>Pametna tabla</th>
@@ -663,10 +765,10 @@ $(document).ready(function(){
                 <th>Naziv</th>
                 <th>Opis</th>
                 <th>Smer</th>
-                <th>Velicina Grupe</th>
+                <th>Veličina Grupe</th>
                 <th>OP sistem</th>
                 <th>Broj termina</th>
-                <th>Duzina termina</th>
+                <th>Dužina termina</th>
                 <th>Projektor</th>
                 <th>Tabla</th>
                 <th>Pametna tabla</th>
@@ -735,11 +837,11 @@ $(document).ready(function(){
             <tr>
                 <th>Oznaka</th>
                 <th>Naziv</th>
-                <th>Proizvodjač</th>
+                <th>Proizvođač</th>
                 <th>Sajt</th>
                 <th>Godina izadavanja</th>
                 <th>Opis</th>
-                <th>Cena</th>
+                <th>Cena (din)</th>
              
    
             </tr>
@@ -751,11 +853,11 @@ $(document).ready(function(){
             <tr>
                 <th>Oznaka</th>
                 <th>Naziv</th>
-                <th>Proizvodjač</th>
+                <th>Proizvođač</th>
                 <th>Sajt</th>
                 <th>Godina izadavanja</th>
                 <th>Opis</th>
-                <th>Cena</th>
+                <th>Cena (din)</th>
             </tr>
         </tfoot>
     </table>
@@ -765,45 +867,28 @@ $(document).ready(function(){
  
 </div>
  
-</div>
  
  
-<!-- DRAG&DROP -->
-<script>
-  $(document).ready(function(){
-    $('.event').on("dragstart", function (event) {
-        var dt = event.originalEvent.dataTransfer;
-        dt.setData('Text', $(this).attr('id'));
-      });
-      $('table td').on("dragenter dragover drop", function (event) {  
-       event.preventDefault();
-       if (event.type === 'drop') {
-        var data = event.originalEvent.dataTransfer.getData('Text',$(this).attr('id'));
-        if($(this).find('span').length===0){
-           de=$('#'+data).detach();
-           de.appendTo($(this));  
-          }
-       
-       };
-     });
-})
-</script>
  
 <!-- SIDE NAV -->
 <script>
   function openNav() {
       document.getElementById("mySidenav").style.width = "250px";
       document.getElementById("main").style.marginLeft = "250px";
+      document.getElementById("meniBtn").style.visibility = "hidden";
       //document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
   }
  
   function closeNav() {
       document.getElementById("mySidenav").style.width = "0";
       document.getElementById("main").style.marginLeft= "0";
+      document.getElementById("meniBtn").style.visibility = "visible";
       //document.body.style.backgroundColor = "white";
   }
 </script>
 </body>
+
+<!-- AJAX pozivi za popunjavanje tabele entiteta -->
 <script>
 $.ajax({
     contentType: 'application/json',
@@ -836,12 +921,7 @@ $.ajax({
               $("#dodajEntitet_predmeti").click(function(){
                     alert("dodavanje predmeta");
                 });
-             
-               
-               
-               
-               
-       
+    
     },
     processData: false,
     type: 'GET',
@@ -890,9 +970,7 @@ $.ajax({
                     tableData += '<td>' + ((ucionica.tabla == true) ? 'da' : 'ne')  + '</td>';
                     tableData += '<td>' + ((ucionica.pametnaTabla == true) ? 'da' : 'ne')  + '</td>';
                     tableData += '<td>' + ucionica.opSistem + '</td></tr>';
-                    $("#tableBodyUcionice").append(tableData);
-                   
-                   
+                    $("#tableBodyUcionice").append(tableData);                 
                 });
              
               $('#ucionice').DataTable();
@@ -920,8 +998,7 @@ $.ajax({
                     tableData += '<td>' + softver.opis + '</td>';
                     tableData += '<td>' + softver.cena + '</td></tr>';
                     $("#tableBodySoftveri").append(tableData);
-                   
-                   
+                 
                 });
              
               $('#softveri').DataTable();
