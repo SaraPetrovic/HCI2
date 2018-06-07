@@ -18,6 +18,14 @@
   <link href="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.css" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.js"></script>
 
+  <script src="shortcut.js">
+
+	  shortcut.add("f1", function() {
+		 
+		  
+	  });   
+
+  </script>
  
   <style>
     table span{
@@ -489,6 +497,10 @@ $(document).ready(function(){
         	neuspesnoSwal("Morate popuniti sva obavezna polja!");
         	return false;
         }
+        if($("#cenaSoftvera").val() < 0 || $("#datumIzdavanja").val() < 0){
+        	neuspesnoSwal("Ne smete unositi negativne brojeve!");
+        	return false;
+        }
         var softver = {};
         softver.naziv = $("#nazivSoftvera").val();
         softver.oznaka = $("#oznakaSoftvera").val();
@@ -521,6 +533,10 @@ $(document).ready(function(){
         
         if($("#oznakaUcionice").val() == "" || $("#brojMesta").val() ==""){
         	neuspesnoSwal("Morate popuniti sva obavezna polja!");
+        	return false;
+        }
+        if( $("#brojMesta").val() < 0){
+        	neuspesnoSwal("Ne smete unositi negativne brojeve!");
         	return false;
         }
         var ucionica = {};
@@ -567,9 +583,12 @@ $(document).ready(function(){
 
         if($("#nazivPredmeta").val() =="" || $("#oznakaPredmeta").val() =="" || $("#velicinaGrupe").val()=="" || $("#duzinaTermina").val()==""
         		|| $("#brojTermina").val()=="" || $("#brojTermina").val()==""){
-        	
         	neuspesnoSwal("Morate popuniti sva obavezna polja!");
         	return false;
+        }
+        if($("#velicinaGrupe").val() == "" || $("#duzinaTermina").val() == "" || $("#brojTermina").val() == ""){
+        	neuspesnoSwal("Ne smete unositi negativne brojeve!");
+        	return false;	
         }
 
     	e.preventDefault();
