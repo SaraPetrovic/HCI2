@@ -61,7 +61,7 @@
   <a data-toggle="modal" data-target="#ucionica" href="#">Dodaj učionicu</a>
   <a data-toggle="modal" data-target="#smer" href="#">Dodaj smer</a>
   <a data-toggle="modal" data-target="#softver" href="#">Dodaj softver</a>
-  <a href="raspored.html">Raspored</a>
+  <a href="raspored.html">Rasporedi</a>
   <a id="zoomIn" href="#" onclick="zoomin()">Zoom in</a>
   <a id="zoomOut" href="#" onclick="zoomout()">Zoom out</a>
   <a id="pomoc" href="pomoc.html" target="_blank"> Pomoć </a>
@@ -341,7 +341,7 @@
                     <div class="col-xs-6 col-sm-6 col-md-6">
                       <div class="form-group">
                       <label for="datumSmera">Datum osnivanja:</label>
-                      <input type="date" class="form-control" id="datumSmera"  data-error="Morate uneti datum osnivanja smera" placeholder="Unesite datum kada je smer osnovan" required>
+                      <input type="date" min="1900-01-01" max="2019-01-01" class="form-control" id="datumSmera" data-error="Morate uneti datum osnivanja smera (nakon 1.1.1900.)" placeholder="Unesite datum kada je smer osnovan" required>
                       <div class="help-block with-errors"></div>
                     </div>
                   </div></div>
@@ -398,7 +398,7 @@
                   <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <label for="datumSmera">Godina izdavanja:</label>
-                        <input type="number" min="1950" max="2019" class="form-control" id="datumIzdavanja"  data-error="Morate uneti godinu izdavanja softvera" placeholder="Unesite godinu kada je softver izdat" required>
+                        <input type="number" min="1950" max="2019" class="form-control" id="datumIzdavanja"  data-error="Morate uneti godinu izdavanja softvera (>1950)" placeholder="Unesite godinu kada je softver izdat" required>
                         <div class="help-block with-errors"></div>
                     </div>
                   </div>
@@ -821,7 +821,7 @@ function neuspesnoSwal(poruka){
 	<div class="row">
 	    <span id="meniBtn" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Meni</span> 
 		<div style="font-size:30px;margin-right:0px;margin-left: 62%;">
-			<a href="raspored.html" class="btn btn-default">Raspored</a> &nbsp; &nbsp; &nbsp;
+			
 		    <button id="buttonZoomout" type="button" class="btn btn-default btn-sm" onclick="zoomout()" >
 		      <span class="glyphicon glyphicon-zoom-out"></span> Zoom-out
 		    </button>
@@ -1011,7 +1011,13 @@ $.ajax({
                     tableData += '<td>' + predmet.opSistem + '</td>';
                     tableData += '<td>' + predmet.brojTermina + '</td>';
                     tableData += '<td>' + predmet.duzinaTermina + '</td>';
-                    //var projektor = ;
+                    var softs = predmet.softveri;
+                    if (softs.length > 0) {
+                    	 softs.forEach(function(softver) {
+                    		 alert("Oznaka: " + softver.oznaka + "  ;Naziv: " + softver.naziv);
+                    	 })
+                         
+                    }
                    
                     tableData += '<td>' + ((predmet.projektor == true) ? 'da' : 'ne') + '</td>';
                     tableData += '<td>' + ((predmet.tabla == true) ? 'da' : 'ne') + '</td>';
