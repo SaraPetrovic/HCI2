@@ -182,6 +182,15 @@ function initTable(id, raspored){
 			var allowed = true;
 			var ucionicaName = $('.nav-tabs .active').text();
 			var predmetName = draggedEvent.title;
+			//provera da li novi interval upada u neki postojeci
+			var draggedEventStart = moment(draggedEvent.start);
+			var draggedEventEnd = moment(draggedEvent.end);
+	        var events = $("#calendar_" + id).fullCalendar('clientEvents');
+			//var duration = moment.duration(event.end - event.start);
+			if (draggedEventStart.hours() < 7 || draggedEventEnd.hours() > 22 || (draggedEventEnd.hours() == 22 && draggedEventEnd.minutes() > 0) || draggedEventEnd.hours() < draggedEventStart.hours()){
+				return false;
+			}
+			
 			
 	  		var ucionica;
 	  		var predmet;
@@ -244,43 +253,42 @@ function initTable(id, raspored){
 	eventDrop: function(event, delta, revertFunc) {
         //inner column movement drop so get start and call the ajax function......
 		//alert(moment("07:00", "HH:mm"));
-		var momentStart = moment(event.start);
-		var momentEnd = moment(event.end);
+
+		var momentNewStart = moment(event.start);
+		var momentNewEnd = moment(event.end);
 		var duration = moment.duration(event.end - event.start);
-		if (momentStart.hours() < moment("07:00:00", "HH:mm:ss").hours()){
+		if (momentNewStart.hours() < moment("07:00:00", "HH:mm:ss").hours()){
 			//event.start = moment("07:00", "HH:mm").format();
 			
-			momentStart.hours(7).valueOf();
-			momentStart.minutes(0).valueOf();
-			momentEnd.hours(7 + duration.hours()).valueOf();
-			momentEnd.minutes(0 + duration.minutes()).valueOf();
-			event.end = momentEnd.format();
-			event.start = momentStart.format();
+			momentNewStart.hours(7).valueOf();
+			momentNewStart.minutes(0).valueOf();
+			momentNewEnd.hours(7 + duration.hours()).valueOf();
+			momentNewEnd.minutes(0 + duration.minutes()).valueOf();
+			event.end = momentNewEnd.format();
+			event.start = momentNewStart.format();
 		}
-		if (momentEnd.hours() == moment("22:00:00", "HH:mm:ss").hours() && momentEnd.minutes() >0){
+		if (momentNewEnd.hours() == moment("22:00:00", "HH:mm:ss").hours() && momentNewEnd.minutes() >0){
 			
-			momentEnd.hours(22).valueOf();
-			momentStart.hours(22 - duration.hours() - 1).valueOf();
-			momentEnd.minutes(0).valueOf();
-			momentStart.minutes(60 - duration.minutes()).valueOf();
-			alert(momentEnd.format());
-			event.end = momentEnd.format();
-			event.start = momentStart.format();
-		}else if (momentEnd.hours() > moment("22:00:00", "HH:mm:ss").hours() || momentEnd.hours() < momentStart.hours()){
-			if (momentEnd.hours() < momentStart.hours()){
-				momentEnd.date(momentEnd.date() - 1);
+			momentNewEnd.hours(22).valueOf();
+			momentNewStart.hours(22 - duration.hours() - 1).valueOf();
+			momentNewEnd.minutes(0).valueOf();
+			momentNewStart.minutes(60 - duration.minutes()).valueOf();
+			event.end = momentNewEnd.format();
+			event.start = momentNewStart.format();
+		}else if (momentNewEnd.hours() > moment("22:00:00", "HH:mm:ss").hours() || momentNewEnd.hours() < momentNewStart.hours()){
+			if (momentNewEnd.hours() < momentNewStart.hours()){
+				momentNewEnd.date(momentNewEnd.date() - 1);
 				//alert(momentEnd().date());
 			}
-			momentEnd.hours(22).valueOf();
+			momentNewEnd.hours(22).valueOf();
 			
-			momentStart.hours(22 - duration.hours() - 1).valueOf();
-			momentEnd.minutes(0).valueOf();
-			momentStart.minutes(60 - duration.minutes()).valueOf();
-			alert(momentEnd.format());
-			event.end = momentEnd.format();
-			event.start = momentStart.format();
+			momentNewStart.hours(22 - duration.hours() - 1).valueOf();
+			momentNewEnd.minutes(0).valueOf();
+			momentNewStart.minutes(60 - duration.minutes()).valueOf();
+			event.end = momentNewEnd.format();
+			event.start = momentNewStart.format();
 		}
-
+		return false;
         $('#calendar_' + id).fullCalendar('updateEvent', event);
 
     },
@@ -410,7 +418,6 @@ function save(){
 									if ($("#kartica_" + predmet.oznaka).attr("brojTermina") != null){
 										var kartica = {oznaka: predmet.oznaka, brojTermina : $("#kartica_" + predmet.oznaka).attr("brojTermina"), duration : $("#kartica_" + predmet.oznaka).attr("duration") };
 										kartice.push(kartica);
-										alert(JSON.stringify(kartica));
 									}
 									
 								});
@@ -524,7 +531,6 @@ function ucitajRaspored(){
 										});
 									  	tabeleOznake.forEach(function(oznaka){
 									  		
-									  		alert(JSON.stringify(raspored));
 									  		initTable(oznaka, raspored);
 									  	});
 									  	
