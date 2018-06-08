@@ -5,14 +5,10 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -40,9 +36,10 @@ public class Predmet {
 	@Column(nullable = false)
 	Boolean pametnaTabla;
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	OperativniSistem opSistem;
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE )
+	String opSistem;
+	//@Enumerated(EnumType.STRING)
+	//OperativniSistem opSistem;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE )
 	List<Softver> softveri;
 	
 	public Predmet(String oznaka){
@@ -53,8 +50,8 @@ public class Predmet {
 		super();
 	}
 	public Predmet(String oznaka, String naziv, String opis, Smer smer, int velicinaGrupe, int duzinaTermina,
-			int brojTermina, Boolean projektor, Boolean tabla, Boolean pametnaTabla, OperativniSistem opSistem,
-			List<Softver> softver) {
+			int brojTermina, Boolean projektor, Boolean tabla, Boolean pametnaTabla, String opSistem,
+			List<Softver> softveri) {
 		super();
 		this.oznaka = oznaka;
 		this.naziv = naziv;
@@ -67,7 +64,7 @@ public class Predmet {
 		this.tabla = tabla;
 		this.pametnaTabla = pametnaTabla;
 		this.opSistem = opSistem;
-		this.softveri = softver;
+		this.softveri = softveri;
 	}
 	public String getOznaka() {
 		return oznaka;
@@ -129,16 +126,16 @@ public class Predmet {
 	public void setPametnaTabla(Boolean pametnaTabla) {
 		this.pametnaTabla = pametnaTabla;
 	}
-	public OperativniSistem getOpSistem() {
+	public String getOpSistem() {
 		return opSistem;
 	}
-	public void setOpSistem(OperativniSistem opSistem) {
+	public void setOpSistem(String opSistem) {
 		this.opSistem = opSistem;
 	}
-	public List<Softver> getSoftver() {
+	public List<Softver> getSoftveri() {
 		return softveri;
 	}
-	public void setSoftver(List<Softver> softveri) {
+	public void setSoftveri(List<Softver> softveri) {
 		this.softveri = softveri;
 	}
 	
