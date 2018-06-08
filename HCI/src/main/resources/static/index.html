@@ -858,6 +858,7 @@ function neuspesnoSwal(poruka){
                 <th>Projektor</th>
                 <th>Tabla</th>
                 <th>Pametna tabla</th>
+                <th>Softver</th>
                
             </tr>
         </thead>
@@ -877,6 +878,7 @@ function neuspesnoSwal(poruka){
                 <th>Projektor</th>
                 <th>Tabla</th>
                 <th>Pametna tabla</th>
+                <th>Softver</th>
             </tr>
         </tfoot>
     </table>
@@ -916,6 +918,7 @@ function neuspesnoSwal(poruka){
                 <th>Tabla</th>
                 <th>Pametna tabla</th>
                 <th>Operativni Sistem</th>
+                <th>Softver</th>
              
    
             </tr>
@@ -932,6 +935,7 @@ function neuspesnoSwal(poruka){
                 <th>Tabla</th>
                 <th>Pametna tabla</th>
                 <th>Operativni Sistem</th>
+                <th>Softver</th>
             </tr>
         </tfoot>
     </table>
@@ -1001,6 +1005,16 @@ $.ajax({
     success: function(predmeti){
                
               predmeti.forEach(function(predmet) {
+	            	// formatiraj softvere
+	                  var softs = predmet.softveri;
+	                  var temp = "";
+	                  if (softs.length > 0) {
+	                  	 softs.forEach(function(softver) {
+	                  		 temp = temp + softver.naziv + ", ";	 
+	                  	 })       
+	                  }
+	                  var softveri = temp.substring(0, temp.length-2);
+            	  	
                     var tableData = '';
                     tableData += '<tr>';
                     tableData += '<td>'+ predmet.oznaka +'</td>';
@@ -1011,20 +1025,12 @@ $.ajax({
                     tableData += '<td>' + predmet.opSistem + '</td>';
                     tableData += '<td>' + predmet.brojTermina + '</td>';
                     tableData += '<td>' + predmet.duzinaTermina + '</td>';
-                    var softs = predmet.softveri;
-                    if (softs.length > 0) {
-                    	 softs.forEach(function(softver) {
-                    		 alert("Oznaka: " + softver.oznaka + "  ;Naziv: " + softver.naziv);
-                    	 })
-                         
-                    }
-                   
+                    
                     tableData += '<td>' + ((predmet.projektor == true) ? 'da' : 'ne') + '</td>';
                     tableData += '<td>' + ((predmet.tabla == true) ? 'da' : 'ne') + '</td>';
-                    tableData += '<td>' + ((predmet.pametnaTabla == true) ? 'da' : 'ne') + '</td></tr>';
-                    $("#tableBodyPredmeti").append(tableData);
-                   
-                   
+                    tableData += '<td>' + ((predmet.pametnaTabla == true) ? 'da' : 'ne') + '</td>';           
+                    tableData += '<td>' + softveri + '</td></tr>';
+                    $("#tableBodyPredmeti").append(tableData);               
                 });
            
              
@@ -1072,6 +1078,18 @@ $.ajax({
     success: function(ucionice){
                
               ucionice.forEach(function(ucionica) {
+            	    // formatiraj softvere
+	        	    var softs = ucionica.softveri;
+	                var temp = "";
+	                if (softs.length > 0) {
+	              	   softs.forEach(function(softver) {
+	              	   	   temp = temp + softver.naziv + ", "; 
+	              	    })       
+	                 }
+	              
+	                var softveri = temp.substring(0, temp.length-2);
+            	  
+           	  
                     var tableData = '';
                     tableData += '<tr>';
                     tableData += '<td>'+ ucionica.oznaka +'</td>';
@@ -1080,7 +1098,8 @@ $.ajax({
                     tableData += '<td>' + ((ucionica.projektor == true) ? 'da' : 'ne') + '</td>';
                     tableData += '<td>' + ((ucionica.tabla == true) ? 'da' : 'ne')  + '</td>';
                     tableData += '<td>' + ((ucionica.pametnaTabla == true) ? 'da' : 'ne')  + '</td>';
-                    tableData += '<td>' + ucionica.opSistem + '</td></tr>';
+                    tableData += '<td>' + ucionica.opSistem + '</td>';
+                    tableData += '<td>' + softveri + '</td></tr>';
                     $("#tableBodyUcionice").append(tableData);                 
                 });
              
