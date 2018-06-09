@@ -11,4 +11,5 @@ public interface UcionicaService {
 	public List<Ucionica> getUcionice();
 	public Ucionica getUcionica(String oznaka);
 	Ucionica dodajUcionicu(Ucionica u);
+	public Boolean deleteUcionica(String oznaka);
 }

@@ -53,7 +53,20 @@ public class PredmetServiceImpl implements PredmetService {
 		}
 		return null;	
 	}
+	@Override
+	public Boolean deletePredmet(String oznaka) {
+		Predmet predmetToDelete = predmetRepository.findOne(oznaka);
+		if (predmetToDelete != null){
+			System.out.println("\n\nPredmet to delete " + predmetToDelete.getOznaka() + "\n\n");
+			predmetToDelete.getSoftveri().clear();
+			predmetRepository.save(predmetToDelete);
+			predmetRepository.delete(predmetToDelete);
+			return true;
+		}
+		return null;
+	}
 	
 	
 
 }
+ 

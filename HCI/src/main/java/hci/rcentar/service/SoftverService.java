@@ -12,4 +12,5 @@ public interface SoftverService {
 	Softver dodajSoftver(Softver s);
 	Softver findByNaziv(String naziv);
 	Softver findByOznaka(String oznaka);
+	public Boolean deleteSoftver(String oznaka);
 }

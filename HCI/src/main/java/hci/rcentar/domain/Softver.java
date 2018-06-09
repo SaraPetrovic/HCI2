@@ -9,19 +9,19 @@ import javax.persistence.Id;
 @Entity
 public class Softver {
 	@Id
-	String oznaka;
+	private String oznaka;
 	@Column(nullable = false)
-	String naziv;
+	private String naziv;
 	@Column(nullable = false)
-	String proizvodjac;
+	private String proizvodjac;
 	@Column(nullable = false)
-	String sajt;
+	private String sajt;
 	@Column(nullable = false)
-	int godinaIzdavanja;
+	private int godinaIzdavanja;
 	@Column(nullable = false)
-	String opis;
+	private String opis;
 	@Column(nullable = false)
-	double cena;
+	private double cena;
 	
 	
 	

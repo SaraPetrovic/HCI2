@@ -33,5 +33,15 @@ public class SoftverServiceImpl implements SoftverService{
 
 		return softverRepository.findByOznaka(oznaka);
 	}
+	@Override
+	public Boolean deleteSoftver(String oznaka) {
+		// TODO Auto-generated method stub
+		Softver s = softverRepository.findOne(oznaka);
+		if (s != null){
+			softverRepository.delete(s);
+			return true;
+		}
+		return false;
+	}
 	
 }
