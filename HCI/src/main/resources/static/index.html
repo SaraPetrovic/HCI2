@@ -463,22 +463,25 @@
 <script>
 document.onkeydown = function(e) {
 	  var key = e.which || e.keyCode;
-	  // Q
+	  // CTRL + Q  
 	  if (key == 81 && e.ctrlKey) {
 	    $("#predmet").modal('toggle');
-	    // W
+	    // CTRL + W
 	  } else if (key == 87 && e.ctrlKey) {
 		  $("#ucionica").modal('toggle');
-		  // E
+		  // CTRL + E
 	  } else if (key == 69 && e.ctrlKey) {
 		  $("#smer").modal('toggle');
-		  // R
+		  // CTRL + R
 	  } else if (key == 82 && e.ctrlKey) {
 		  $("#softver").modal('toggle');
 		  // F2
 	  } else if (key == 113) {
 		  var win = window.open('pomoc.html', '_blank');
 		  win.focus();
+	  } else if (key == 89 && e.ctrlKey) {
+		  e.preventDefault();
+		  window.location.replace('/raspored.html');
 	  }
 }
 </script>
