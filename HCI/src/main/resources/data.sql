@@ -1,4 +1,6 @@
 insert into smer(oznaka, naziv, datum, opis) values ('siit', 'softversko inzenjerstvo i informacione tehnologije', '10.10.2014','opis smera' )
+insert into smer(oznaka, naziv, datum, opis) values ('e1', 'softversko inzenjerstvo i informacione tehnologije', '10.10.2014','opis smera' )
+
 insert into predmet(oznaka, naziv, opis, smer_oznaka, velicina_grupe, duzina_termina, broj_termina, projektor, tabla, pametna_tabla, op_sistem  ) values ('HCI', 'Interakcija covek racunar', 'opis predmeta', 'siit', '15', '2', '4', true, true, false, 'LINUX' )
 insert into predmet(oznaka, naziv, opis, smer_oznaka, velicina_grupe, duzina_termina, broj_termina, projektor, tabla, pametna_tabla, op_sistem  ) values ('ISA', 'Baze podataka', 'opis predmeta', 'siit', '15', '3', '4', true, true, false, 'LINUX' )
 insert into predmet(oznaka, naziv, opis, smer_oznaka, velicina_grupe, duzina_termina, broj_termina, projektor, tabla, pametna_tabla, op_sistem  ) values ('MRS', 'Baze podataka', 'opis predmeta', 'siit', '15', '4', '4', true, true, false, 'WINDOWS' )
@@ -14,13 +16,14 @@ insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, ce
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('MTLB13', 'MATLAB R2013', 'MathWorks', 'www.mathworks.com', '2013', 'Matlab softver', '500')
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('PYCH', 'PyCharm 2015', 'JetBrains', 'www.jetbrains.com', '2015', 'Python IDE', '1500')
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('ECL', 'Eclipse Neon', 'Eclipse Foundation', 'www.eclipse.org', '2017', 'Eclipse IDE', '1700')
+insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('asd', 'Eclipse Neon', 'Eclipse Foundation', 'www.eclipse.org', '2017', 'Eclipse IDE', '1700')
 
 insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('HCI', 'VS15')
 
-insert into predmet_softveri(predmet_oznaka, softveri_oznaka) values ('HCI', 'VS15')
-insert into predmet_softveri(predmet_oznaka, softveri_oznaka) values ('ISA', 'ECL')
-insert into predmet_softveri(predmet_oznaka, softveri_oznaka) values ('MRS', 'ECL')
-insert into predmet_softveri(predmet_oznaka, softveri_oznaka) values ('MRS', 'PYCH')
+insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('HCI', 'VS15')
+insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('ISA', 'ECL')
+insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('MRS', 'ECL')
+insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('MRS', 'PYCH')
 
 insert into ucionica_softveri(ucionica_oznaka, softveri_oznaka) values ('L1', 'VS15')
 insert into ucionica_softveri(ucionica_oznaka, softveri_oznaka) values ('L1', 'ECL')

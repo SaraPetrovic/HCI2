@@ -50,7 +50,7 @@ public class Predmet {
 	            joinColumns = {@JoinColumn(name = "predmet_oznaka")},
 	            inverseJoinColumns = {@JoinColumn(name = "softver_oznaka")}
 	    )
-	@JsonIgnore
+	
 	List<Softver> softveri;
 	@PreRemove
 	private void removeGroupsFromUsers() {

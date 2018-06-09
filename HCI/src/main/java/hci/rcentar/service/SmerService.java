@@ -11,4 +11,5 @@ public interface SmerService {
 	Smer dodajSmer(Smer smer);
 	Smer findByNaziv(String naziv);
 	Smer findByOznaka(String oznaka);
+	Boolean deleteSmer(String oznaka);
 }

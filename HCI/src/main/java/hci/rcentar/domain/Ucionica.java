@@ -26,7 +26,7 @@ public class Ucionica {
 	String opSistem;
 	//@Enumerated(EnumType.STRING)
 	//OperativniSistem opSistem;
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	List<Softver> softveri;
 	
 	public Ucionica(){

@@ -33,6 +33,16 @@ public class SmerServiceImpl implements SmerService{
 	public Smer findByOznaka(String oznaka) {
 		return smerRepository.findByOznaka(oznaka);
 	}
+	@Override
+	public Boolean deleteSmer(String oznaka) {
+		// TODO Auto-generated method stub
+		Smer s = smerRepository.findOne(oznaka);
+		if (s != null){
+			smerRepository.delete(s);
+			return true;
+		}
+		return false;
+	}
 
 	
 }

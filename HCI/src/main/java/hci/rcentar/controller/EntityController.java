@@ -142,7 +142,33 @@ public class EntityController {
 		}
 		return new ResponseEntity<Boolean>(success, HttpStatus.NOT_FOUND);
 	}
-	
+	@RequestMapping(value = "api/ucionice/{oznaka}",
+			method = RequestMethod.DELETE)
+	public ResponseEntity<Boolean> deleteUcionica(@PathVariable("oznaka") String oznaka){
+		Boolean success = ucionicaService.deleteUcionica( oznaka);
+		if (success){
+			return new ResponseEntity<Boolean>(success,HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(success, HttpStatus.NOT_FOUND);
+	}
+	@RequestMapping(value = "api/smerovi/{oznaka}",
+			method = RequestMethod.DELETE)
+	public ResponseEntity<Boolean> deleteSmer(@PathVariable("oznaka") String oznaka){
+		Boolean success = smerService.deleteSmer( oznaka);
+		if (success){
+			return new ResponseEntity<Boolean>(success,HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(success, HttpStatus.NOT_FOUND);
+	}
+	@RequestMapping(value = "api/softveri/{oznaka}",
+			method = RequestMethod.DELETE)
+	public ResponseEntity<Boolean> deleteSoftver(@PathVariable("oznaka") String oznaka){
+		Boolean success = softverService.deleteSoftver( oznaka);
+		if (success){
+			return new ResponseEntity<Boolean>(success,HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(success, HttpStatus.NOT_FOUND);
+	}	
 	@RequestMapping(
 			value = "/api/dodajSoftver",
 			produces = MediaType.APPLICATION_JSON_VALUE,
