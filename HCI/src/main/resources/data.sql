@@ -16,7 +16,6 @@ insert into ucionica(oznaka, opis, broj_mesta, projektor, tabla, pametna_tabla, 
 insert into ucionica(oznaka, opis, broj_mesta, projektor, tabla, pametna_tabla, op_sistem ) values ('L10', 'opis ucionice', '25', true, true, true, 'WINLINUX')
 insert into ucionica(oznaka, opis, broj_mesta, projektor, tabla, pametna_tabla, op_sistem ) values ('L11', 'opis ucionice', '25', true, true, true, 'WINLINUX')
 
-
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('VS15', 'Visual studio', 'Microsoft', 'www.microsoft.com', '2015', 'opis proizvoda', '2000')
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('MTLB13', 'MATLAB R2013', 'MathWorks', 'www.mathworks.com', '2013', 'Matlab softver', '500')
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('PYCH', 'PyCharm 2015', 'JetBrains', 'www.jetbrains.com', '2015', 'Python IDE', '1500')
@@ -33,3 +32,5 @@ insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, ce
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('MTjLB13', 'dhehB R2013', 'MathWorks', 'www.mathworks.com', '2013', 'Matlab softver', '500')
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('PtrYCH', 'xch015', 'JetBrains', 'www.jetbrains.com', '2015', 'Python IDE', '1500')
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('ECsjL', 'chhweon', 'Eclipse Foundation', 'www.eclipse.org', '2017', 'Eclipse IDE', '1700')
+
+insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('HCI', 'VS15')

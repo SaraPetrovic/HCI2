@@ -8,8 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Predmet {
@@ -19,7 +23,7 @@ public class Predmet {
 	String naziv;
 	@Column(nullable = false)
 	String opis;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "smer_oznaka")
 	Smer smer;
 	@Column(nullable = false)
@@ -39,9 +43,24 @@ public class Predmet {
 	String opSistem;
 	//@Enumerated(EnumType.STRING)
 	//OperativniSistem opSistem;
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE )
+	@ManyToMany(fetch = FetchType.EAGER , cascade = {CascadeType.REFRESH})
+	  @JoinTable(
+	            name = "predmet_softver",
+	            
+	            joinColumns = {@JoinColumn(name = "predmet_oznaka")},
+	            inverseJoinColumns = {@JoinColumn(name = "softver_oznaka")}
+	    )
+	@JsonIgnore
 	List<Softver> softveri;
-	
+	@PreRemove
+	private void removeGroupsFromUsers() {
+		if (softveri != null){
+		    //softveri.clear();
+			System.out.println("\n\nUSAO U CLEAR\n\n");
+		}
+
+
+	}
 	public Predmet(String oznaka){
 		this.oznaka = oznaka;
 	}

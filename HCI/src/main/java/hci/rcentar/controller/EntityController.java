@@ -133,6 +133,15 @@ public class EntityController {
 		}
 		return new ResponseEntity<Predmet>(p, HttpStatus.BAD_REQUEST);
 	}
+	@RequestMapping(value = "api/predmeti/{oznaka}",
+					method = RequestMethod.DELETE)
+	public ResponseEntity<Boolean> deletePredmet(@PathVariable("oznaka") String oznaka){
+		Boolean success = predmetService.deletePredmet( oznaka);
+		if (success){
+			return new ResponseEntity<Boolean>(success,HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(success, HttpStatus.NOT_FOUND);
+	}
 	
 	@RequestMapping(
 			value = "/api/dodajSoftver",
