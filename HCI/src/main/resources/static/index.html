@@ -846,7 +846,7 @@ function neuspesnoSwal(poruka){
                 <th>Tabla<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
                 <th>Pametna tabla<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
                 <th>Softver</th>
-                <th>Izbrisi</th>
+                <th>Izbriši</th>
                              
             </tr>
         </thead>
@@ -867,7 +867,7 @@ function neuspesnoSwal(poruka){
                 <th>Tabla</th>
                 <th>Pametna tabla</th>
                 <th>Softver</th>
-                <th>Izbrisi</th>
+                <th>Izbriši</th>
                 
             </tr>
         </tfoot>
@@ -881,7 +881,7 @@ function neuspesnoSwal(poruka){
                 <th>Naziv<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
                 <th>Datum<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
                 <th>Opis<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-   
+   				<th>Izbriši</th>
             </tr>
         </thead>
         <tbody id="tableBodySmerovi">
@@ -893,6 +893,7 @@ function neuspesnoSwal(poruka){
                 <th>Naziv</th>
                 <th>Datum</th>
                 <th>Opis</th>
+                <th>Izbriši</th>
             </tr>
         </tfoot>
     </table>
@@ -910,7 +911,7 @@ function neuspesnoSwal(poruka){
                 <th>Pametna tabla<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
                 <th>Operativni Sistem<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
 				<th>Softver</th>
-				
+				<th>Izbriši</th>
             
              
    
@@ -929,6 +930,7 @@ function neuspesnoSwal(poruka){
                 <th>Pametna tabla</th>
                 <th>Operativni Sistem</th>
                 <th>Softver</th>
+                <th>Izbriši<th>
             </tr>
         </tfoot>
     </table>
@@ -944,7 +946,7 @@ function neuspesnoSwal(poruka){
                 <th>Godina izadavanja<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
                 <th>Opis<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
                 <th>Cena (din)<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-             
+             	<th>Izbriši</th>
    
             </tr>
         </thead>
@@ -960,6 +962,7 @@ function neuspesnoSwal(poruka){
                 <th>Godina izadavanja</th>
                 <th>Opis</th>
                 <th>Cena (din)</th>
+                <th>Izbriši</th>
             </tr>
         </tfoot>
     </table>
@@ -1023,12 +1026,11 @@ $.ajax({
                     tableData += '<td>' + ((predmet.tabla == true) ? 'da' : 'ne') + '</td>';
 
 
-                    $("#tableBodyPredmeti").append(tableData);
                    
                    
                     tableData += '<td>' + ((predmet.pametnaTabla == true) ? 'da' : 'ne') + '</td>';           
                     tableData += '<td>' + softveri + '</td>';
-                    tableData += '<td><button type="button" id="button" onclick="deletePredmet(\'' + predmet.oznaka + '\')" class="btn btn-danger">Izbriši</button></td></tr>';
+                    tableData += '<td><button type="button"  onclick="deletePredmet(\'' + predmet.oznaka + '\')" class="btn btn-danger">Izbriši</button></td></tr>';
 
                     $("#tableBodyPredmeti").append(tableData);               
 
@@ -1056,14 +1058,77 @@ function deletePredmet(oznaka){
 				neuspesnoSwal("Greska prilikom brisanja");
 
 			}
-	                         
-	    
-	             
-
 	    },
 	    processData: false,
 	    type: 'DELETE',
 	    url: '/api/predmeti/'+ oznaka
+	});
+	
+}
+function deleteUcionica(oznaka){
+	$.ajax({
+	    contentType: 'application/json',
+	    dataType: 'json',
+	    success: function(success){
+			if (success){
+				uspesnoSwal("Učionica " + oznaka + " uspesno izbrisana.");
+			}else{
+				neuspesnoSwal("Greska prilikom brisanja");
+
+			}
+	    },
+	    processData: false,
+	    type: 'DELETE',
+	    url: '/api/ucionice/'+ oznaka
+	});
+	
+}
+function deleteSmer(oznaka){
+	$.ajax({
+	    contentType: 'application/json',
+	    dataType: 'json',
+	    success: function(success){
+			if (success){
+				uspesnoSwal("Smer " + oznaka + " uspesno izbrisan.");
+			}else{
+				neuspesnoSwal("Greska prilikom brisanja");
+
+			}
+	    },
+	    error : function(data){
+	    	alert(JSON.stringify(data));
+	    	if (data.status == '500'){
+	    		neuspesnoSwal("Prvo je potrebno izbrisati sve predmete za ovaj smer.");
+	    	}
+	    	
+	    },
+	    processData: false,
+	    type: 'DELETE',
+	    url: '/api/smerovi/'+ oznaka
+	});
+	
+}
+function deleteSoftver(oznaka){
+	$.ajax({
+	    contentType: 'application/json',
+	    dataType: 'json',
+	    success: function(success){
+			if (success){
+				uspesnoSwal("Softver " + oznaka + " uspesno izbrisan.");
+			}else{
+				neuspesnoSwal("Greska prilikom brisanja");
+
+			}
+	    },
+	    error : function(data){
+	    	if (data.status == '500'){
+	    		neuspesnoSwal("Prvo je potrebno izbrisati sve predmete i učionice koje zahtevaju ovaj softver");
+	    	}
+	    	
+	    },
+	    processData: false,
+	    type: 'DELETE',
+	    url: '/api/softveri/'+ oznaka
 	});
 	
 }
@@ -1078,8 +1143,9 @@ $.ajax({
                     tableData += '<td>'+ smer.oznaka +'</td>';
                     tableData += '<td>' + smer.naziv + '</td>';
                     tableData += '<td>' + smer.datum + '</td>';
-                    tableData += '<td>' + smer.opis + '</td></tr>';
- 
+                    tableData += '<td>' + smer.opis + '</td>';
+                    tableData += '<td><button type="button"  onclick="deleteSmer(\'' + smer.oznaka + '\')" class="btn btn-danger">Izbriši</button></td></tr>';
+
                    
                     $("#tableBodySmerovi").append(tableData);
                    
@@ -1122,7 +1188,9 @@ $.ajax({
                     tableData += '<td>' + ((ucionica.tabla == true) ? 'da' : 'ne')  + '</td>';
                     tableData += '<td>' + ((ucionica.pametnaTabla == true) ? 'da' : 'ne')  + '</td>';
                     tableData += '<td>' + ucionica.opSistem + '</td>';
-                    tableData += '<td>' + softveri + '</td></tr>';
+                    tableData += '<td>' + softveri + '</td>';
+                    tableData += '<td><button type="button"  onclick="deleteUcionica(\'' + ucionica.oznaka + '\')" class="btn btn-danger">Izbriši</button></td></tr>';
+
                     $("#tableBodyUcionice").append(tableData);                 
                 });
              
@@ -1149,7 +1217,9 @@ $.ajax({
                     tableData += '<td><a href="http://' + softver.sajt + '">' + softver.sajt + '</a></td>';
                     tableData += '<td>' + softver.godinaIzdavanja + '</td>';
                     tableData += '<td>' + softver.opis + '</td>';
-                    tableData += '<td>' + softver.cena + '</td></tr>';
+                    tableData += '<td>' + softver.cena + '</td>';
+                    tableData += '<td><button type="button"  onclick="deleteSoftver(\'' + softver.oznaka + '\')" class="btn btn-danger">Izbriši</button></td></tr>';
+
                     $("#tableBodySoftveri").append(tableData);
                  
                 });
@@ -1169,9 +1239,7 @@ function dodajEntitet(){
 $(document).ready(function() {
  
 } );
-function promeniIkonicu(){
-	
-}
+
  
 </script>
 </html>

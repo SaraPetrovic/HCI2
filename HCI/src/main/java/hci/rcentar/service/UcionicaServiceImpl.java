@@ -28,5 +28,17 @@ public class UcionicaServiceImpl implements UcionicaService{
 		}
 		return null;
 	}
+	@Override
+	public Boolean deleteUcionica(String oznaka) {
+		// TODO Auto-generated method stub
+		Ucionica u = ucionicaRepository.findOne(oznaka);
+		if (u != null){
+			ucionicaRepository.delete(u);
+			return true;
+		}
+		
+		return false;
+		
+	}
 	
 }
