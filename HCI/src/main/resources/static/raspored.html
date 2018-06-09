@@ -4,22 +4,35 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
 <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <link rel='stylesheet' href='calendar-lib/fullcalendar.css' />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src='moment-lib/moment.min.js'></script>
-  <script src='calendar-lib/fullcalendar.js'></script>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <link rel='stylesheet' href='calendar-lib/fullcalendar.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src='moment-lib/moment.min.js'></script>
+	<script src='calendar-lib/fullcalendar.js'></script>
 	
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.js"></script>
+	<script src="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.js"></script>
+	<link rel="stylesheet" href="tooltips.css"/>
+	
+	<script src="zoomInZoomOut.js"></script>
+	
   <script>
  $.fn.exists = function () {
 	    return this.length !== 0;
 	}
+ 
+ $('[data-toggle="tab"]').tooltip({
+	    trigger: 'hover',
+	    placement: 'bottom',
+	    animate: true,
+	    delay: 500,
+	    container: 'body'
+	});
+ 
 function ucitajKartice() {
 
       // initialize the external events
@@ -74,6 +87,29 @@ $.ajax({
 						liClass = 'class="active"';
 						tabClass = 'class="tab-pane fade in active';
 					}
+					
+					// DODAVANJE TOOLTIP-a !!!
+					var dataToolTip = ' data-toggle="tooltip" data-placement="bottom" title=';
+					var softs = ucionica.softveri;
+	                var temp = "";
+	                if (softs.length > 0) {
+	              	   softs.forEach(function(softver) {
+	              	   	   temp = temp + softver.naziv + ", "; 
+	              	    })       
+	                 }
+	                var softveri = temp.substring(0, temp.length-2);
+					var toolTip = "Broj mesta: " + ucionica.brojMesta + "\n";
+					toolTip += "Operativni sistem: " + ucionica.opSistem + "\n";
+					toolTip += "Projektor: " + (ucionica.projektor ? "da" : "ne") + "\n";
+					toolTip += "Tabla: " + (ucionica.tabla ? "da" : "ne") + "\n";
+					toolTip += "Pametna tabla: " + (ucionica.pametnaTabla ? "da" : "ne") + "\n";
+					toolTip += "Softveri: " + softveri;
+					dataToolTip += '"' + toolTip + '" ';
+					
+					// KRAJ DODAVANJA TOOLTIP-a !!
+					liClass += dataToolTip;
+					
+					
 					var tab = '<li '+ liClass + '><a data-toggle="tab" href="#tab_' + ucionica.oznaka +'">' +ucionica.oznaka +'</a></li>';
 					$("#tabs").append(tab);
 					var podaci = '<div class="podaci"><p>Broj mesta: '+ ucionica.brojMesta + '<br>Operativni sistem: '+ (ucionica.opSistem =="WINLINUX" ? "WINDOWS I LINUX" : ucionica.opSistem) + '<br>Tabla: ' + (ucionica.tabla ? "da" : "ne") + '<br>Pametna tabla: ' + (ucionica.pametnaTabla ? "da" : "ne") + '<br>Projektor: ' + (ucionica.projektor ? "da":"ne") + '</p></div>';
@@ -122,6 +158,9 @@ $.ajax({
     type: 'GET',
     url: '/api/predmeti'
 });
+
+
+
 
 function initTable(id, raspored){
 	var events = [];
@@ -575,7 +614,7 @@ function greska(poruka){
     margin: 0;
     padding: 0;
     font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-    font-size: 14px;
+    font-size: 22px;
   }
 	.podaci{
 	margin-left:50px;
@@ -633,10 +672,7 @@ function greska(poruka){
     	<div id="predmeti">
 
     	</div>
-    <p>
-      <input type='checkbox' id='drop-remove' />
-      <label for='drop-remove'>remove after drop</label>
-    </p>
+    
   </div>
     <h2 style="margin-left:20%;">RASPORED</h2>
   <ul class="nav nav-tabs" id="tabs" style="margin-bottom:20px;margin-left:20%;">
@@ -644,11 +680,17 @@ function greska(poruka){
 
   </ul>
   <div class = "row">
-  <button id="save" onclick="save()" type="button" class="btn btn-success" style="margin-left:45%;">Sačuvaj</button>
-  <button id="loadNew" onclick="ucitajRaspored()" type="button" class="btn btn-success" style="display:inline-block;">Učitaj raspored</button>
-  <a href="index.html">
-  	<button id="entiteti"  type="button" class="btn btn-primary" style="display:inline-block";>Entiteti</button>
-  </a>
+	  <button id="save" onclick="save()" type="button" class="btn btn-success btn-lg" style="margin-left:45%;">Sačuvaj</button>
+	  <button id="loadNew" onclick="ucitajRaspored()" type="button" class="btn btn-success btn-lg" style="display:inline-block;">Učitaj raspored</button>
+	  <a href="index.html">
+	  	<button id="entiteti"  type="button" class="btn btn-primary btn-lg" style="display:inline-block";>Entiteti</button>
+	  </a>
+	  <button id="buttonZoomout" type="button" class="btn btn-default btn-lg" onclick="zoomout()" >
+	    <span class="glyphicon glyphicon-zoom-out"></span> <b>Zoom-out</b>
+	  </button>
+	  <button id="buttonZoomin" type="button" class="btn btn-default btn-lg" onclick="zoomin()">
+	    <span class="glyphicon glyphicon-zoom-in"></span> <b>Zoom-in</b>
+	  </button>
   </div>
    <div  class="tab-content" id="tabsContent">
  		
