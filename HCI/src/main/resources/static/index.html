@@ -10,7 +10,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.9.0/validator.js"></script>
   <script src="dataTable.js" charset="UTF-8"></script>
-  <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js" charset="UTF-8"></script>
+  <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js" ></script>
    
   <script type="text/javascript" src="multiselect-lib/multiselect.js"></script>
   <link rel="stylesheet" href="multiselect-lib/multiselect.css" type="text/css"/>
@@ -18,8 +18,10 @@
   <link href="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.css" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.js"></script>
 
-  <script src="shortcut.js">
+  <script src="zoomInZoomOut.js"></script>
+  
 
+  <script src="shortcut.js">
 	  shortcut.add("f1", function() {
 		 
 		  
@@ -35,7 +37,7 @@
       width: 100%;
       }
     ::placeholder {
-      color: black;
+      color: red;
       opacity: 1; /* Firefox */
    
 	}
@@ -51,8 +53,8 @@
 <div id="main">
 	
  <div class="jumbotron text-center" style="height=70%;">
-   <h2>Dоbrodošli u Računarski Centar</h2>
-   <p>Fakultet tehničkih nauka</p>
+   <h1>Dоbrodošli u Računarski Centar</h1>
+   <p><h2>Fakultet tehničkih nauka</h2></p>
 </div>
  
 <div id="mySidenav" class="sidenav">
@@ -62,9 +64,7 @@
   <a data-toggle="modal" data-target="#smer" href="#">Dodaj smer</a>
   <a data-toggle="modal" data-target="#softver" href="#">Dodaj softver</a>
   <a href="raspored.html">Rasporedi</a>
-  <a id="zoomIn" href="#" onclick="zoomin()">Zoom in</a>
-  <a id="zoomOut" href="#" onclick="zoomout()">Zoom out</a>
-  <a id="pomoc" href="pomoc.html" target="_blank"> Pomoć </a>
+  <a id="pomoc" href="pomoc.html" target="_blank">Pomoć</a>
 </div>
  
 <div class="container">
@@ -196,7 +196,7 @@
                 <div class="row">
                 	
                 	<div class="modal-footer">
-                    	<button id="predmetSubmit" type="submit" class="btn btn-default">Dodaj predmet</button>
+                    	<button id="predmetSubmit" type="submit" class="btn btn-primary btn-lg">Dodaj predmet</button>
                  </div></div>
 
               </form>
@@ -238,10 +238,10 @@
                             <div class="form-group">
                               <label for="brojMesta">Broj mesta: </label>
                               <input type="number" min="1" max="100" class="form-control input-sm" id="brojMesta" data-error="Morate uneti broj mesta" placeholder="Unesite broj mesta u učionici" required>
-                            <div class="help-block with-errors"></div>
-                          </div>
-                        </div></div>
-                        <div class="row">
+                              <div class="help-block with-errors"></div>
+                          	</div>
+                          </div></div>
+                          <div class="row">
                           <div class="col-xs-6 col-sm-6 col-md-6">
                             <div class="form-group">
                               <label for="softveriUcionica">Softveri u učionici: </label>
@@ -250,8 +250,8 @@
                                     <select id="softveri-ucionica" multiple="multiple" class="form-control" data-error="Morate izabrati softver" required>
                                        
                                     </select>
-                                </span>
-                               <div class="help-block with-errors"></div>
+                                  </span>
+                                  <div class="help-block with-errors"></div>
                               </div>
                             </div>
                         </div></div>
@@ -300,7 +300,7 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="modal-footer">
-                              <button id="ucionicaSubmit" type="submit" class="btn btn-default">Dodaj učionicu</button>
+                              <button id="ucionicaSubmit" type="submit" class="btn btn-primary btn-lg">Dodaj učionicu</button>
                         </div></div></div>
                       </form>
                     </div>
@@ -354,7 +354,7 @@
               <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="modal-footer">
-                  <button type="submit" id="smerSubmit" class="btn btn-default">Dodaj smer</button>
+                  <button type="submit" id="smerSubmit" class="btn btn-primary btn-lg">Dodaj smer</button>
               </div></div></div>
           </form>
         </div>
@@ -398,7 +398,7 @@
                   <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <label for="datumSmera">Godina izdavanja:</label>
-                        <input type="number" min="1950" max="2019" class="form-control" id="datumIzdavanja"  data-error="Morate uneti godinu izdavanja softvera (>1950)" placeholder="Unesite godinu kada je softver izdat" required>
+                        <input type="number" min="1950" max="2019" class="form-control" id="datumIzdavanja"  data-error="Morate uneti godinu izdavanja softvera (od 1950.)" placeholder="Unesite godinu kada je softver izdat" required>
                         <div class="help-block with-errors"></div>
                     </div>
                   </div>
@@ -435,7 +435,7 @@
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12">
                   <div class="modal-footer">
-                    <button type="submit" id="softverSubmit" class="btn btn-default">Dodaj softver</button>
+                    <button type="submit" id="softverSubmit" class="btn btn-primary btn-lg">Dodaj softver</button>
               </div></div></div>
           </form>
         </div>
@@ -782,51 +782,21 @@ function neuspesnoSwal(poruka){
 </script>
  
  
-<!-- ZOOM IN & ZOOM OUT -->
-<script>
- 
-     var currFFZoom = 1;
-     var currIEZoom = 100;
-     function zoomin(){
-          if (navigator.userAgent.indexOf('Firefox') != -1 && parseFloat(navigator.userAgent.substring(navigator.userAgent.indexOf('Firefox') + 8)) >= 3.6){//Firefox
-              var step = 0.02;
-              currFFZoom += step;
-              $('body').css('MozTransform','scale(' + currFFZoom + ')');
-          } else {
-              var step = 2;
-              currIEZoom += step;
-              $('body').css('zoom', ' ' + currIEZoom + '%');
-          }
-      }
-     
-      function zoomout(){
-          if (navigator.userAgent.indexOf('Firefox') != -1 && parseFloat(navigator.userAgent.substring(navigator.userAgent.indexOf('Firefox') + 8)) >= 3.6){//Firefox
-              var step = 0.02;
-              currFFZoom -= step;                
-              $('body').css('MozTransform','scale(' + currFFZoom + ')');
-     
-          } else {
-              var step = 2;
-              currIEZoom -= step;
-              $('body').css('zoom', ' ' + currIEZoom + '%');
-          }
-      }
- 
-</script>
+
  
  
 <!-- Nav meni --> 
 <div class="container">
 
 	<div class="row">
-	    <span id="meniBtn" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Meni</span> 
+	    <span id="meniBtn" style="font-size:45px;cursor:pointer" onclick="openNav()">&#9776; Meni</span> 
 		<div style="font-size:30px;margin-right:0px;margin-left: 62%;">
 			
-		    <button id="buttonZoomout" type="button" class="btn btn-default btn-sm" onclick="zoomout()" >
-		      <span class="glyphicon glyphicon-zoom-out"></span> Zoom-out
+		    <button id="buttonZoomout" type="button" class="btn btn-default btn-lg" onclick="zoomout()" >
+		      <span class="glyphicon glyphicon-zoom-out"></span> <b>Zoom-out</b>
 		    </button>
-		    <button id="buttonZoomin" type="button" class="btn btn-default btn-sm" onclick="zoomin()">
-		      <span class="glyphicon glyphicon-zoom-in"></span> Zoom-in
+		    <button id="buttonZoomin" type="button" class="btn btn-default btn-lg" onclick="zoomin()">
+		      <span class="glyphicon glyphicon-zoom-in"></span> <b>Zoom-in</b>
 		    </button>
 		</div>
   </div>
@@ -834,7 +804,7 @@ function neuspesnoSwal(poruka){
 <!-- Container entiteti --> 
 <div class="container"style="margin-top:5%;;margin-bottom:100px">
  
-  <h2>Entiteti</h2>
+  <h2><b>Entiteti</b></h2>
   <ul class="nav nav-tabs" style="margin-bottom:20px;">
     <li class="active"><a data-toggle="tab" href="#home">Predmeti</a></li>
     <li><a data-toggle="tab" href="#menu1">Smerovi</a></li>

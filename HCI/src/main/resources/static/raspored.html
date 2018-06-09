@@ -4,19 +4,22 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
 <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <link rel='stylesheet' href='calendar-lib/fullcalendar.css' />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src='moment-lib/moment.min.js'></script>
-  <script src='calendar-lib/fullcalendar.js'></script>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <link rel='stylesheet' href='calendar-lib/fullcalendar.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src='moment-lib/moment.min.js'></script>
+	<script src='calendar-lib/fullcalendar.js'></script>
 	
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.js"></script>
+	<script src="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.js"></script>
 	<link rel="stylesheet" href="tooltips.css"/>
+	
+	<script src="zoomInZoomOut.js"></script>
+	
   <script>
  $.fn.exists = function () {
 	    return this.length !== 0;
@@ -611,7 +614,7 @@ function greska(poruka){
     margin: 0;
     padding: 0;
     font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-    font-size: 14px;
+    font-size: 22px;
   }
 	.podaci{
 	margin-left:50px;
@@ -677,11 +680,17 @@ function greska(poruka){
 
   </ul>
   <div class = "row">
-  <button id="save" onclick="save()" type="button" class="btn btn-success" style="margin-left:45%;">Sačuvaj</button>
-  <button id="loadNew" onclick="ucitajRaspored()" type="button" class="btn btn-success" style="display:inline-block;">Učitaj raspored</button>
-  <a href="index.html">
-  	<button id="entiteti"  type="button" class="btn btn-primary" style="display:inline-block";>Entiteti</button>
-  </a>
+	  <button id="save" onclick="save()" type="button" class="btn btn-success btn-lg" style="margin-left:45%;">Sačuvaj</button>
+	  <button id="loadNew" onclick="ucitajRaspored()" type="button" class="btn btn-success btn-lg" style="display:inline-block;">Učitaj raspored</button>
+	  <a href="index.html">
+	  	<button id="entiteti"  type="button" class="btn btn-primary btn-lg" style="display:inline-block";>Entiteti</button>
+	  </a>
+	  <button id="buttonZoomout" type="button" class="btn btn-default btn-lg" onclick="zoomout()" >
+	    <span class="glyphicon glyphicon-zoom-out"></span> <b>Zoom-out</b>
+	  </button>
+	  <button id="buttonZoomin" type="button" class="btn btn-default btn-lg" onclick="zoomin()">
+	    <span class="glyphicon glyphicon-zoom-in"></span> <b>Zoom-in</b>
+	  </button>
   </div>
    <div  class="tab-content" id="tabsContent">
  		
