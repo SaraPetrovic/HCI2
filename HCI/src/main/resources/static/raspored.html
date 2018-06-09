@@ -33,6 +33,26 @@
 	    container: 'body'
 	});
  
+ document.onkeydown = function(e) {
+	  var key = e.which || e.keyCode;
+	  // CTRL + s     - save
+	  if (key == 83 && e.ctrlKey) {
+		  e.preventDefault();
+	    save();
+	    // CTRL + u   - ucitaj
+	  } else if (key == 85 && e.ctrlKey) {
+		  ucitajRaspored();
+		// F2 help
+	  } else if (key == 113) {
+		  var win = window.open('pomoc.html', '_blank');
+		  win.focus();
+		  // ctrl + E
+	  } else if (key == 69 && e.ctrlKey) {
+		  e.preventDefault();
+		  window.location.replace('index.html');
+	  }
+}
+ 
 function ucitajKartice() {
 
       // initialize the external events
