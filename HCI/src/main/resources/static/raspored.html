@@ -147,12 +147,13 @@ $.ajax({
 					liClass = '';
 					
 				});
-			  	tabeleOznake.forEach(function(oznaka){
-			  		initTable(oznaka, []);
-			  		if (oznaka != "L1"){
-			  			//$("#tab_" + oznaka).css("display", "none");
-			  		}
-			  	});
+			  	initTable(tabeleOznake[0], []);
+				$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+					  var target = $(e.target).attr("href") // activated tab
+					  
+					  initTable((target.split("_"))[1], []);
+					  //alert(target);
+				});
 			  	$('.fc-axis').each(function(){
 					//ispravlja bag u kaledaru
 					($(this)).css('width' , '56px');
