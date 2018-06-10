@@ -25,6 +25,7 @@
 	    return this.length !== 0;
 	}
  
+ 
  $('[data-toggle="tab"]').tooltip({
 	    trigger: 'hover',
 	    placement: 'bottom',
@@ -33,6 +34,7 @@
 	    container: 'body'
 	});
  
+ // SHORTCUTS
  document.onkeydown = function(e) {
 	  var key = e.which || e.keyCode;
 	  // CTRL + s     - save
@@ -52,6 +54,7 @@
 		  window.location.replace('index.html');
 	  }
 }
+ 
  
 function ucitajKartice() {
 
@@ -292,6 +295,23 @@ function initTable(id, raspored){
 	  		}
 	  		if (ucionica.opSistem != "WINLINUX" && predmet.opSistem != ucionica.opSistem) {
 	  			greska("Učionica nema potreban operativni sistem!");
+	  			allowed = false;
+	  		}
+	  		
+	  		// softveri
+	  		var ucionice_sID = ucionica.softveri.map(function(obj) { 
+  				return obj.oznaka; 
+			});
+	  		var predmet_sID = predmet.softveri.map(function(obj) {
+	  			return obj.oznaka;
+	  		});
+	  		
+	  		var isSuperset = predmet_sID.every(function(val) {
+	  			return ucionice_sID.indexOf(val) >= 0;
+	  		});
+	  		
+	  		if (isSuperset == false) {
+	  			greska("Učionica ne poseduje potreban softver!");
 	  			allowed = false;
 	  		}
 	  		
