@@ -83,7 +83,7 @@ function ucitajKartice() {
 };
     
 $( document ).ready(function() {
-	
+
 
 	
 });
@@ -547,6 +547,9 @@ function ucitajRaspored(){
 						    contentType: 'application/json',
 						    dataType: 'json',
 						    success: function(rasporedUcitan){
+						    	$("#predmeti").empty();
+								$("#tabsContent").empty();
+								$("#tabs").empty();
 									raspored = rasporedUcitan;
 									//POREDJAJ kartice levo
 									raspored.kartice.forEach(function(kartica){
@@ -562,9 +565,7 @@ function ucitajRaspored(){
 						    type: 'GET',
 						    url: '/api/raspored/' + result
 						});
-						$("#predmeti").empty();
-						$("#tabsContent").empty();
-						$("#tabs").empty();
+					
 						
 						
 
@@ -577,14 +578,15 @@ function ucitajRaspored(){
 									  		var liClass = '';
 									  		var tab = '';
 									  		var tabContent = '';
-									  		var tabClass = 'class="tab-pane fade in"';
+									  		var tabClass = 'class="tab-pane fade"';
 											if (i == 0){
 												liClass = 'class="active"';
-												tabClass = 'class="tab-pane fade in active';
+												tabClass = 'class="tab-pane fade in active"';
 											}
 											var tab = '<li '+ liClass + '><a data-toggle="tab" href="#tab_' + ucionica.oznaka +'">' +ucionica.oznaka +'</a></li>';
 											$("#tabs").append(tab);
-											var tabContent = '<div id="tab_' + ucionica.oznaka +'" class="tab-pane fade in active"><div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div></div>';
+											var podaci = '<div class="podaci"><p>Broj mesta: <span class="opisUcionice">'+ ucionica.brojMesta + '</span><br>Operativni sistem: <span class="opisUcionice">'+ (ucionica.opSistem =="WINLINUX" ? "WINDOWS I LINUX" : ucionica.opSistem) + '</span><br>Tabla: <span class="opisUcionice">' + (ucionica.tabla ? "da" : "ne") + '</span><br>Pametna tabla: <span class="opisUcionice">' + (ucionica.pametnaTabla ? "da" : "ne") + '</span><br>Projektor: <span class="opisUcionice">' + (ucionica.projektor ? "da":"ne") + '</span></p></div>';
+											var tabContent =  '<div  id="tab_' + ucionica.oznaka +'" '+ tabClass +'><div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div>'+podaci+'</div>';
 											$("#tabsContent").append(tabContent);
 											i++;
 										
@@ -596,10 +598,24 @@ function ucitajRaspored(){
 											liClass = '';
 											
 										});
-									  	tabeleOznake.forEach(function(oznaka){
+									  	initTable(tabeleOznake[0], raspored);
+										$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+											  var target = $(e.target).attr("href") // activated tab
+											  
+											  initTable((target.split("_"))[1], raspored);
+											  //alert(target);
+										});
+									  	//tabeleOznake.forEach(function(oznaka){
 									  		
-									  		initTable(oznaka, raspored);
-									  	});
+									  		//initTable(oznaka, raspored);
+									  	//});
+									  	$('.fc-axis').each(function(){
+											//ispravlja bag u kaledaru
+											($(this)).css('width' , '56px');
+
+									  	 });
+									  	$("#calendar_L4").fullCalendar('render');
+									  	
 									  	
 									  			  
 						    },
@@ -627,6 +643,7 @@ function ucitajRaspored(){
 	
 	
 }
+
 function greska(poruka){
 	swal({
 		  type: 'error',
