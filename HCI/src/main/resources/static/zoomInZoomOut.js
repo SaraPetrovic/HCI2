@@ -24,3 +24,11 @@
 	          $('body').css('zoom', ' ' + currIEZoom + '%');
 	      }
 	  }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  

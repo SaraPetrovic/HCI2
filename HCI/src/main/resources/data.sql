@@ -19,8 +19,6 @@ insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, ce
 insert into softver(oznaka, naziv, proizvodjac, sajt, godina_izdavanja, opis, cena) values ('asd', 'Eclipse Neon', 'Eclipse Foundation', 'www.eclipse.org', '2017', 'Eclipse IDE', '1700')
 
 insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('HCI', 'VS15')
-
-insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('HCI', 'VS15')
 insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('ISA', 'ECL')
 insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('MRS', 'ECL')
 insert into predmet_softver(predmet_oznaka, softver_oznaka) values ('MRS', 'PYCH')

@@ -20,14 +20,6 @@
 
   <script src="zoomInZoomOut.js"></script>
   
-
-  <script src="shortcut.js">
-	  shortcut.add("f1", function() {
-		 
-		  
-	  });   
-
-  </script>
  
   <style>
     table span{
@@ -104,7 +96,7 @@
                   <div class="col-xs-12 col-sm-12 col-md-12">
                   <div class="form-group">
                     <b>Izaberite smer</b>
-                    <select class="form-control" id="smerSelect">
+                    <select class="form-control" id="smerSelect" required>
                         <option value=""></option>
                     </select>
                 </div></div></div>
@@ -467,6 +459,33 @@
     
     
 </script>
+
+<script>
+document.onkeydown = function(e) {
+	  var key = e.which || e.keyCode;
+	  // CTRL + Q  
+	  if (key == 81 && e.ctrlKey) {
+	    $("#predmet").modal('toggle');
+	    // CTRL + W
+	  } else if (key == 87 && e.ctrlKey) {
+		  $("#ucionica").modal('toggle');
+		  // CTRL + E
+	  } else if (key == 69 && e.ctrlKey) {
+		  $("#smer").modal('toggle');
+		  // CTRL + R
+	  } else if (key == 82 && e.ctrlKey) {
+		  $("#softver").modal('toggle');
+		  // F2
+	  } else if (key == 113) {
+		  var win = window.open('pomoc.html', '_blank');
+		  win.focus();
+	  } else if (key == 89 && e.ctrlKey) {
+		  e.preventDefault();
+		  window.location.replace('/raspored.html');
+	  }
+}
+</script>
+
  
  
 <script>
