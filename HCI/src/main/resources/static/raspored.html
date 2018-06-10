@@ -82,11 +82,13 @@ $.ajax({
 			  		var liClass = '';
 			  		var tab = '';
 			  		var tabContent = '';
-			  		var tabClass = 'class="tab-pane fade in"';
+			  		var tabClass = 'class="tab-pane fade"';
 					if (i == 0){
 						liClass = 'class="active"';
-						tabClass = 'class="tab-pane fade in active';
+						tabClass = 'class="tab-pane fade in active"';
+						
 					}
+					i++;
 					
 					// DODAVANJE TOOLTIP-a !!!
 					var dataToolTip = ' data-toggle="tooltip" data-placement="bottom" title=';
@@ -112,8 +114,8 @@ $.ajax({
 					
 					var tab = '<li '+ liClass + '><a data-toggle="tab" href="#tab_' + ucionica.oznaka +'">' +ucionica.oznaka +'</a></li>';
 					$("#tabs").append(tab);
-					var podaci = '<div class="podaci"><p>Broj mesta: '+ ucionica.brojMesta + '<br>Operativni sistem: '+ (ucionica.opSistem =="WINLINUX" ? "WINDOWS I LINUX" : ucionica.opSistem) + '<br>Tabla: ' + (ucionica.tabla ? "da" : "ne") + '<br>Pametna tabla: ' + (ucionica.pametnaTabla ? "da" : "ne") + '<br>Projektor: ' + (ucionica.projektor ? "da":"ne") + '</p></div>';
-					var tabContent = '<div  id="tab_' + ucionica.oznaka +'" class="tab-pane fade in active">'+podaci+'<div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div></div>';
+					var podaci = '<div class="podaci"><p>Broj mesta: <span class="opisUcionice">'+ ucionica.brojMesta + '</span><br>Operativni sistem: <span class="opisUcionice">'+ (ucionica.opSistem =="WINLINUX" ? "WINDOWS I LINUX" : ucionica.opSistem) + '</span><br>Tabla: <span class="opisUcionice">' + (ucionica.tabla ? "da" : "ne") + '</span><br>Pametna tabla: <span class="opisUcionice">' + (ucionica.pametnaTabla ? "da" : "ne") + '</span><br>Projektor: <span class="opisUcionice">' + (ucionica.projektor ? "da":"ne") + '</span></p></div>';
+					var tabContent =  '<div  id="tab_' + ucionica.oznaka +'" '+ tabClass +'><div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div>'+podaci+'</div>';
 					$("#tabsContent").append(tabContent);
 					i++;
 					
@@ -131,6 +133,11 @@ $.ajax({
 			  			//$("#tab_" + oznaka).css("display", "none");
 			  		}
 			  	});
+			  	$('.fc-axis').each(function(){
+					//ispravlja bag u kaledaru
+					($(this)).css('width' , '56px');
+
+			  	 });
 			  	tabeleOznake = [];
 			  
     },
@@ -530,6 +537,7 @@ function ucitajRaspored(){
 									ucitajKartice();
 										
 						    },
+						    async : false,
 						    processData: false,
 						    type: 'GET',
 						    url: '/api/raspored/' + result
@@ -617,9 +625,14 @@ function greska(poruka){
     font-size: 22px;
   }
 	.podaci{
-	margin-left:50px;
-	float:right;
+	
+	margin-top:50px;
+	margin-left:300px;
+	right:20px;
 	display:inline;
+	
+	word-wrap: break-word;
+	
 	}
     #external-events {
       position: fixed;
@@ -640,12 +653,20 @@ function greska(poruka){
     #calendar-container {
       position: relative;
       z-index: 1;
-      margin-left: 200px;
+      margin-left: 500px;
+      
     }
 
     .calendarCss {
       max-width: 900px;
       margin: 20px auto;
+      margin-left: 300px ;
+      margin-right:20px;
+      float:left;
+      
+    }
+    .opisUcionice{
+    	color:#428bca;
     }
 	#calendar1 {
       max-width: 900px;
@@ -680,7 +701,7 @@ function greska(poruka){
 
   </ul>
   <div class = "row">
-	  <button id="save" onclick="save()" type="button" class="btn btn-success btn-lg" style="margin-left:45%;">Sačuvaj</button>
+	  <button id="save" onclick="save()" type="button" class="btn btn-success btn-lg" style="margin-left:30%;">Sačuvaj</button>
 	  <button id="loadNew" onclick="ucitajRaspored()" type="button" class="btn btn-success btn-lg" style="display:inline-block;">Učitaj raspored</button>
 	  <a href="index.html">
 	  	<button id="entiteti"  type="button" class="btn btn-primary btn-lg" style="display:inline-block";>Entiteti</button>
