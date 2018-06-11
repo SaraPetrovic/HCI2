@@ -70,13 +70,23 @@ function ucitajKartice() {
          duration : $(this).attr("duration"),
 		  // use the element's text as the event title
           stick: true, // maintain when user navigates (see docs on the renderEvent method)
-         brojTermina : $(this).attr("brojTermina")
+         brojTermina : $(this).attr("brojTermina"),
+         smer: $(this).attr("smer"),
+         pametnaTabla: $(this).attr("pametnaTabla"),
+         projektor: $(this).attr("projektor"),
+         tabla: $(this).attr("tabla"),
+         softveri: $(this).attr("softveri"),
+         naziv: $(this).attr("naziv"),
+         opSistem: $(this).attr("opSistem"),
+         brojMesta: $(this).attr("brojMesta")
         });
 
         // make the event draggable using jQuery UI
         $(this).draggable({
+          scroll: false,
           zIndex: 999,
 		  containment: ".fc-agenda-body table",
+		  //appendTo: 'body',
 
           revert: true,      // will cause the event to go back to its
           revertDuration: 0  //  original position after the drag
@@ -180,7 +190,32 @@ $.ajax({
 				  predmetiGlobal.push(predmet);
 				    var hours = Math.floor( (predmet.duzinaTermina * 45) / 60);          
 				    var minutes = (predmet.duzinaTermina*45) % 60;
-				    var kartica = '<div id="kartica_'+ predmet.oznaka +'" class="fc-event" duration="' +hours + ':' + minutes +'" brojTermina="'+ predmet.brojTermina +'">' + predmet.oznaka + " [" + predmet.brojTermina + "]" + '</div>';					$("#predmeti").append(kartica);			
+				    var softs = predmet.softveri;
+	                var temp = "";
+	                if (softs.length > 0) {
+	              	   softs.forEach(function(softver) {
+	              	   	   temp = temp + softver.naziv + ", "; 
+	              	    })       
+	                 }
+	                var softveri = temp.substring(0, temp.length-2);
+	                
+				    var kartica = '<div id="kartica_'+ predmet.oznaka +'" class="fc-event" duration="' +hours + ':' + minutes +'" brojTermina="'+ predmet.brojTermina +'" smer="' + predmet.smer.oznaka + '" projektor="' + predmet.projektor + '" tabla="' + predmet.tabla + '" pametnaTabla="' + predmet.pametnaTabla + '" opSistem="' + predmet.opSistem + '" naziv="' + predmet.naziv + '" softveri="' + softveri + '" brojMesta="' + predmet.velicinaGrupe + '">'  + '</div>';		
+				    var id = "#kartica_" + predmet.oznaka;
+				    $("#predmeti").append(kartica);
+				    var tx = predmet.oznaka + " [" + predmet.brojTermina + "]\n";
+				    
+				    tx += predmet.naziv + "\n";
+				    tx += "Broj termina: " + predmet.brojTermina + "\n";
+				    tx += "Smer: " + predmet.smer.oznaka + "\n";
+				    tx += "Broj mesta: " + predmet.velicinaGrupe + "\n";
+				    tx += "OS: " + predmet.opSistem + "\n";
+				    tx += "Pametna tabla: " + (predmet.pametnaTabla ? "da" : "ne") + "\n";
+				    tx += "Tabla: " + (predmet.tabla ? "da" : "ne") + "\n";
+				    tx += "Projektor: " + (predmet.projektor? "da" : "ne") + "\n";
+				    tx += "Softver: " + softveri + "\n";
+				    var obj = $(id).text(tx);
+				    obj.html(obj.html().replace(/\n/g,'<br/>'));
+				    			
 				});
 			  ucitajKartice();
 	
@@ -327,16 +362,38 @@ function initTable(id, raspored){
         if (brTermina < 1) {
       	  $(this).remove();
         }
-        $(this).text($(this).text().split(" ")[0] + " [" + brTermina + "]");
         
         $(this).attr("brojTermina", brTermina);
-		  
+        
+        var tx = $(this).text().split(" ")[0] + " [" + brTermina + "]";
+        $(this).text($(this).text().split(" ")[0] + " [" + brTermina + "]");
+        tx += "\n" + $(this).attr("naziv") + "\n";
+        tx += "Broj termina: " + $(this).attr("brojTermina") + "\n";
+        //tx += "Naziv: " + $(this).attr("naziv") + "\n";
+        tx += "Smer: " + $(this).attr("smer") + "\n";
+        tx += "Broj mesta: " + $(this).attr("brojMesta") + "\n";
+	    tx += "OS: " + $(this).attr("opSistem") + "\n";
+	    tx += "Pametna tabla: " + ($(this).attr("pametnaTabla") ? "da" : "ne") + "\n";
+	    tx += "Tabla: " + ($(this).attr("tabla") ? "da" : "ne") + "\n";
+	    tx += "Projektor: " + ($(this).attr("projektor") ? "da" : "ne") + "\n";
+	    tx += "Softver: " + $(this).attr("softveri") + "\n";
+	    var obj = $(this).text(tx);
+	    obj.html(obj.html().replace(/\n/g,'<br/>'));
+        
+        
+		 
+        // ovo ne treba vise
         if ($('#drop-remove').is(':checked')) {
           // if so, remove the element from the "Draggable Events" list
 
           $(this).remove();
         }
     },
+    
+    eventRender: function(event, element) { 
+        element.find('.fc-title').append("<br/>" + event.naziv  + "<br/>" + "Smer: " + event.smer); 
+    }, 
+    
 	eventDrop: function(event, delta, revertFunc) {
         //inner column movement drop so get start and call the ajax function......
 		//alert(moment("07:00", "HH:mm"));
@@ -390,7 +447,21 @@ function initTable(id, raspored){
     			var brTermina = parseInt(kartica.attr("brojTermina"));
     			brTermina++;
     			kartica.attr("brojTermina", brTermina);
-    			kartica.text(kartica.text().split(" ")[0] + " [" + brTermina + "]");
+    			
+    			var tx = kartica.text().split(" ")[0] + " [" + brTermina + "]";
+    		    
+    			tx += "\n" + kartica.attr("naziv") + "\n";
+   		        tx += "Broj termina: " + kartica.attr("brojTermina") + "\n";
+   		        //tx += "Naziv: " + kartica.attr("naziv") + "\n";
+   		        tx += "Smer: " + kartica.attr("smer") + "\n"; 
+   		        tx += "Broj mesta: " + kartica.attr("brojMesta") + "\n";
+   			    tx += "OS: " + kartica.attr("opSistem") + "\n";
+   			    tx += "Pametna tabla: " + (kartica.attr("pametnaTabla") ? "da" : "ne") + "\n";
+   			    tx += "Tabla: " + (kartica.attr("tabla") ? "da" : "ne") + "\n";
+   			    tx += "Projektor: " + (kartica.attr("projektor") ? "da" : "ne") + "\n";
+   			    tx += "Softver: " + kartica.attr("softveri") + "\n";
+   			    var obj = kartica.text(tx);
+   			    obj.html(obj.html().replace(/\n/g,'<br/>'));
             }
             else {
             	
@@ -400,18 +471,40 @@ function initTable(id, raspored){
             	//alert(momentDuration);
 				var hours = momentDuration.hours();
 				var minutes = momentDuration.minutes();
-            	var el2 = $('<div id="kartica_'+ event.title +'" class="fc-event" duration="' + hours + ':' + minutes +'" brojTermina="1">' + event.title + ' [1]' + '</div>').appendTo("#predmeti");
-					//alert(el2.attr("duration"));
+				var tx = event.title + " [1]\n";
+				tx += event.naziv + "\n";
+				tx += "Broj termina: 1\n";
+				tx += "Smer: " + event.smer + "\n";
+				tx += "Broj mesta: " + event.brojMesta + "\n";
+				tx += "OS: " + event.opSistem + "\n";
+				tx += "Pametna tabla: " + (event.pametnaTabla ? "da" : "ne") + "\n";
+				tx += "Tabla: " + (event.tabla ? "da" : "ne") + "\n";
+				tx += "Projektor: " + (event.projektor ? "da" : "ne") + "\n";
+				tx += "Softver: " + event.softveri + "\n";
+				
+            	var el2 = $('<div id="kartica_'+ event.title +'" class="fc-event" duration="' + hours + ':' + minutes +'" brojTermina="1" opSistem="' + event.opSistem + '" naziv="' + event.naziv + '" projektor="' + event.projektor + '" pametnaTabla="' + event.pametnaTabla + '" tabla="' + event.tabla + '" softveri="' + event.softveri + '" smer="' + event.smer + '" brojMesta="' + event.brojMesta + '">' + event.title + ' [1]' + '</div>').appendTo("#predmeti");
+				var imeKartice = "#kartica_" + event.title;
+				var k = $(imeKartice).text(tx);
+				k.html(k.html().replace(/\n/g, '<br/>'));
             	el2.data('event', {
                     title: event.title,
                     //id: event.id,
           		  	duration: el2.attr("duration"),       		 	
           		  	brojTermina: el2.attr("brojTermina"),
-                    stick: true // maintain when user navigates (see docs on the renderEvent method)
+                    stick: true, // maintain when user navigates (see docs on the renderEvent method)
+            		opSistem: el2.attr("opSistem"),
+            		naziv: el2.attr("naziv"),
+            		projektor: el2.attr("projektor"),
+            		pametnaTabla: el2.attr("pametnaTabla"),
+            		tabla: el2.attr("tabla"),
+            		softveri: el2.attr("softveri"),
+            		smer: el2.attr("smer"),
+            		brojMesta: el2.attr("brojMesta")
                   });
             	el2.draggable({
             		zIndex: 999,
             		containment: ".fc-agenda-body table",
+            		scroll: false,
             		revert: true,
             		revetDuration: 0
             	});
@@ -697,10 +790,15 @@ function greska(poruka){
       z-index: 2;
       top: 20px;
       left: 20px;
+      height: 90vh;
       width: 150px;
+      max-width: 150px;
       padding: 0 10px;
       border: 1px solid #ccc;
       background: #eee;
+      overflow-y: auto;
+      overflow-x: hidden;
+      
     }
 
     #external-events .fc-event {
