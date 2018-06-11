@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
 <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <title>Bootstrap Example</title>
+    <title>Raspored</title>
     <meta charset="utf-8">
     <link rel='stylesheet' href='calendar-lib/fullcalendar.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -199,21 +199,25 @@ $.ajax({
 	                 }
 	                var softveri = temp.substring(0, temp.length-2);
 	                
-				    var kartica = '<div id="kartica_'+ predmet.oznaka +'" class="fc-event" duration="' +hours + ':' + minutes +'" brojTermina="'+ predmet.brojTermina +'" smer="' + predmet.smer.oznaka + '" projektor="' + predmet.projektor + '" tabla="' + predmet.tabla + '" pametnaTabla="' + predmet.pametnaTabla + '" opSistem="' + predmet.opSistem + '" naziv="' + predmet.naziv + '" softveri="' + softveri + '" brojMesta="' + predmet.velicinaGrupe + '">'  + '</div>';		
+				    var kartica = '<div data-toggle="tooltip" data-placement="bottom" title="" id="kartica_'+ predmet.oznaka +'" class="fc-event" duration="' +hours + ':' + minutes +'" brojTermina="'+ predmet.brojTermina +'" smer="' + predmet.smer.oznaka + '" projektor="' + predmet.projektor + '" tabla="' + predmet.tabla + '" pametnaTabla="' + predmet.pametnaTabla + '" opSistem="' + predmet.opSistem + '" naziv="' + predmet.naziv + '" softveri="' + softveri + '" brojMesta="' + predmet.velicinaGrupe + '">'  + '</div>';		
 				    var id = "#kartica_" + predmet.oznaka;
 				    $("#predmeti").append(kartica);
+				    // ova dole sa uglastim ipak ne treba
 				    var tx = predmet.oznaka + " [" + predmet.brojTermina + "]\n";
-				    
+				    tx = predmet.oznaka + " " + "\n";
 				    tx += predmet.naziv + "\n";
 				    tx += "Broj termina: " + predmet.brojTermina + "\n";
 				    tx += "Smer: " + predmet.smer.oznaka + "\n";
-				    tx += "Broj mesta: " + predmet.velicinaGrupe + "\n";
-				    tx += "OS: " + predmet.opSistem + "\n";
-				    tx += "Pametna tabla: " + (predmet.pametnaTabla ? "da" : "ne") + "\n";
-				    tx += "Tabla: " + (predmet.tabla ? "da" : "ne") + "\n";
-				    tx += "Projektor: " + (predmet.projektor? "da" : "ne") + "\n";
-				    tx += "Softver: " + softveri + "\n";
+				    
+				    var tip = "";
+				    tip += "Broj mesta: " + predmet.velicinaGrupe + "\n";
+				    tip += "OS: " + predmet.opSistem + "\n";
+				    tip += "Pametna tabla: " + (predmet.pametnaTabla ? "da" : "ne") + "\n";
+				    tip += "Tabla: " + (predmet.tabla ? "da" : "ne") + "\n";
+				    tip += "Projektor: " + (predmet.projektor? "da" : "ne") + "\n";
+				    tip += "Softver: " + softveri + "\n";
 				    var obj = $(id).text(tx);
+				    obj.attr("title", tip);
 				    obj.html(obj.html().replace(/\n/g,'<br/>'));
 				    			
 				});
@@ -366,17 +370,20 @@ function initTable(id, raspored){
         $(this).attr("brojTermina", brTermina);
         
         var tx = $(this).text().split(" ")[0] + " [" + brTermina + "]";
+        
         $(this).text($(this).text().split(" ")[0] + " [" + brTermina + "]");
+        tx = $(this).text().split(" ")[0] + " ";
         tx += "\n" + $(this).attr("naziv") + "\n";
         tx += "Broj termina: " + $(this).attr("brojTermina") + "\n";
         //tx += "Naziv: " + $(this).attr("naziv") + "\n";
         tx += "Smer: " + $(this).attr("smer") + "\n";
-        tx += "Broj mesta: " + $(this).attr("brojMesta") + "\n";
-	    tx += "OS: " + $(this).attr("opSistem") + "\n";
-	    tx += "Pametna tabla: " + ($(this).attr("pametnaTabla") ? "da" : "ne") + "\n";
-	    tx += "Tabla: " + ($(this).attr("tabla") ? "da" : "ne") + "\n";
-	    tx += "Projektor: " + ($(this).attr("projektor") ? "da" : "ne") + "\n";
-	    tx += "Softver: " + $(this).attr("softveri") + "\n";
+        
+        //tx += "Broj mesta: " + $(this).attr("brojMesta") + "\n";
+	    //tx += "OS: " + $(this).attr("opSistem") + "\n";
+	    //tx += "Pametna tabla: " + ($(this).attr("pametnaTabla") ? "da" : "ne") + "\n";
+	    //tx += "Tabla: " + ($(this).attr("tabla") ? "da" : "ne") + "\n";
+	    //tx += "Projektor: " + ($(this).attr("projektor") ? "da" : "ne") + "\n";
+	    //tx += "Softver: " + $(this).attr("softveri") + "\n";
 	    var obj = $(this).text(tx);
 	    obj.html(obj.html().replace(/\n/g,'<br/>'));
         
@@ -449,17 +456,17 @@ function initTable(id, raspored){
     			kartica.attr("brojTermina", brTermina);
     			
     			var tx = kartica.text().split(" ")[0] + " [" + brTermina + "]";
-    		    
+    		    tx = kartica.text().split(" ")[0] + " ";
     			tx += "\n" + kartica.attr("naziv") + "\n";
    		        tx += "Broj termina: " + kartica.attr("brojTermina") + "\n";
    		        //tx += "Naziv: " + kartica.attr("naziv") + "\n";
    		        tx += "Smer: " + kartica.attr("smer") + "\n"; 
-   		        tx += "Broj mesta: " + kartica.attr("brojMesta") + "\n";
-   			    tx += "OS: " + kartica.attr("opSistem") + "\n";
-   			    tx += "Pametna tabla: " + (kartica.attr("pametnaTabla") ? "da" : "ne") + "\n";
-   			    tx += "Tabla: " + (kartica.attr("tabla") ? "da" : "ne") + "\n";
-   			    tx += "Projektor: " + (kartica.attr("projektor") ? "da" : "ne") + "\n";
-   			    tx += "Softver: " + kartica.attr("softveri") + "\n";
+   		        //tx += "Broj mesta: " + kartica.attr("brojMesta") + "\n";
+   			    //tx += "OS: " + kartica.attr("opSistem") + "\n";
+   			    //tx += "Pametna tabla: " + (kartica.attr("pametnaTabla") ? "da" : "ne") + "\n";
+   			    //tx += "Tabla: " + (kartica.attr("tabla") ? "da" : "ne") + "\n";
+   			    //tx += "Projektor: " + (kartica.attr("projektor") ? "da" : "ne") + "\n";
+   			    //tx += "Softver: " + kartica.attr("softveri") + "\n";
    			    var obj = kartica.text(tx);
    			    obj.html(obj.html().replace(/\n/g,'<br/>'));
             }
@@ -471,20 +478,22 @@ function initTable(id, raspored){
             	//alert(momentDuration);
 				var hours = momentDuration.hours();
 				var minutes = momentDuration.minutes();
-				var tx = event.title + " [1]\n";
+				var tx = event.title + " \n";
 				tx += event.naziv + "\n";
 				tx += "Broj termina: 1\n";
 				tx += "Smer: " + event.smer + "\n";
-				tx += "Broj mesta: " + event.brojMesta + "\n";
-				tx += "OS: " + event.opSistem + "\n";
-				tx += "Pametna tabla: " + (event.pametnaTabla ? "da" : "ne") + "\n";
-				tx += "Tabla: " + (event.tabla ? "da" : "ne") + "\n";
-				tx += "Projektor: " + (event.projektor ? "da" : "ne") + "\n";
-				tx += "Softver: " + event.softveri + "\n";
+				var tip="";
+				tip += "Broj mesta: " + event.brojMesta + "\n";
+				tip += "OS: " + event.opSistem + "\n";
+				tip += "Pametna tabla: " + (event.pametnaTabla ? "da" : "ne") + "\n";
+				tip += "Tabla: " + (event.tabla ? "da" : "ne") + "\n";
+				tip += "Projektor: " + (event.projektor ? "da" : "ne") + "\n";
+				tip += "Softver: " + event.softveri + "\n";
 				
-            	var el2 = $('<div id="kartica_'+ event.title +'" class="fc-event" duration="' + hours + ':' + minutes +'" brojTermina="1" opSistem="' + event.opSistem + '" naziv="' + event.naziv + '" projektor="' + event.projektor + '" pametnaTabla="' + event.pametnaTabla + '" tabla="' + event.tabla + '" softveri="' + event.softveri + '" smer="' + event.smer + '" brojMesta="' + event.brojMesta + '">' + event.title + ' [1]' + '</div>').appendTo("#predmeti");
+            	var el2 = $('<div data-toggle="tooltip" data-placement="bottom" title="" id="kartica_'+ event.title +'" class="fc-event" duration="' + hours + ':' + minutes +'" brojTermina="1" opSistem="' + event.opSistem + '" naziv="' + event.naziv + '" projektor="' + event.projektor + '" pametnaTabla="' + event.pametnaTabla + '" tabla="' + event.tabla + '" softveri="' + event.softveri + '" smer="' + event.smer + '" brojMesta="' + event.brojMesta + '">' + event.title + ' [1]' + '</div>').appendTo("#predmeti");
 				var imeKartice = "#kartica_" + event.title;
 				var k = $(imeKartice).text(tx);
+				k.attr("title", tip);
 				k.html(k.html().replace(/\n/g, '<br/>'));
             	el2.data('event', {
                     title: event.title,
