@@ -250,7 +250,7 @@ function initTable(id, raspored){
 				dateEnd.setMinutes(termin.endMinutes)
 				dateStart.setHours(termin.startHours);
 				dateStart.setMinutes(termin.startMinutes);
-				event = {start: moment(dateStart).format('YYYY-MM-DDTHH:mm:ss'), end: moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss') , title: termin.predmet.oznaka};
+				event = {start: moment(dateStart).format('YYYY-MM-DDTHH:mm:ss'), end: moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss') , title: termin.predmet.oznaka, naziv : termin.naziv, smer : termin.smer};
 				events.push(event);
 				
 			}
@@ -605,7 +605,8 @@ function save(){
 								        }
 								        var endMinutes = end_date.getMinutes();
 								        var dayOfWeek = days[start_date.getDay()];
-								        var termin = {ucionica : ucionica, predmet : title ,startHours: startHours, startMinutes : startMinutes, endHours : endHours, endMinutes : endMinutes, dayOfWeek : dayOfWeek };
+								        
+								        var termin = {ucionica : ucionica, predmet : title ,startHours: startHours, startMinutes : startMinutes, endHours : endHours, endMinutes : endMinutes, dayOfWeek : dayOfWeek, naziv : events[i].naziv, smer : events[i].smer };
 								        termini.push(termin);
 							  		} 
 				    		});
@@ -697,9 +698,9 @@ function ucitajRaspored(){
 									raspored = rasporedUcitan;
 									//POREDJAJ kartice levo
 									raspored.kartice.forEach(function(kartica){
-										alert(JSON.stringify(kartica));
-									    var kartica = '<div data-toggle="tooltip" data-placement="bottom" title="a" id="kartica_'+ kartica.oznaka +'" class="fc-event" duration="'+ kartica.duration +'" brojTermina="'+ kartica.brojTermina +'" smer="' + kartica.smer + '" projektor="' + kartica.projektor + '" tabla="' + kartica.tabla + '" pametnaTabla="' + kartica.pametnaTabla + '" opSistem="' + kartica.opSistem + '" naziv="' + kartica.naziv + '" softveri="' + kartica.softveri + '" brojMesta="' + kartica.velicinaGrupe + '">'  + '</div>';		
-									    $("#predmeti").append(kartica);
+									    var karticaZaDodavanje = '<div data-toggle="tooltip" data-placement="bottom" title="a" id="kartica_'+ kartica.oznaka +'" class="fc-event" duration="'+ kartica.duration +'" brojTermina="'+ kartica.brojTermina +'" smer="' + kartica.smer + '" projektor="' + kartica.projektor + '" tabla="' + kartica.tabla + '" pametnaTabla="' + kartica.pametnaTabla + '" opSistem="' + kartica.opSistem + '" naziv="' + kartica.naziv + '" softveri="' + kartica.softveri + '" brojMesta="' + kartica.velicinaGrupe + '">'  + '</div>';		
+									    $("#predmeti").append(karticaZaDodavanje);
+									    
 									    var tx = kartica.oznaka + " [" + kartica.brojTermina + "]\n";
 									    tx = kartica.oznaka + " " + "\n";
 									    tx += kartica.naziv + "\n";
