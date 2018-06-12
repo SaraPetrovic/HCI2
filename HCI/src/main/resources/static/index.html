@@ -480,6 +480,7 @@ document.onkeydown = function(e) {
 	  } else if (key == 113) {
 		  var win = window.open('pomoc.html', '_blank');
 		  win.focus();
+		  // CTRL + Y
 	  } else if (key == 89 && e.ctrlKey) {
 		  e.preventDefault();
 		  window.location.replace('/raspored.html');
@@ -1243,6 +1244,11 @@ function deleteUcionica(id){
 				neuspesnoSwal("Greška prilikom brisanja");
 
 			}
+	    },
+	    error: function(data) {
+	    	if (data.status == '500') {
+	    		neuspesnoSwal("Učionica se ne moze obrisati jer postoji sačuvan raspored za ovu učionicu!");
+	    	}
 	    },
 	    processData: false,
 	    type: 'DELETE',
