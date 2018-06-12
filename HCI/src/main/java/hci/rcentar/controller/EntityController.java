@@ -186,19 +186,19 @@ public class EntityController {
 		}
 		return new ResponseEntity<Boolean>(success, HttpStatus.NOT_FOUND);
 	}
-	@RequestMapping(value = "api/smerovi/{oznaka}",
+	@RequestMapping(value = "api/smerovi/{id}",
 			method = RequestMethod.DELETE)
-	public ResponseEntity<Boolean> deleteSmer(@PathVariable("oznaka") String oznaka){
-		Boolean success = smerService.deleteSmer( oznaka);
+	public ResponseEntity<Boolean> deleteSmer(@PathVariable("id") long id){
+		Boolean success = smerService.deleteSmer( id);
 		if (success){
 			return new ResponseEntity<Boolean>(success,HttpStatus.OK);
 		}
 		return new ResponseEntity<Boolean>(success, HttpStatus.NOT_FOUND);
 	}
-	@RequestMapping(value = "api/softveri/{oznaka}",
+	@RequestMapping(value = "api/softveri/{id}",
 			method = RequestMethod.DELETE)
-	public ResponseEntity<Boolean> deleteSoftver(@PathVariable("oznaka") String oznaka){
-		Boolean success = softverService.deleteSoftver( oznaka);
+	public ResponseEntity<Boolean> deleteSoftver(@PathVariable("id") long id){
+		Boolean success = softverService.deleteSoftver(id);
 		if (success){
 			return new ResponseEntity<Boolean>(success,HttpStatus.OK);
 		}

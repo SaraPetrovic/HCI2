@@ -35,8 +35,8 @@ public class SoftverServiceImpl implements SoftverService{
 		return softverRepository.findByOznaka(oznaka);
 	}
 	@Override
-	public Boolean deleteSoftver(String oznaka) {
-		Softver s = softverRepository.findOne(oznaka);
+	public Boolean deleteSoftver(long id) {
+		Softver s = softverRepository.findById(id);
 		if (s != null){
 			softverRepository.delete(s);
 			return true;

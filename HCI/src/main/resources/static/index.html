@@ -590,8 +590,8 @@ function prikupiSoftver() {
             url: "/api/dodajSoftver",
             data: JSON.stringify(softver),
             success:function(responce){
-            	 $("#softver").modal("hide");
                 uspesnoSwal("Softver uspešno dodat!");
+                $("#softver").modal("hide");
             },
             error: function(err){
                 neuspesnoSwal("Softver sa ovom oznakom već postoji!");
@@ -677,8 +677,8 @@ function prikupiUcionica() {
             url: "/api/dodajUcionicu",
             data: JSON.stringify(ucionica),
             success:function(responce){
-            	$("#ucionica").modal("hide");
                 uspesnoSwal("Uspešno dodavanje učionice!");
+                $("#ucionica").modal("hide");
             },
             error: function(err){
                 neuspesnoSwal("Učionica sa ovom oznakom već postoji!");
@@ -776,8 +776,8 @@ function prikupiPredmet() {
             url: "/api/dodajPredmet",
             data: JSON.stringify(predmet),
             success:function(responce){
-            	$("#predmet").modal("hide");
                 uspesnoSwal("Uspešno dodavanje predmeta!");
+                $("#predmet").modal("hide");
             },
             error: function(err){
                 neuspesnoSwal("Predmet sa ovom oznakom već postoji!");
@@ -1250,7 +1250,7 @@ function deleteUcionica(id){
 	});
 	
 }
-function deleteSmer(oznaka){
+function deleteSmer(id){
 	$.ajax({
 	    contentType: 'application/json',
 	    dataType: 'json',
@@ -1263,7 +1263,6 @@ function deleteSmer(oznaka){
 			}
 	    },
 	    error : function(data){
-	    	alert(JSON.stringify(data));
 	    	if (data.status == '500'){
 	    		neuspesnoSwal("Prvo je potrebno izbrisati sve predmete za ovaj smer.");
 	    	}
@@ -1271,11 +1270,11 @@ function deleteSmer(oznaka){
 	    },
 	    processData: false,
 	    type: 'DELETE',
-	    url: '/api/smerovi/'+ oznaka
+	    url: '/api/smerovi/'+ id
 	});
 	
 }
-function deleteSoftver(oznaka){
+function deleteSoftver(id){
 	$.ajax({
 	    contentType: 'application/json',
 	    dataType: 'json',
@@ -1295,7 +1294,7 @@ function deleteSoftver(oznaka){
 	    },
 	    processData: false,
 	    type: 'DELETE',
-	    url: '/api/softveri/'+ oznaka
+	    url: '/api/softveri/' + id
 	});
 	
 }
@@ -1311,7 +1310,7 @@ $.ajax({
                     tableData += '<td>' + smer.naziv + '</td>';
                     tableData += '<td>' + smer.datum + '</td>';
                     tableData += '<td>' + smer.opis + '</td>';
-                    tableData += '<td><button type="button"  onclick="deleteSmer(\'' + smer.oznaka + '\')" class="btn btn-danger">Izbriši</button><br><br>' +
+                    tableData += '<td><button type="button"  onclick="deleteSmer(\'' + smer.id + '\')" class="btn btn-danger">Izbriši</button><br><br>' +
                     	'<button type="button" id="izmeniSmer' + smer.id+'" value="\'' +smer.oznaka+ '\'" onclick="popuniFormuIzmeniSmer(\'' + smer.oznaka + ',' + smer.id + '\')" data-toggle="modal" data-target="#smer" class="btn btn-primary">Izmeni</button></td></tr>';
                    
                     $("#tableBodySmerovi").append(tableData);
@@ -1464,7 +1463,7 @@ $.ajax({
                     tableData += '<td>' + softver.godinaIzdavanja + '</td>';
                     tableData += '<td>' + softver.opis + '</td>';
                     tableData += '<td>' + softver.cena + '</td>';
-                    tableData += '<td><button type="button"  onclick="deleteSoftver(\'' + softver.oznaka + '\')" class="btn btn-danger">Izbriši</button><br><br>'+
+                    tableData += '<td><button type="button"  onclick="deleteSoftver(\'' + softver.id + '\')" class="btn btn-danger">Izbriši</button><br><br>'+
                     		 '<button type="button" id="izmeniSoftver' + softver.id+'" onclick="popuniFormuIzmeniSoftver(\'' + softver.oznaka +',' + softver.id + '\')" data-toggle="modal" data-target="#softver" class="btn btn-primary">Izmeni</button></td></tr>';
                     $("#tableBodySoftveri").append(tableData);
                  
