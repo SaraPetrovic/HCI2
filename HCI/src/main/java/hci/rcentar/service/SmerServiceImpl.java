@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import hci.rcentar.domain.Predmet;
 import hci.rcentar.domain.Smer;
+import hci.rcentar.domain.Softver;
 import hci.rcentar.repository.SmerRepository;
 @Service
 public class SmerServiceImpl implements SmerService{
@@ -42,6 +44,24 @@ public class SmerServiceImpl implements SmerService{
 			return true;
 		}
 		return false;
+	}
+	@Override
+	public Smer izmeniSmer(Smer noviSmer) {
+
+		Smer smer = smerRepository.findById(noviSmer.getId());
+		if(!(smer.getOznaka().equals(noviSmer.getOznaka()))) {
+			if(smerRepository.findByOznaka(noviSmer.getOznaka()) != null) {
+				return null;
+			}
+		}
+		smer.setOznaka(noviSmer.getOznaka());
+		smer.setNaziv(noviSmer.getNaziv());
+		smer.setDatum(noviSmer.getDatum());
+		smer.setOpis(noviSmer.getOpis());
+		
+		smerRepository.save(smer);
+		
+		return smer;
 	}
 
 	

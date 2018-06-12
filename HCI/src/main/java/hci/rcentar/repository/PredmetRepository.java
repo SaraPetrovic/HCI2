@@ -12,4 +12,5 @@ public interface PredmetRepository extends JpaRepository<Predmet, String> {
 	public List<Predmet> findByNazivContainingAllIgnoringCase(String naziv);
 	Predmet save(Predmet p);
 	Predmet findByOznaka(String oznaka);
+	Predmet findById(long id);
 }

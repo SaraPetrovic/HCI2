@@ -13,5 +13,7 @@ public interface PredmetService {
 	List<Predmet> getPredmetsBySmer(String smer);
 	List<Predmet> searchPredmetsByNaziv(String naziv);
 	Predmet dodajPredmet(Predmet p);
-	Boolean deletePredmet(String oznaka);
+	Boolean deletePredmet(long id);
+	Predmet izmeniPredmet(Predmet p);
+	
 }

@@ -27,6 +27,7 @@ public class Termin {
 	int endMinutes;
     @Column(nullable = false)
 	String dayOfWeek;
+    
 	public Long getId() {
 		return id;
 	}

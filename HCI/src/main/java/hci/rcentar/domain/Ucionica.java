@@ -6,11 +6,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 @Entity
 public class Ucionica {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	@Column(nullable = false)
 	String oznaka;
 	@Column(nullable = false)
 	String opis;
@@ -27,13 +34,19 @@ public class Ucionica {
 	//@Enumerated(EnumType.STRING)
 	//OperativniSistem opSistem;
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	@JoinTable(
+            name = "ucionica_softver",
+            
+            joinColumns = {@JoinColumn(name = "ucionica_id")},
+            inverseJoinColumns = {@JoinColumn(name = "softver_id")}
+    )
 	List<Softver> softveri;
 	
 	public Ucionica(){
 		
 	}
 	
-	public Ucionica(Long id, String oznaka, String opis, int brojMesta, Boolean projektor, Boolean tabla,
+	public Ucionica(long id, String oznaka, String opis, int brojMesta, Boolean projektor, Boolean tabla,
 			Boolean pametnaTabala, String opSistem, List<Softver> softveri) {
 		super();
 
@@ -45,12 +58,19 @@ public class Ucionica {
 		this.pametnaTabla = pametnaTabala;
 		this.opSistem = opSistem;
 		this.softveri = softveri;
+		this.id = id;
 	}
 	public String getOznaka() {
 		return oznaka;
 	}
 	public void setOznaka(String oznaka) {
 		this.oznaka = oznaka;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 	public String getOpis() {
 		return opis;
@@ -94,6 +114,8 @@ public class Ucionica {
 	public void setSoftveri(List<Softver> softveri) {
 		this.softveri = softveri;
 	}
-	
+	public void addSoftver(Softver s) {
+		this.softveri.add(s);
+	}
 	
 }
