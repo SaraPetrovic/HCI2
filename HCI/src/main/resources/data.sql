@@ -23,6 +23,7 @@ insert into predmet_softver(predmet_id, softver_id) values ('2', '4')
 insert into predmet_softver(predmet_id, softver_id) values ('3', '4')
 insert into predmet_softver(predmet_id, softver_id) values ('3', '3')
 
+
 insert into ucionica_softver(ucionica_id, softver_id) values ('1', '1')
 insert into ucionica_softver(ucionica_id, softver_id) values ('1', '4')
 insert into ucionica_softver(ucionica_id, softver_id) values ('1', '3')

@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
 <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <title>Bootstrap Example</title>
+    <title>Raspored</title>
     <meta charset="utf-8">
     <link rel='stylesheet' href='calendar-lib/fullcalendar.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -25,6 +25,7 @@
 	    return this.length !== 0;
 	}
  
+ 
  $('[data-toggle="tab"]').tooltip({
 	    trigger: 'hover',
 	    placement: 'bottom',
@@ -32,6 +33,28 @@
 	    delay: 500,
 	    container: 'body'
 	});
+ 
+ // SHORTCUTS
+ document.onkeydown = function(e) {
+	  var key = e.which || e.keyCode;
+	  // CTRL + s     - save
+	  if (key == 83 && e.ctrlKey) {
+		  e.preventDefault();
+	    save();
+	    // CTRL + u   - ucitaj
+	  } else if (key == 85 && e.ctrlKey) {
+		  ucitajRaspored();
+		// F2 help
+	  } else if (key == 113) {
+		  var win = window.open('pomoc.html', '_blank');
+		  win.focus();
+		  // ctrl + E
+	  } else if (key == 69 && e.ctrlKey) {
+		  e.preventDefault();
+		  window.location.replace('index.html');
+	  }
+}
+ 
  
 function ucitajKartice() {
 
@@ -47,13 +70,23 @@ function ucitajKartice() {
          duration : $(this).attr("duration"),
 		  // use the element's text as the event title
           stick: true, // maintain when user navigates (see docs on the renderEvent method)
-         brojTermina : $(this).attr("brojTermina")
+         brojTermina : $(this).attr("brojTermina"),
+         smer: $(this).attr("smer"),
+         pametnaTabla: $(this).attr("pametnaTabla"),
+         projektor: $(this).attr("projektor"),
+         tabla: $(this).attr("tabla"),
+         softveri: $(this).attr("softveri"),
+         naziv: $(this).attr("naziv"),
+         opSistem: $(this).attr("opSistem"),
+         brojMesta: $(this).attr("brojMesta")
         });
 
         // make the event draggable using jQuery UI
         $(this).draggable({
+          scroll: false,
           zIndex: 999,
 		  containment: ".fc-agenda-body table",
+		  //appendTo: 'body',
 
           revert: true,      // will cause the event to go back to its
           revertDuration: 0  //  original position after the drag
@@ -63,7 +96,7 @@ function ucitajKartice() {
 };
     
 $( document ).ready(function() {
-	
+
 
 	
 });
@@ -82,11 +115,13 @@ $.ajax({
 			  		var liClass = '';
 			  		var tab = '';
 			  		var tabContent = '';
-			  		var tabClass = 'class="tab-pane fade in"';
+			  		var tabClass = 'class="tab-pane fade"';
 					if (i == 0){
 						liClass = 'class="active"';
-						tabClass = 'class="tab-pane fade in active';
+						tabClass = 'class="tab-pane fade in active"';
+						
 					}
+					i++;
 					
 					// DODAVANJE TOOLTIP-a !!!
 					var dataToolTip = ' data-toggle="tooltip" data-placement="bottom" title=';
@@ -112,8 +147,8 @@ $.ajax({
 					
 					var tab = '<li '+ liClass + '><a data-toggle="tab" href="#tab_' + ucionica.oznaka +'">' +ucionica.oznaka +'</a></li>';
 					$("#tabs").append(tab);
-					var podaci = '<div class="podaci"><p>Broj mesta: '+ ucionica.brojMesta + '<br>Operativni sistem: '+ (ucionica.opSistem =="WINLINUX" ? "WINDOWS I LINUX" : ucionica.opSistem) + '<br>Tabla: ' + (ucionica.tabla ? "da" : "ne") + '<br>Pametna tabla: ' + (ucionica.pametnaTabla ? "da" : "ne") + '<br>Projektor: ' + (ucionica.projektor ? "da":"ne") + '</p></div>';
-					var tabContent = '<div  id="tab_' + ucionica.oznaka +'" class="tab-pane fade in active">'+podaci+'<div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div></div>';
+					var podaci = '<div class="podaci"><p>Broj mesta: <span class="opisUcionice">'+ ucionica.brojMesta + '</span><br>Operativni sistem: <span class="opisUcionice">'+ (ucionica.opSistem =="WINLINUX" ? "WINDOWS I LINUX" : ucionica.opSistem) + '</span><br>Tabla: <span class="opisUcionice">' + (ucionica.tabla ? "da" : "ne") + '</span><br>Pametna tabla: <span class="opisUcionice">' + (ucionica.pametnaTabla ? "da" : "ne") + '</span><br>Projektor: <span class="opisUcionice">' + (ucionica.projektor ? "da":"ne") + '</span></p></div>';
+					var tabContent =  '<div  id="tab_' + ucionica.oznaka +'" '+ tabClass +'><div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div>'+podaci+'</div>';
 					$("#tabsContent").append(tabContent);
 					i++;
 					
@@ -125,12 +160,18 @@ $.ajax({
 					liClass = '';
 					
 				});
-			  	tabeleOznake.forEach(function(oznaka){
-			  		initTable(oznaka, []);
-			  		if (oznaka != "L1"){
-			  			//$("#tab_" + oznaka).css("display", "none");
-			  		}
-			  	});
+			  	initTable(tabeleOznake[0], []);
+				$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+					  var target = $(e.target).attr("href") // activated tab
+					  
+					  initTable((target.split("_"))[1], []);
+					  //alert(target);
+				});
+			  	$('.fc-axis').each(function(){
+					//ispravlja bag u kaledaru
+					($(this)).css('width' , '56px');
+
+			  	 });
 			  	tabeleOznake = [];
 			  
     },
@@ -149,7 +190,36 @@ $.ajax({
 				  predmetiGlobal.push(predmet);
 				    var hours = Math.floor( (predmet.duzinaTermina * 45) / 60);          
 				    var minutes = (predmet.duzinaTermina*45) % 60;
-				    var kartica = '<div id="kartica_'+ predmet.oznaka +'" class="fc-event" duration="' +hours + ':' + minutes +'" brojTermina="'+ predmet.brojTermina +'">' + predmet.oznaka + " [" + predmet.brojTermina + "]" + '</div>';					$("#predmeti").append(kartica);			
+				    var softs = predmet.softveri;
+	                var temp = "";
+	                if (softs.length > 0) {
+	              	   softs.forEach(function(softver) {
+	              	   	   temp = temp + softver.naziv + ", "; 
+	              	    })       
+	                 }
+	                var softveri = temp.substring(0, temp.length-2);
+	                
+				    var kartica = '<div data-toggle="tooltip" data-placement="bottom" title="" id="kartica_'+ predmet.oznaka +'" class="fc-event" duration="' +hours + ':' + minutes +'" brojTermina="'+ predmet.brojTermina +'" smer="' + predmet.smer.oznaka + '" projektor="' + predmet.projektor + '" tabla="' + predmet.tabla + '" pametnaTabla="' + predmet.pametnaTabla + '" opSistem="' + predmet.opSistem + '" naziv="' + predmet.naziv + '" softveri="' + softveri + '" brojMesta="' + predmet.velicinaGrupe + '">'  + '</div>';		
+				    var id = "#kartica_" + predmet.oznaka;
+				    $("#predmeti").append(kartica);
+				    // ova dole sa uglastim ipak ne treba
+				    var tx = predmet.oznaka + " [" + predmet.brojTermina + "]\n";
+				    tx = predmet.oznaka + " " + "\n";
+				    tx += predmet.naziv + "\n";
+				    tx += "Broj termina: " + predmet.brojTermina + "\n";
+				    tx += "Smer: " + predmet.smer.oznaka + "\n";
+				    
+				    var tip = "";
+				    tip += "Broj mesta: " + predmet.velicinaGrupe + "\n";
+				    tip += "OS: " + predmet.opSistem + "\n";
+				    tip += "Pametna tabla: " + (predmet.pametnaTabla ? "da" : "ne") + "\n";
+				    tip += "Tabla: " + (predmet.tabla ? "da" : "ne") + "\n";
+				    tip += "Projektor: " + (predmet.projektor? "da" : "ne") + "\n";
+				    tip += "Softver: " + softveri + "\n";
+				    var obj = $(id).text(tx);
+				    obj.attr("title", tip);
+				    obj.html(obj.html().replace(/\n/g,'<br/>'));
+				    			
 				});
 			  ucitajKartice();
 	
@@ -180,7 +250,7 @@ function initTable(id, raspored){
 				dateEnd.setMinutes(termin.endMinutes)
 				dateStart.setHours(termin.startHours);
 				dateStart.setMinutes(termin.startMinutes);
-				event = {start: moment(dateStart).format('YYYY-MM-DDTHH:mm:ss'), end: moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss') , title: termin.predmet.oznaka};
+				event = {start: moment(dateStart).format('YYYY-MM-DDTHH:mm:ss'), end: moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss') , title: termin.oznaka, naziv : termin.naziv, smer : termin.smer};
 				events.push(event);
 				
 			}
@@ -267,6 +337,23 @@ function initTable(id, raspored){
 	  			allowed = false;
 	  		}
 	  		
+	  		// softveri
+	  		var ucionice_sID = ucionica.softveri.map(function(obj) { 
+  				return obj.oznaka; 
+			});
+	  		var predmet_sID = predmet.softveri.map(function(obj) {
+	  			return obj.oznaka;
+	  		});
+	  		
+	  		var isSuperset = predmet_sID.every(function(val) {
+	  			return ucionice_sID.indexOf(val) >= 0;
+	  		});
+	  		
+	  		if (isSuperset == false) {
+	  			greska("Učionica ne poseduje potreban softver!");
+	  			allowed = false;
+	  		}
+	  		
 	  		return allowed;
 
 	  		
@@ -279,16 +366,41 @@ function initTable(id, raspored){
         if (brTermina < 1) {
       	  $(this).remove();
         }
-        $(this).text($(this).text().split(" ")[0] + " [" + brTermina + "]");
         
         $(this).attr("brojTermina", brTermina);
-		  
+        
+        var tx = $(this).text().split(" ")[0] + " [" + brTermina + "]";
+        
+        $(this).text($(this).text().split(" ")[0] + " [" + brTermina + "]");
+        tx = $(this).text().split(" ")[0] + " ";
+        tx += "\n" + $(this).attr("naziv") + "\n";
+        tx += "Broj termina: " + $(this).attr("brojTermina") + "\n";
+        //tx += "Naziv: " + $(this).attr("naziv") + "\n";
+        tx += "Smer: " + $(this).attr("smer") + "\n";
+        
+        //tx += "Broj mesta: " + $(this).attr("brojMesta") + "\n";
+	    //tx += "OS: " + $(this).attr("opSistem") + "\n";
+	    //tx += "Pametna tabla: " + ($(this).attr("pametnaTabla") ? "da" : "ne") + "\n";
+	    //tx += "Tabla: " + ($(this).attr("tabla") ? "da" : "ne") + "\n";
+	    //tx += "Projektor: " + ($(this).attr("projektor") ? "da" : "ne") + "\n";
+	    //tx += "Softver: " + $(this).attr("softveri") + "\n";
+	    var obj = $(this).text(tx);
+	    obj.html(obj.html().replace(/\n/g,'<br/>'));
+        
+        
+		 
+        // ovo ne treba vise
         if ($('#drop-remove').is(':checked')) {
           // if so, remove the element from the "Draggable Events" list
 
           $(this).remove();
         }
     },
+    
+    eventRender: function(event, element) { 
+        element.find('.fc-title').append("<br/>" + event.naziv  + "<br/>" + "Smer: " + event.smer); 
+    }, 
+    
 	eventDrop: function(event, delta, revertFunc) {
         //inner column movement drop so get start and call the ajax function......
 		//alert(moment("07:00", "HH:mm"));
@@ -342,7 +454,21 @@ function initTable(id, raspored){
     			var brTermina = parseInt(kartica.attr("brojTermina"));
     			brTermina++;
     			kartica.attr("brojTermina", brTermina);
-    			kartica.text(kartica.text().split(" ")[0] + " [" + brTermina + "]");
+    			
+    			var tx = kartica.text().split(" ")[0] + " [" + brTermina + "]";
+    		    tx = kartica.text().split(" ")[0] + " ";
+    			tx += "\n" + kartica.attr("naziv") + "\n";
+   		        tx += "Broj termina: " + kartica.attr("brojTermina") + "\n";
+   		        //tx += "Naziv: " + kartica.attr("naziv") + "\n";
+   		        tx += "Smer: " + kartica.attr("smer") + "\n"; 
+   		        //tx += "Broj mesta: " + kartica.attr("brojMesta") + "\n";
+   			    //tx += "OS: " + kartica.attr("opSistem") + "\n";
+   			    //tx += "Pametna tabla: " + (kartica.attr("pametnaTabla") ? "da" : "ne") + "\n";
+   			    //tx += "Tabla: " + (kartica.attr("tabla") ? "da" : "ne") + "\n";
+   			    //tx += "Projektor: " + (kartica.attr("projektor") ? "da" : "ne") + "\n";
+   			    //tx += "Softver: " + kartica.attr("softveri") + "\n";
+   			    var obj = kartica.text(tx);
+   			    obj.html(obj.html().replace(/\n/g,'<br/>'));
             }
             else {
             	
@@ -352,18 +478,42 @@ function initTable(id, raspored){
             	//alert(momentDuration);
 				var hours = momentDuration.hours();
 				var minutes = momentDuration.minutes();
-            	var el2 = $('<div id="kartica_'+ event.title +'" class="fc-event" duration="' + hours + ':' + minutes +'" brojTermina="1">' + event.title + ' [1]' + '</div>').appendTo("#predmeti");
-					//alert(el2.attr("duration"));
+				var tx = event.title + " \n";
+				tx += event.naziv + "\n";
+				tx += "Broj termina: 1\n";
+				tx += "Smer: " + event.smer + "\n";
+				var tip="";
+				tip += "Broj mesta: " + event.brojMesta + "\n";
+				tip += "OS: " + event.opSistem + "\n";
+				tip += "Pametna tabla: " + (event.pametnaTabla ? "da" : "ne") + "\n";
+				tip += "Tabla: " + (event.tabla ? "da" : "ne") + "\n";
+				tip += "Projektor: " + (event.projektor ? "da" : "ne") + "\n";
+				tip += "Softver: " + event.softveri + "\n";
+				
+            	var el2 = $('<div data-toggle="tooltip" data-placement="bottom" title="" id="kartica_'+ event.title +'" class="fc-event" duration="' + hours + ':' + minutes +'" brojTermina="1" opSistem="' + event.opSistem + '" naziv="' + event.naziv + '" projektor="' + event.projektor + '" pametnaTabla="' + event.pametnaTabla + '" tabla="' + event.tabla + '" softveri="' + event.softveri + '" smer="' + event.smer + '" brojMesta="' + event.brojMesta + '">' + event.title + ' [1]' + '</div>').appendTo("#predmeti");
+				var imeKartice = "#kartica_" + event.title;
+				var k = $(imeKartice).text(tx);
+				k.attr("title", tip);
+				k.html(k.html().replace(/\n/g, '<br/>'));
             	el2.data('event', {
                     title: event.title,
                     //id: event.id,
           		  	duration: el2.attr("duration"),       		 	
           		  	brojTermina: el2.attr("brojTermina"),
-                    stick: true // maintain when user navigates (see docs on the renderEvent method)
+                    stick: true, // maintain when user navigates (see docs on the renderEvent method)
+            		opSistem: el2.attr("opSistem"),
+            		naziv: el2.attr("naziv"),
+            		projektor: el2.attr("projektor"),
+            		pametnaTabla: el2.attr("pametnaTabla"),
+            		tabla: el2.attr("tabla"),
+            		softveri: el2.attr("softveri"),
+            		smer: el2.attr("smer"),
+            		brojMesta: el2.attr("brojMesta")
                   });
             	el2.draggable({
             		zIndex: 999,
             		containment: ".fc-agenda-body table",
+            		scroll: false,
             		revert: true,
             		revetDuration: 0
             	});
@@ -428,8 +578,16 @@ function save(){
 								var i = 0;
 							  ucionice.forEach(function(ucionica) {
 								  //svaki calendar ima svoju ucionicu
+								  if ($("#calendar_" + ucionica.oznaka) == null){
+									  alert("asd");
+								  }
 								  var events = $("#calendar_" + ucionica.oznaka).fullCalendar('clientEvents');
 									for (var i = 0; i< events.length; i++){
+										
+										//if event == BUG XD
+										if (events[i].start == null){
+											continue;
+										}
 										var start_date = new Date(events[i].start._d);
 								        var end_date = '';
 								        if (events[i].end != null) {
@@ -447,7 +605,8 @@ function save(){
 								        }
 								        var endMinutes = end_date.getMinutes();
 								        var dayOfWeek = days[start_date.getDay()];
-								        var termin = {ucionica : ucionica, predmet : title ,startHours: startHours, startMinutes : startMinutes, endHours : endHours, endMinutes : endMinutes, dayOfWeek : dayOfWeek };
+								        
+								        var termin = {ucionica : ucionica, oznaka : title ,startHours: startHours, startMinutes : startMinutes, endHours : endHours, endMinutes : endMinutes, dayOfWeek : dayOfWeek, naziv : events[i].naziv, smer : events[i].smer };
 								        termini.push(termin);
 							  		} 
 				    		});
@@ -455,7 +614,20 @@ function save(){
 								predmetiGlobal.forEach(function(predmet){
 									
 									if ($("#kartica_" + predmet.oznaka).attr("brojTermina") != null){
-										var kartica = {oznaka: predmet.oznaka, brojTermina : $("#kartica_" + predmet.oznaka).attr("brojTermina"), duration : $("#kartica_" + predmet.oznaka).attr("duration") };
+										var kartica = {oznaka: predmet.oznaka, 
+													   brojTermina : $("#kartica_" + predmet.oznaka).attr("brojTermina"),
+													   duration : $("#kartica_" + predmet.oznaka).attr("duration"),
+													   naziv : $("#kartica_" + predmet.oznaka).attr("naziv"),
+													   smer : $("#kartica_" + predmet.oznaka).attr("smer"),
+													   tabla : $("#kartica_" + predmet.oznaka).attr("tabla"),
+													   pametnaTabla : $("#kartica_" + predmet.oznaka).attr("pametnaTabla"),
+													   projektor : $("#kartica_" + predmet.oznaka).attr("projektor"),
+													   opSistem : $("#kartica_" + predmet.oznaka).attr("opSistem"),
+													   softveri : $("#kartica_" + predmet.oznaka).attr("softveri"),
+													   velicinaGrupe : $("#kartica_" + predmet.oznaka).attr("brojMesta")
+													   };
+										
+										
 										kartice.push(kartica);
 									}
 									
@@ -520,23 +692,41 @@ function ucitajRaspored(){
 						    contentType: 'application/json',
 						    dataType: 'json',
 						    success: function(rasporedUcitan){
+						    	$("#predmeti").empty();
+								$("#tabsContent").empty();
+								$("#tabs").empty();
 									raspored = rasporedUcitan;
 									//POREDJAJ kartice levo
 									raspored.kartice.forEach(function(kartica){
-									    var kartica = '<div id="kartica_'+ kartica.oznaka +'" class="fc-event" duration="'+ kartica.duration +'" brojTermina="'+ kartica.brojTermina +'">' + kartica.oznaka + " [" + kartica.brojTermina + "]" + '</div>';					
-									    $("#predmeti").append(kartica);
-
+									    var karticaZaDodavanje = '<div data-toggle="tooltip" data-placement="bottom" title="a" id="kartica_'+ kartica.oznaka +'" class="fc-event" duration="'+ kartica.duration +'" brojTermina="'+ kartica.brojTermina +'" smer="' + kartica.smer + '" projektor="' + kartica.projektor + '" tabla="' + kartica.tabla + '" pametnaTabla="' + kartica.pametnaTabla + '" opSistem="' + kartica.opSistem + '" naziv="' + kartica.naziv + '" softveri="' + kartica.softveri + '" brojMesta="' + kartica.velicinaGrupe + '">'  + '</div>';		
+									    $("#predmeti").append(karticaZaDodavanje);
+									    
+									    var tx = kartica.oznaka + " [" + kartica.brojTermina + "]\n";
+									    tx = kartica.oznaka + " " + "\n";
+									    tx += kartica.naziv + "\n";
+									    tx += "Broj termina: " + kartica.brojTermina + "\n";
+									    tx += "Smer: " + kartica.smer + "\n";
+									    var tip = "";
+									    tip += "Broj mesta: " + kartica.velicinaGrupe + "\n";
+									    tip += "OS: " + kartica.opSistem + "\n";
+									    tip += "Pametna tabla: " + (kartica.pametnaTabla ? "da" : "ne") + "\n";
+									    tip += "Tabla: " + (kartica.tabla ? "da" : "ne") + "\n";
+									    tip += "Projektor: " + (kartica.projektor? "da" : "ne") + "\n";
+									    tip += "Softver: " + kartica.softveri + "\n";
+									    var id = "#kartica_" + kartica.oznaka;
+									    var obj = $(id).text(tx);
+									    obj.attr("title", tip);
+									    obj.html(obj.html().replace(/\n/g,'<br/>'));
 									});
 									ucitajKartice();
 										
 						    },
+						    async : false,
 						    processData: false,
 						    type: 'GET',
 						    url: '/api/raspored/' + result
 						});
-						$("#predmeti").empty();
-						$("#tabsContent").empty();
-						$("#tabs").empty();
+					
 						
 						
 
@@ -549,14 +739,15 @@ function ucitajRaspored(){
 									  		var liClass = '';
 									  		var tab = '';
 									  		var tabContent = '';
-									  		var tabClass = 'class="tab-pane fade in"';
+									  		var tabClass = 'class="tab-pane fade"';
 											if (i == 0){
 												liClass = 'class="active"';
-												tabClass = 'class="tab-pane fade in active';
+												tabClass = 'class="tab-pane fade in active"';
 											}
 											var tab = '<li '+ liClass + '><a data-toggle="tab" href="#tab_' + ucionica.oznaka +'">' +ucionica.oznaka +'</a></li>';
 											$("#tabs").append(tab);
-											var tabContent = '<div id="tab_' + ucionica.oznaka +'" class="tab-pane fade in active"><div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div></div>';
+											var podaci = '<div class="podaci"><p>Broj mesta: <span class="opisUcionice">'+ ucionica.brojMesta + '</span><br>Operativni sistem: <span class="opisUcionice">'+ (ucionica.opSistem =="WINLINUX" ? "WINDOWS I LINUX" : ucionica.opSistem) + '</span><br>Tabla: <span class="opisUcionice">' + (ucionica.tabla ? "da" : "ne") + '</span><br>Pametna tabla: <span class="opisUcionice">' + (ucionica.pametnaTabla ? "da" : "ne") + '</span><br>Projektor: <span class="opisUcionice">' + (ucionica.projektor ? "da":"ne") + '</span></p></div>';
+											var tabContent =  '<div  id="tab_' + ucionica.oznaka +'" '+ tabClass +'><div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div>'+podaci+'</div>';
 											$("#tabsContent").append(tabContent);
 											i++;
 										
@@ -568,10 +759,24 @@ function ucitajRaspored(){
 											liClass = '';
 											
 										});
-									  	tabeleOznake.forEach(function(oznaka){
+									  	initTable(tabeleOznake[0], raspored);
+										$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+											  var target = $(e.target).attr("href") // activated tab
+											  
+											  initTable((target.split("_"))[1], raspored);
+											  //alert(target);
+										});
+									  	//tabeleOznake.forEach(function(oznaka){
 									  		
-									  		initTable(oznaka, raspored);
-									  	});
+									  		//initTable(oznaka, raspored);
+									  	//});
+									  	$('.fc-axis').each(function(){
+											//ispravlja bag u kaledaru
+											($(this)).css('width' , '56px');
+
+									  	 });
+									  	$("#calendar_L4").fullCalendar('render');
+									  	
 									  	
 									  			  
 						    },
@@ -599,6 +804,7 @@ function ucitajRaspored(){
 	
 	
 }
+
 function greska(poruka){
 	swal({
 		  type: 'error',
@@ -617,19 +823,29 @@ function greska(poruka){
     font-size: 20px;
   }
 	.podaci{
-	margin-left:50px;
-	float:right;
+	
+	margin-top:50px;
+	margin-left:300px;
+	right:20px;
 	display:inline;
+	
+	word-wrap: break-word;
+	
 	}
     #external-events {
       position: fixed;
       z-index: 2;
       top: 20px;
       left: 20px;
+      height: 90vh;
       width: 150px;
+      max-width: 150px;
       padding: 0 10px;
       border: 1px solid #ccc;
       background: #eee;
+      overflow-y: auto;
+      overflow-x: hidden;
+      
     }
 
     #external-events .fc-event {
@@ -640,12 +856,20 @@ function greska(poruka){
     #calendar-container {
       position: relative;
       z-index: 1;
-      margin-left: 200px;
+      margin-left: 500px;
+      
     }
 
     .calendarCss {
       max-width: 900px;
       margin: 20px auto;
+      margin-left: 300px ;
+      margin-right:20px;
+      float:left;
+      
+    }
+    .opisUcionice{
+    	color:#428bca;
     }
 	#calendar1 {
       max-width: 900px;
@@ -679,7 +903,7 @@ function greska(poruka){
 
   </ul>
   <div class = "row">
-	  <button id="save" onclick="save()" type="button" class="btn btn-success btn-lg" style="margin-left:45%;">Sačuvaj</button>
+	  <button id="save" onclick="save()" type="button" class="btn btn-success btn-lg" style="margin-left:30%;">Sačuvaj</button>
 	  <button id="loadNew" onclick="ucitajRaspored()" type="button" class="btn btn-success btn-lg" style="display:inline-block;">Učitaj raspored</button>
 	  <a href="index.html">
 	  	<button id="entiteti"  type="button" class="btn btn-primary btn-lg" style="display:inline-block";>Entiteti</button>
