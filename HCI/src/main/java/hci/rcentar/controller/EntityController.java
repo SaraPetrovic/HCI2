@@ -24,6 +24,7 @@ import hci.rcentar.service.SoftverService;
 import hci.rcentar.service.UcionicaService;
 @RestController	
 public class EntityController {
+	private static final String DEMO_NAZIV = "demo raspored 2018";
 	@Autowired
 	RasporedService rasporedService;
 	@Autowired
@@ -78,6 +79,18 @@ public class EntityController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Raspored> saveRaspored(@RequestBody Raspored raspored){
 		System.out.println("Broj kartica : " + raspored.getKartice().size());
+		if (raspored.getNaziv().equals(DEMO_NAZIV)){
+			Raspored r = rasporedService.getRaspored(raspored.getNaziv());
+			if (r!= null){
+				return new ResponseEntity<Raspored>(r, HttpStatus.OK);
+
+			}else{
+				Raspored savedRaspored = rasporedService.SaveRaspored(raspored);
+				return new ResponseEntity<Raspored>(savedRaspored, HttpStatus.OK);
+
+			}
+			
+		}
 		Raspored savedRaspored = rasporedService.SaveRaspored(raspored);
 		return new ResponseEntity<Raspored>(savedRaspored, HttpStatus.OK);
 	}

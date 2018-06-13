@@ -11,6 +11,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.9.0/validator.js"></script>
   <script src="dataTable.js" charset="UTF-8"></script>
   <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js" ></script>
+   <script src="demojs.js"></script>
+     <link rel="stylesheet" href="demo.css">
    
   <script type="text/javascript" src="multiselect-lib/multiselect.js"></script>
   <link rel="stylesheet" href="multiselect-lib/multiselect.css" type="text/css"/>
@@ -51,9 +53,9 @@
  
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a data-toggle="modal" data-target="#predmet" href="#">Dodaj predmet</a>
+  <a id="dodajPredmet" data-toggle="modal" data-target="#predmet" href="#">Dodaj predmet</a>
   <a data-toggle="modal" data-target="#ucionica" href="#">Dodaj učionicu</a>
-  <a data-toggle="modal" data-target="#smer" href="#">Dodaj smer</a>
+  <a id="dodajSmer" data-toggle="modal" data-target="#smer" href="#">Dodaj smer</a>
   <a data-toggle="modal" data-target="#softver" href="#">Dodaj softver</a>
   <a href="raspored.html">Rasporedi</a>
   <a id="pomoc" href="pomoc.html" target="_blank">Pomoć</a>
@@ -807,8 +809,10 @@ function neuspesnoSwal(poruka){
 <!-- Nav meni --> 
 <div class="container">
 
-	<div class="row">
-	    <span id="meniBtn" style="font-size:45px;cursor:pointer" onclick="openNav()">&#9776; Meni</span> 
+	<div class="row" >
+		<div id="meniDiv" style="background-color:white">
+	    	<span id="meniBtn" style="font-size:45px;cursor:pointer" onclick="openNav()">&#9776; Meni</span> 
+		</div>
 		<div style="font-size:30px;margin-right:0px;margin-left: 62%;">
 			
 		    <button id="buttonZoomout" type="button" class="btn btn-default btn-lg" onclick="zoomout()" >
@@ -821,11 +825,11 @@ function neuspesnoSwal(poruka){
   </div>
  </div>
 <!-- Container entiteti --> 
-<div class="container"style="margin-top:5%;;margin-bottom:100px">
+<div class="container" id="tabelaDemo" style="margin-top:5%;margin-bottom:100px;">
  
   <h2><b>Entiteti</b></h2>
   <ul class="nav nav-tabs" style="margin-bottom:20px;">
-    <li class="active"><a data-toggle="tab" href="#home">Predmeti</a></li>
+    <li class="active"><a data-toggle="tab" id="predmetiDemo" href="#home">Predmeti</a></li>
     <li><a data-toggle="tab" href="#menu1">Smerovi</a></li>
     <li><a data-toggle="tab" href="#menu2">Učionice</a></li>
     <li><a data-toggle="tab" href="#menu3">Softveri</a></li>
@@ -974,7 +978,15 @@ function neuspesnoSwal(poruka){
 </div>
  
 </div>
- 
+  <div id="demo-modal" class="demo-modal">
+  		<!-- Modal content -->
+ 		 <div id="modal-content">
+   			 <span class="close">&times;</span>
+    	  <p id="demo-message">.</p>
+ 		 </div>
+  		<div id="highlight">
+		</div>
+</div>
  
  
  
@@ -1239,9 +1251,83 @@ $.ajax({
 function dodajEntitet(){
     alert("asd");
 }
-$(document).ready(function() {
- 
-} );
+var clickEnabled = false;
+async function demoFunction(){
+	$(document).on("click",function() {
+		if (clickEnabled == false){
+			window.location.replace('/raspored.html');
+		}
+    });
+	$(document).on("keydown",function() {
+		window.location.replace('/raspored.html');
+    });
+
+	$('html, body').css({
+	    overflow: 'hidden',
+	    height: '100%'
+	});
+	
+	showModal("meniDiv", 0, 0, 200, 0, 'Klikom na ovo dugme otvara se meni. U meniju možete dodavati nove entitete');
+	await sleep(4000);
+	emptyModal();
+	clickEnabled = true;
+	$("#meniBtn").click();
+	clickEnabled = false;
+	await sleep(1500);
+	
+	$("#dodajSmer").css("color", "#f1f1f1");
+	await sleep(1500);
+	$("#dodajSmer").css("color", "#818181");
+	clickEnabled = true;
+	$("#dodajSmer").click();
+	clickEnabled = false;
+	await sleep(2000);
+	$("#nazivSmera").val("Auto");
+	await sleep(200);
+	$("#nazivSmera").val("Automatika");
+	await sleep(200);
+	$("#nazivSmera").val("Automatika i rač");
+	await sleep(200);
+	$("#nazivSmera").val("Automatika i računar");
+	await sleep(200);
+	$("#nazivSmera").val("Automatika i računarstvo");
+	await sleep(1000);
+	$("#oznakaSmera").val("E2");
+	await sleep(1000);
+	var dateControl = document.querySelector('input[type="date"]');
+	dateControl.value = '2018-06-01';
+	await sleep(1000);
+	$("#opisSmera").val("op");
+	await sleep(200);
+	$("#opisSmera").val("opis");
+	await sleep(200);
+	$("#opisSmera").val("opis sme");
+	await sleep(200);
+	$("#opisSmera").val("opis smera");
+	await sleep(2000);
+	clickEnabled = true;
+	$("#smerSubmit").click();
+	clickEnabled = false;
+	await sleep(1500);
+	clickEnabled = true;
+	$(".swal2-confirm").click();
+	clickEnabled = false;
+	await(2000);
+	//ovde si stao showModal('tabelaDemo', 0, 0, 0, -100, 'Pomoću tabele možete pretraživati, brisati ili menjati entitete.');
+	//await sleep(3000);
+	
+}
+$( document ).ready(function() {
+	var params = (location.search).split("?");
+	var demo = (params[1].split("="))[1];
+	if (demo == "true"){
+		demoFunction();
+	}
+	
+});
+function sleep(ms) {
+	 return new Promise(resolve => setTimeout(resolve, ms));
+}
 
  
 </script>

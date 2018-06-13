@@ -16,7 +16,7 @@ public class Raspored {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String naziv;
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Termin> termini;

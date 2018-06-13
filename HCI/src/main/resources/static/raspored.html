@@ -12,6 +12,8 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src='moment-lib/moment.min.js'></script>
 	<script src='calendar-lib/fullcalendar.js'></script>
+	<script src="demojs.js"></script>
+	<link rel="stylesheet" type="text/css" href="demo.css">
 	
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.css" rel="stylesheet"/>
@@ -605,7 +607,6 @@ function save(){
 								        }
 								        var endMinutes = end_date.getMinutes();
 								        var dayOfWeek = days[start_date.getDay()];
-								        
 								        var termin = {ucionica : ucionica, predmet : title ,startHours: startHours, startMinutes : startMinutes, endHours : endHours, endMinutes : endMinutes, dayOfWeek : dayOfWeek, naziv : events[i].naziv, smer : events[i].smer };
 								        termini.push(termin);
 							  		} 
@@ -671,7 +672,7 @@ function ucitajRaspored(){
 					rasporedi[raspored.naziv] = raspored.naziv;
 				});
 				swal({
-					  title: 'Select Outage Tier',
+					  title: 'Izaberite raspored',
 					  input: 'select',
 					  inputOptions: rasporedi
 					  ,
@@ -692,6 +693,8 @@ function ucitajRaspored(){
 						    contentType: 'application/json',
 						    dataType: 'json',
 						    success: function(rasporedUcitan){
+						    	swal("Učitano!", "raspored : " + rasporedUcitan.naziv, "success");
+
 						    	$("#predmeti").empty();
 								$("#tabsContent").empty();
 								$("#tabs").empty();
@@ -813,6 +816,106 @@ function greska(poruka){
 		  
 		})
 }
+var clickEnabled = false;
+async function demo(){
+	await sleep(300);
+	$(document).on("click",function() {
+		if (clickEnabled == false){
+			location.reload();		
+		}
+    });
+	$('html, body').css({
+	    overflow: 'hidden',
+	    height: '100%'
+	});
+	$(document).on("keydown",function() {
+		location.reload();
+    });
+	showModal("external-events", 0, 0, 400, 200, 'Ovo je demonstracija aplikacije. Za izlaz pritisnuti bilo koje dugme na tastaturi.');
+	await sleep(4000);
+
+	var functionComplete = 0;
+	//alert("a");
+	showModal("external-events", 0, 0, 200, 0, 'Sa leve strane prozora nalaze se predmeti koji se prevlače na raspored.');
+	await sleep(4000);
+	emptyModal();
+	
+	var dateStart = '2018-06-12T09:00:00'
+	var dateEnd = '2018-06-12T10:30:00'
+	var  event = {start: moment(dateStart), end: moment(dateEnd), title: 'MRS', naziv : 'Metodologije razvoja softvera', smer : 'siit'};
+	$("#calendar_L1").fullCalendar( 'renderEvent', event , true );
+	$("#calendar_L1").fullCalendar( 'refetchEvents' );
+	await sleep(1000);
+	dateStart = '2018-06-11T11:00:00'
+	dateEnd = '2018-06-11T13:15:00'
+	event = {start: moment(dateStart), end: moment(dateEnd), title: 'ISA', naziv : 'Internet softverske arhitekture', smer : 'siit'};
+	$("#calendar_L1").fullCalendar( 'renderEvent', event , true );
+	$("#calendar_L1").fullCalendar( 'refetchEvents' );
+	await sleep(1000);
+	dateStart = '2018-06-14T10:45:00'
+	dateEnd = '2018-06-14T12:15:00'
+	event = {start: moment(dateStart), end: moment(dateEnd), title: 'HCI', naziv : 'Interakcija čovek računar', smer : 'siit'};
+	$("#calendar_L1").fullCalendar( 'renderEvent', event , true );
+	$("#calendar_L1").fullCalendar( 'refetchEvents' );
+	await sleep(3000);
+	
+	showModal("save", -29, 0 , 0, 100, 'Nakon prevlačenja predmeta, možete sačuvati raspored klikom na označeno dugme "sačuvaj"', 3000);
+	await sleep(3000);
+	emptyModal();
+	save();
+	await sleep(1000);
+	$(".swal2-input").val("de");
+	await sleep(200);
+	$(".swal2-input").val("demo");
+	await sleep(200);
+	$(".swal2-input").val("demo ra");
+	await sleep(200);
+	$(".swal2-input").val("demo rasp");
+	await sleep(200);
+	$(".swal2-input").val("demo raspore");
+	await sleep(200);
+	$(".swal2-input").val("demo raspored 2");
+	await sleep(200);
+	$(".swal2-input").val("demo raspored 201");
+	await sleep(200);
+	$(".swal2-input").val("demo raspored 2018");
+	await sleep(2000);
+	clickEnabled = true;
+	$(".swal2-confirm").click();
+	clickEnabled = false;
+	await sleep(2000);
+	clickEnabled = true;
+	$(".swal2-confirm").click();
+	clickEnabled = false;
+	await sleep(2000);
+	showModal("loadNew", 0, 0 , 0, 100, 'U svakom trenutku možete učitati raspored koji ste ranije zapamtili.', 3000);
+	await sleep(3000);
+	emptyModal();
+	
+	ucitajRaspored();
+	await sleep(3000);
+	$(".swal2-select").val("demo raspored 2018");
+	await sleep(2000);
+	clickEnabled = true;
+	$(".swal2-confirm").click();
+	clickEnabled = false;
+	await sleep(2000);
+	clickEnabled = true;
+	$(".swal2-confirm").click();
+	clickEnabled = false;
+	await sleep(3000);
+	showModal("entiteti", 0, 0, 0, 100, 'Pritiskom na dugme "Entiteti" prikazaće se prozor na kome možete pretraživati, dodavati, menjati i brisati entitete aplikacije.');
+	await sleep(4000);
+	window.location.replace('/index.html?demo=true');
+	
+
+}
+function sleep(ms) {
+	  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+
 
   </script>
   <style>
@@ -898,17 +1001,20 @@ function greska(poruka){
     	</div>
     
   </div>
+  
     <h2 style="margin-left:20%;">RASPORED</h2>
-  <ul class="nav nav-tabs" id="tabs" style="margin-bottom:20px;margin-left:20%;">
+  	<ul class="nav nav-tabs" id="tabs" style="margin-bottom:20px;margin-left:20%;">
     
 
-  </ul>
+  	</ul>
   <div class = "row">
 	  <button id="save" onclick="save()" type="button" class="btn btn-success btn-lg" style="margin-left:30%;">Sačuvaj</button>
 	  <button id="loadNew" onclick="ucitajRaspored()" type="button" class="btn btn-success btn-lg" style="display:inline-block;">Učitaj raspored</button>
 	  <a href="index.html">
-	  	<button id="entiteti"  type="button" class="btn btn-primary btn-lg" style="display:inline-block";>Entiteti</button>
+	  	<button id="entiteti"  type="button" class="btn btn-primary btn-lg" style="display:inline-block;">Entiteti</button>
 	  </a>
+	  <button id="demo" onclick="demo()"  type="button" class="btn btn-primary btn-lg" style="display:inline-block;">demo</button>
+	  
 	  <button id="buttonZoomout" type="button" class="btn btn-default btn-lg" onclick="zoomout()" >
 	    <span class="glyphicon glyphicon-zoom-out"></span> <b>Zoom-out</b>
 	  </button>
@@ -919,9 +1025,17 @@ function greska(poruka){
    <div  class="tab-content" id="tabsContent">
  		
 
-	</div>
+   </div>
+   <div id="demo-modal" class="demo-modal">
+  		<!-- Modal content -->
+ 		 <div id="modal-content">
+   			 <span class="close">&times;</span>
+    	  <p id="demo-message">.</p>
+ 		 </div>
+  		<div id="highlight">
+		</div>
+</div>
 </body>
-
 
 <script>
 
