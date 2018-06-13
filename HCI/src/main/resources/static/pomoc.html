@@ -10,6 +10,11 @@
 		    transition: background-color .5s;
 		    font-size: 20px;
 		}
+		img {
+			display: block;
+			margin-left: auto;
+	    	margin-right: auto;
+		}
 	
 	</style> 
   
@@ -20,41 +25,41 @@
         <h1 class="modal-title"><br>&nbsp;&nbsp;Pomoć</h1>
         
         <div class="modal-body">
-          <h4><a title="Link ka ovom odeljku" href="#id1">Sta predstavlja ova aplikacija? Kome je namenjena?</a></h4>
+          <h4><a title="Link ka ovom odeljku" href="#id1">Šta predstavlja ova aplikacija? Kome je namenjena?</a></h4>
           <h4><a title="Link ka ovom odeljku" href="#id2">Funkcionalnosti aplikacije</a></h4>
           <h4><a title="Link ka ovom odeljku" href="#id4">Smernice korišćenja aplikacije</a></h4>
+          <h4><a title="Link ka ovom odeljku" href="#id5">Prečice</a></h4>
           
-          
-          <div id="id1"><h3>Sta predstavlja ova aplikacija? Kome je namenjena?</h3>
+          <br><br>
+          <div id="id1"><h2>Šta predstavlja ova aplikacija? Kome je namenjena?</h2>
 	          <p>Ovo je aplikacija za vođenje evidencije o rasporedu predmeta u računarskom centru, namenjena administratorima studentske
-	          	sluzbe koji su zaduzeni za formiranje rasporeda. Raspored se pravi za svaki kabinet, popunjavajuci satnicu predmetima 
-	          	koje sadrzi svaki smer.<br>
+	          	službe koji su zaduženi za formiranje rasporeda. Raspored se pravi za svaki kabinet, popunjavajući satnicu predmetima 
+	          	koje sadrži svaki smer.<br>
 	          </p>
-          </div>
-          <div id="id2"><h3>Funkcionalnosti aplikacije</h3>
+          </div><br>
+          <div id="id2"><h2>Funkcionalnosti aplikacije</h2>
           	<ul>
           	 	<li> Aplikacija sadrži mogućnost dodavanja novih entiteta. Entitet može biti smer, učionica, predmet, softver.</li>
-          	 	<li> Dodate entitete je moguće pregledati sa svim njihovim osobinama.<br>Moguce ih je pretrazivati po nekom od naziva atributa
-          	 	ili ih sortirati po odredjenom atributu.</li>
+          	 	<li> Dodate entitete je moguće pregledati sa svim njihovim osobinama.<br>Moguće ih je pretraživati po nekom od naziva atributa
+          	 	ili ih sortirati po određenom atributu.</li>
           	  	<li> Mogući su <i>zoom in</i> i <i>zoom out</i>.</li>
           	  	<li> Aplikacija sadrži kalendar koji je vezan za svaku od učionica. Iz liste predmeta moguće je <i>drag&drop</i> metodom
           	  popunjavati rasporede.<br> Takođe je iz rasporeda moguće vratiti predmet u listu svih predmeta.</li>
-          	  <li>Moguce je čuvanje rasporeda i ponovno učitavanje, kao i nemogucnost dadavanja nekih predmeta u raspored učionice koja ne 
+          	  <li>Moguce je čuvanje rasporeda i ponovno učitavanje, kao i nemogućnost dadavanja nekih predmeta u raspored učionice koja ne 
           	  zadovoljava zahteve predmeta ili vremensko ograničenje.</li>
           	</ul>  	
-          </div>
+          </div><br>
           
           
-          <div id="id4"><h3>Smernice korišćenja aplikacije</h3>
+          <div id="id4"><h2>Smernice korišćenja aplikacije</h2>
           
-          	Na pocetnoj stranici prikazan je tabelarni prikaz entiteta sa svim njihovim podacima. Možete pretraživati po svim atributima, 
+          	Na početnoj stranici prikazan je tabelarni prikaz entiteta sa svim njihovim podacima. Možete pretraživati po svim atributima, 
           	sortirati i izabrati
           	koliko entiteta želite da vidite u tabeli.<br>
-          	Takodje se nalaze i prečice u vidu dugmića za otvaranje rasporeda i <i>zoom in</i>/<i>zoom out</i>.
+          	Takođe se nalaze i prečice u vidu dugmića za otvaranje rasporeda i <i>zoom in</i>/<i>zoom out</i>.
           	
-          	
-          	<br><br>Slika stranice sa prikazanim entitetima<br><br>
-          	
+
+          	<br><br><img src="img-help/entitetiHELP.png" height="70%" width="70%" ><br><br>
           	
           	<p> Dugme <i>Meni</i> otvara navigacioni meni sa leve strane, na kome možete videti opcije za dodavanje, prikaz entiteta, uvećanje 
           	i umanjenje sadržaja na ekranu, kao i opcija za prikaz i mogućnost formiranja rasporeda.<br>
@@ -62,7 +67,7 @@
           	formom za dodavanje, na kojoj se nalaze dodatna 
           	uputstva o poljima koje treba popuniti.<br><br>
           	
-          	<img src="dodavanje.PNG" height="70%" width="70%" class="center"><br><br>
+          	<img src="img-help/dodavanje.PNG" height="70%" width="70%" ><br><br>
           	
           	
           	Otvaranjem rasporeda, možete videti
@@ -74,13 +79,35 @@
 	        Svaki termin se može iz rasporeda vratiti nazad u listu svih predmeta.
           	 
           	
-          	<br><br>Slika rasporeda<br><br>
+          	<br><br><img src="img-help/rasporedHELP.PNG" height="70%" width="70%"><br><br><br><br>
           	
 			Levim klikom na dugme <i>Sačuvaj</i> raspored se može sačuvati i nekom drugom prilikom, levim klikom na dugme <i>Učitaj</i> ponovo
 			učitati i po potrebi menjati.<br>
 			Klikom na dugme <i>Entiteti</i> možete se vratiti na početnu stranicu koja sadrži tabelu entiteta i meni.
 	          	
           	</p>        
+          </div><br>
+          
+          <div id="id5"><h2>Prečice</h2>
+          	Prečice su različite, u zavisnosti od toga da li ste nalazite na početnoj stranici (tabela entiteta) ili na stranici
+          	sa rasporedom. Na početnoj stranici, omogućene su sledeće prečice:
+          	<ul>
+          		<li><b>CTRL + Q</b>  - Otvaranje dijaloga za dodavanje predmeta</li>
+          		<li><b>CTRL + W</b>  - Otvaranje dijaloga za dodavanje učionice</li>
+          		<li><b>CTRL + E</b>  - Otvaranje dijaloga za dodavanje smera</li>
+          		<li><b>CTRL + R</b>  - Otvaranje dijaloga za dodavanje softvera</li>
+          		<li><b>CTRL + Y</b>  - Odlazak na stranicu sa rasporedom</li>
+          		<li><b>F2</b>  - Odlazak na stranicu Pomoć</li>
+          		
+          	</ul><br>
+          	Na stranici sa rasporedom, omogućene su sledeće prečice:
+          	<ul>
+          		<li><b>CTRL + S</b>  - Sačuvaj raspored</li>
+          		<li><b>CTRL + U</b>  - Učitaj raspored</li>
+          		<li><b>CTRL + E</b>  - Odlazak na početnu stranicu (tabela entiteta)</li>
+          		<li><b>F2</b>  - Odlazak na stranicu Pomoć</li>
+          		
+          	</ul>
           </div>	
 	      
  			

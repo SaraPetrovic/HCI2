@@ -12,5 +12,5 @@ public interface SmerRepository extends JpaRepository<Smer, String> {
 	Smer save(Smer s);
 	void delete(Smer s);
 	Smer findByNaziv(String naziv);
-	
+	Smer findById(long id);
 }

@@ -6,6 +6,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -13,18 +15,19 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PreRemove;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Predmet {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	@Column(nullable = false)
 	String oznaka;
 	@Column(nullable = false)
 	String naziv;
 	@Column(nullable = false)
 	String opis;
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "smer_oznaka")
+    @JoinColumn(name = "smer_id")
 	Smer smer;
 	@Column(nullable = false)
 	int velicinaGrupe;
@@ -47,8 +50,8 @@ public class Predmet {
 	  @JoinTable(
 	            name = "predmet_softver",
 	            
-	            joinColumns = {@JoinColumn(name = "predmet_oznaka")},
-	            inverseJoinColumns = {@JoinColumn(name = "softver_oznaka")}
+	            joinColumns = {@JoinColumn(name = "predmet_id")},
+	            inverseJoinColumns = {@JoinColumn(name = "softver_id")}
 	    )
 	
 	List<Softver> softveri;
@@ -68,10 +71,12 @@ public class Predmet {
 	public Predmet() {
 		super();
 	}
-	public Predmet(String oznaka, String naziv, String opis, Smer smer, int velicinaGrupe, int duzinaTermina,
+	
+	public Predmet(long id, String oznaka, String naziv, String opis, Smer smer, int velicinaGrupe, int duzinaTermina,
 			int brojTermina, Boolean projektor, Boolean tabla, Boolean pametnaTabla, String opSistem,
 			List<Softver> softveri) {
 		super();
+		this.id = id;
 		this.oznaka = oznaka;
 		this.naziv = naziv;
 		this.opis = opis;
@@ -84,6 +89,12 @@ public class Predmet {
 		this.pametnaTabla = pametnaTabla;
 		this.opSistem = opSistem;
 		this.softveri = softveri;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 	public String getOznaka() {
 		return oznaka;
@@ -157,7 +168,9 @@ public class Predmet {
 	public void setSoftveri(List<Softver> softveri) {
 		this.softveri = softveri;
 	}
-	
+	public void addSoftver(Softver softver) {
+		this.softveri.add(softver);
+	}
 	
 
 }

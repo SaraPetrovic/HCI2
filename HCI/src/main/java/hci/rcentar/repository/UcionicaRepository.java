@@ -7,4 +7,5 @@ import hci.rcentar.domain.Ucionica;
 public interface UcionicaRepository extends JpaRepository<Ucionica, String> {
 	Ucionica save(Ucionica u);
 	Ucionica findByOznaka(String oznaka);
+	Ucionica findById(long id);
 }

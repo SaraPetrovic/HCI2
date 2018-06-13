@@ -15,8 +15,8 @@ public class Termin {
 	Long id;
     @ManyToOne(optional = false)
 	private Ucionica ucionica;
-    @ManyToOne(optional = false)
-    private Predmet predmet;
+    @Column(nullable = false)
+    private String oznaka;
     @Column(nullable = false)
 	int startHours;
     @Column(nullable = false)
@@ -27,6 +27,7 @@ public class Termin {
 	int endMinutes;
     @Column(nullable = false)
 	String dayOfWeek;
+
     @Column(nullable = false)
     String naziv;
     @Column(nullable = false)
@@ -45,6 +46,7 @@ public class Termin {
 	public void setSmer(String smer) {
 		this.smer = smer;
 	}
+
 	public Long getId() {
 		return id;
 	}
@@ -88,12 +90,12 @@ public class Termin {
 		this.dayOfWeek = dayOfWeek;
 	}
 
-	public Termin(Long id, Ucionica ucionica, Predmet predmet, int startHours, int startMinutes, int endHours,
+	public Termin(Long id, Ucionica ucionica, String oznaka, int startHours, int startMinutes, int endHours,
 			int endMinutes, String dayOfWeek, String naziv, String smer) {
 		super();
 		this.id = id;
 		this.ucionica = ucionica;
-		this.predmet = predmet;
+		this.oznaka = oznaka;
 		this.startHours = startHours;
 		this.startMinutes = startMinutes;
 		this.endHours = endHours;
@@ -102,14 +104,14 @@ public class Termin {
 		this.naziv = naziv;
 		this.smer = smer;
 	}
+	public String getOznaka() {
+		return oznaka;
+	}
+	public void setOznaka(String oznaka) {
+		this.oznaka = oznaka;
+	}
 	public Termin() {
 		super();
-	}
-	public Predmet getPredmet() {
-		return predmet;
-	}
-	public void setPredmet(Predmet predmet) {
-		this.predmet = predmet;
 	}
 	
     

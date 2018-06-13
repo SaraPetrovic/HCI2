@@ -2,11 +2,15 @@ package hci.rcentar.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 @Entity
 public class Smer {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	@Column(nullable = false)
 	String oznaka;
 	@Column(nullable = false)
 	String naziv;
@@ -15,18 +19,26 @@ public class Smer {
 	@Column(nullable = false)
 	String opis;
 	
-	
 	public Smer() {
 		super();
 	}
 
-
-	public Smer(String oznaka, String naziv, String datum, String opis) {
+	public Smer(String oznaka, String naziv, String datum, String opis, long id) {
 		super();
 		this.oznaka = oznaka;
 		this.naziv = naziv;
 		this.datum = datum;
 		this.opis = opis;
+		this.id = id;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 

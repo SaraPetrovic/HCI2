@@ -1,7 +1,7 @@
 body {
     font-family: "Lato", sans-serif;
     transition: background-color .5s;
-    font-size: 22px;
+   
 }
 
 .sidenav {
@@ -34,7 +34,7 @@ body {
     position: absolute;
     top: 0;
     right: 25px;
-    font-size: 46px;
+    font-size: 40px;
     margin-left: 50px;
 }
 
