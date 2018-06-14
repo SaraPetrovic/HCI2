@@ -1574,7 +1574,7 @@ async function demoFunction(){
 	await sleep(200);
 	$("#nazivSmera").val("Automatika i računarstvo");
 	await sleep(1000);
-	$("#oznakaSmera").val("E2");
+	$("#oznakaSmera").val("DemoE2");
 	await sleep(1000);
 	var dateControl = document.querySelector('input[type="date"]');
 	dateControl.value = '2018-06-01';
@@ -1586,15 +1586,18 @@ async function demoFunction(){
 	$("#opisSmera").val("opis sme");
 	await sleep(200);
 	$("#opisSmera").val("opis smera");
+	console.log("radi");
 	await sleep(2000);
 	clickEnabled = true;
 	$("#smerSubmit").click();
 	clickEnabled = false;
 	await sleep(1500);
 	clickEnabled = true;
-	$(".swal2-confirm").click();
+	$(".swal2-content").hide();
 	clickEnabled = false;
-	await(2000);
+	await sleep(2000);
+	console.log("sad ide replace");
+	window.location.replace("/raspored.html")
 	//ovde si stao showModal('tabelaDemo', 0, 0, 0, -100, 'Pomoću tabele možete pretraživati, brisati ili menjati entitete.');
 	//await sleep(3000);
 	

@@ -148,7 +148,13 @@ public class EntityController {
 			method = RequestMethod.POST)
 	public ResponseEntity<Smer> dodajSmer(@RequestBody Smer smer){
 
-
+		if (smer.getOznaka().equals("DemoE2")){
+			
+			Smer s = smerService.findByNaziv(smer.getNaziv());
+			if (s != null){
+				return new ResponseEntity<Smer>(s, HttpStatus.OK);
+			}
+		}
 		Smer s = smerService.dodajSmer(smer);
 		if(s != null) {
 			return new ResponseEntity<Smer>(s, HttpStatus.OK);
