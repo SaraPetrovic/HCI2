@@ -821,6 +821,10 @@ function greska(poruka){
 }
 var clickEnabled = false;
 async function demo(){
+	var activeTabId = ($(".tab-pane.fade.active.in")).attr("id");
+	var activeCalendarId = "#calendar_" + activeTabId.split("_")[1];
+	
+	$(activeCalendarId).fullCalendar('removeEvents');
 	await sleep(300);
 	$(document).on("click",function() {
 		if (clickEnabled == false){
@@ -846,20 +850,20 @@ async function demo(){
 	var dateStart = '2018-06-12T09:00:00'
 	var dateEnd = '2018-06-12T10:30:00'
 	var  event = {start: moment(dateStart), end: moment(dateEnd), title: 'MRS', naziv : 'Metodologije razvoja softvera', smer : 'siit'};
-	$("#calendar_L1").fullCalendar( 'renderEvent', event , true );
-	$("#calendar_L1").fullCalendar( 'refetchEvents' );
+	$(activeCalendarId).fullCalendar( 'renderEvent', event , true );
+	$(activeCalendarId).fullCalendar( 'refetchEvents' );
 	await sleep(1000);
 	dateStart = '2018-06-11T11:00:00'
 	dateEnd = '2018-06-11T13:15:00'
 	event = {start: moment(dateStart), end: moment(dateEnd), title: 'ISA', naziv : 'Internet softverske arhitekture', smer : 'siit'};
-	$("#calendar_L1").fullCalendar( 'renderEvent', event , true );
-	$("#calendar_L1").fullCalendar( 'refetchEvents' );
+	$(activeCalendarId).fullCalendar( 'renderEvent', event , true );
+	$(activeCalendarId).fullCalendar( 'refetchEvents' );
 	await sleep(1000);
 	dateStart = '2018-06-14T10:45:00'
 	dateEnd = '2018-06-14T12:15:00'
 	event = {start: moment(dateStart), end: moment(dateEnd), title: 'HCI', naziv : 'Interakcija čovek računar', smer : 'siit'};
-	$("#calendar_L1").fullCalendar( 'renderEvent', event , true );
-	$("#calendar_L1").fullCalendar( 'refetchEvents' );
+	$(activeCalendarId).fullCalendar( 'renderEvent', event , true );
+	$(activeCalendarId).fullCalendar( 'refetchEvents' );
 	await sleep(3000);
 	
 	showModal("save", -29, 0 , 0, 100, 'Nakon prevlačenja predmeta, možete sačuvati raspored klikom na označeno dugme "sačuvaj"', 3000);

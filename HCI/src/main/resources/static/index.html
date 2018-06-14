@@ -49,9 +49,9 @@
  
 <div id="main" ondblclick="zoomin()">
 	
- <div class="jumbotron text-center" style="height=70%;">
-   <h1>Dоbrodošli u Računarski Centar</h1>
-   <p><h2>Fakultet tehničkih nauka</h2></p>
+ <div class="jumbotron text-center" style="height:30%;">
+   <h2>Dоbrodošli u Računarski Centar</h1>
+   <p><h3>Fakultet tehničkih nauka</h2></p>
 </div>
  
 <div id="mySidenav" class="sidenav">
@@ -878,7 +878,9 @@ function uspesnoSwal(poruka){
 			  title: 'Uspešno!',
 			  text: poruka
 		}).then(function(){ 
+			if (!demo){
 		       location.reload();
+			}
 		   });
 }
 
@@ -898,19 +900,17 @@ function neuspesnoSwal(poruka){
 <!-- Nav meni --> 
 <div class="container">
 
-	<div class="row" >
-		<div id="meniDiv" style="background-color:white">
-	    	<span id="meniBtn" style="font-size:45px;cursor:pointer" onclick="openNav()">&#9776; Meni</span> 
+	<div class="row" style="display:inline" >
+		<div id="meniDiv" style="background-color:white;display:inline" >
+	    	<span id="meniBtn" style="font-size:45px;cursor:pointer;" onclick="openNav()">&#9776; Meni</span> 
 		</div>
-		<div style="font-size:30px;margin-right:0px;margin-left: 62%;">
-			
-		    <button id="buttonZoomout" type="button" class="btn btn-default btn-lg" onclick="zoomout()" >
-		      <span class="glyphicon glyphicon-zoom-out"></span> Zoom-out
-		    </button>
-		    <button id="buttonZoomin" type="button" class="btn btn-default btn-lg" onclick="zoomin()">
-		      <span class="glyphicon glyphicon-zoom-in"></span> Zoom-in
-		    </button>
-		</div>
+	    <button id="buttonZoomout" type="button" class="btn btn-default btn-lg" onclick="zoomout()" style="margin-left:62%;display:inline" >
+	      <span class="glyphicon glyphicon-zoom-out"></span> Zoom-out
+	    </button>
+	    <button id="buttonZoomin" type="button" class="btn btn-default btn-lg" onclick="zoomin()">
+	      <span class="glyphicon glyphicon-zoom-in"></span> Zoom-in
+	    </button>
+	
   </div>
  </div>
 <!-- Container entiteti --> 
@@ -1534,23 +1534,28 @@ function dodajEntitet(){
 }
 
 var clickEnabled = false;
+var demo = false;
 async function demoFunction(){
+	demo = true;
 	$(document).on("click",function() {
 		if (clickEnabled == false){
 			window.location.replace('/raspored.html');
 		}
     });
 	$(document).on("keydown",function() {
-		window.location.replace('/raspored.html');
+		if (clickEnabled == false){
+			window.location.replace('/raspored.html');
+		}
     });
 
 	$('html, body').css({
 	    overflow: 'hidden',
 	    height: '100%'
 	});
-	
+	$("#meniDiv").css("display", "block");
 	showModal("meniDiv", 0, 0, 200, 0, 'Klikom na ovo dugme otvara se meni. U meniju možete dodavati nove entitete');
 	await sleep(4000);
+	$("#meniDiv").css("display", "inline");
 	emptyModal();
 	clickEnabled = true;
 	$("#meniBtn").click();
@@ -1586,20 +1591,63 @@ async function demoFunction(){
 	$("#opisSmera").val("opis sme");
 	await sleep(200);
 	$("#opisSmera").val("opis smera");
-	console.log("radi");
 	await sleep(2000);
 	clickEnabled = true;
 	$("#smerSubmit").click();
 	clickEnabled = false;
 	await sleep(1500);
 	clickEnabled = true;
-	$(".swal2-content").hide();
+	$(".swal2-confirm").click();
 	clickEnabled = false;
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    document.getElementById("meniBtn").style.visibility = "visible";
+    $('html, body').css({
+	    overflow: 'auto',
+	    height: 'auto'
+	});
+    window.scrollTo(0, 300);
+
 	await sleep(2000);
-	console.log("sad ide replace");
+	
+	$("#demo-message").text("U tabeli se nalaze podaci o svim entitetima koje možete pretraživati.");
+	$('#demo-modal').show();
+	await sleep(5000);
+	emptyModal();
+	
+	var e = jQuery.Event("keydown");
+	e.which = 72; //key code
+	clickEnabled = true;
+	$(".form-control.input-sm").focus();
+	$(".form-control.input-sm").val("h");
+	$(".form-control.input-sm").trigger('keyup');
+	await sleep(400);
+	$(".form-control.input-sm").val("hc");
+	$(".form-control.input-sm").trigger('keyup');
+	await sleep(400);
+	$(".form-control.input-sm").val("hci");
+	$(".form-control.input-sm").trigger('keyup');
+	await sleep(1000);
+	$(".form-control.input-sm").val("");
+	await sleep(1000);
+	$(".form-control.input-sm").val("wi");
+	$(".form-control.input-sm").trigger('keyup');
+	await sleep(400);
+	$(".form-control.input-sm").val("windo");
+	$(".form-control.input-sm").trigger('keyup');
+	await sleep(400);
+	$(".form-control.input-sm").val("windows");
+	$(".form-control.input-sm").trigger('keyup');
+	clickEnabled = false;
+
+	await sleep(4000);
+	$("#demo-message").text("Kraj demonstracije.");
+	$('#demo-modal').show();
+	await sleep(2000);
+	emptyModal();
+	demo = false;
 	window.location.replace("/raspored.html")
-	//ovde si stao showModal('tabelaDemo', 0, 0, 0, -100, 'Pomoću tabele možete pretraživati, brisati ili menjati entitete.');
-	//await sleep(3000);
+
 	
 }
 $( document ).ready(function() {
