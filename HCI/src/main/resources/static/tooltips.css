@@ -31,3 +31,6 @@
   .test + .tooltip.right > .tooltip-arrow {
       border-right: 5px solid black;
   }
+  li[title]{
+  	font-size:30px;
+  }

@@ -1,1074 +1,1037 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Računarski centar</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="nav.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.9.0/validator.js"></script>
-  <script src="dataTable.js" charset="UTF-8"></script>
-  <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js" ></script>
-   <script src="demojs.js"></script>
-     <link rel="stylesheet" href="demo.css">
-   
-  <script type="text/javascript" src="multiselect-lib/multiselect.js"></script>
-  <link rel="stylesheet" href="multiselect-lib/multiselect.css" type="text/css"/>
-
-  <link href="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.css" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.js"></script>
-
-  <script src="zoomInZoomOut.js"></script>
-  
- 
-  <style>
-    table span{
-      display:block;
-      background-color: #09C;
-      height: 100%;
-      width: 100%;
-      }
-    body {
-    	font-size: 17px;
-	}
-    ::placeholder {
-      color: red;
-      opacity: 1; /* Firefox */
-   
-	}
-	textarea {
-    resize: none;
-	}
-  </style>
-  
-</head>
- 
-<body>
- 
-<div id="main" ondblclick="zoomin()">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
+<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <title>Raspored</title>
+    <meta charset="utf-8">
+    <link rel='stylesheet' href='calendar-lib/fullcalendar.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src='moment-lib/moment.min.js'></script>
+	<script src='calendar-lib/fullcalendar.js'></script>
+	<script src="demojs.js"></script>
+	<link rel="stylesheet" type="text/css" href="demo.css">
 	
- <div class="jumbotron text-center" style="height:30%;">
-   <h2>Dоbrodošli u Računarski Centar</h1>
-   <p><h3>Fakultet tehničkih nauka</h2></p>
-</div>
- 
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
-  <a data-toggle="modal" data-target="#predmet" onclick="changePredmetButtonText()" href="#">Dodaj predmet</a>
-  <a data-toggle="modal" data-target="#ucionica" onclick="changeUcionicaButtonText()" href="#">Dodaj učionicu</a>
-  <a data-toggle="modal" id="dodajSmer" data-target="#smer" onclick="changeSmerButtonText()" href="#">Dodaj smer</a>
-  <a data-toggle="modal" data-target="#softver" onclick="changeSoftverButtonText()" href="#">Dodaj softver</a>
-  <a href="raspored.html">Rasporedi</a>
-  <a id="pomoc" href="pomoc.html" target="_blank">Pomoć</a>
-</div>
- 
-<div class="container">
-<!-- Modal -->
-<div id="predmet" class="modal fade" role="dialog">
-  <div class="modal-dialog">
- 
-    <!-- Modal content-->
-    <div class="modal-content">
-    <div class="modal-header">
-    	<button type="button" class="close" data-dismiss="modal">&times;</button>
-        <div id="predmetHeader"><h3 class="modal-title">Dodavanje novog predmeta</h3></div>
-    </div>
-    <div class="row centered-form">
-        <div class="col-xs-12 col-sm-12 col-md-12 ">
-          <div class="panel panel-default">
-              <div class="panel-heading">
-
-              <form id="predmetForm" method="POST" autocomplete="off" class="form-vertical" >
-                <div class="row">
-                <div class="form-group">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                    <label for="naziv">Naziv predmeta:</label>
-                    <input type="text" class="form-control" id="nazivPredmeta" name="nazivPredmeta" data-error="Molim Vas unesite naziv predmeta" placeholder="Unesite naziv predmeta" required>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div></div>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                    <label for="oznaka">Oznaka predmeta:</label>
-                    <input type="text" class="form-control" id="oznakaPredmeta" name="oznakaPredmeta" data-error="Molim Vas unesite oznaku predmeta" placeholder="Unesite oznaku (skracenicu) predmeta" required>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div></div>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                  <div class="form-group">
-                    <b>Izaberite smer</b>
-                    <select class="form-control" id="smerSelect" required>
-                        <option value=""></option>
-                    </select>
-                </div></div></div>
-                <div class="row">
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                      <label for="opis">Opis predmeta:</label>
-                      <textarea rows="3" cols="50" class="form-control" id="opisPredmeta" name="opisPredmeta" placeholder="Opis nije neophodan"></textarea>
-                    </div>
-                  </div>
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                     <div class="form-group">
-                       <label for="velicinaGrupe">Broj studenata:</label>
-                       <input type="number" min="1" max="50" class="form-control input-sm" id="velicinaGrupe" name="velicinaGrupe" data-error="Molim Vas unesite broj studenata (od 1 do 50)" placeholder="Unesite broj studenata za jednu grupu" required>
-                     <div class="help-block with-errors"></div>
-                 </div></div>
-                </div>
-               <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                  <div class="form-group">
-                    <label for="brojCasova">Broj nedeljnih termina: </label>
-                    <input type="number" min="1" max="50" class="form-control input-sm" id="brojTermina" name="brojTermina" data-error="Molim Vas unesite broj termina (od 1 do 50)" placeholder="Unesite broj termina na nedeljnom nivou" required>
-                  <div class="help-block with-errors"></div>
-                </div></div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <label for="velicinaGrupe">Broj casova po terminu:</label>
-                        <input type="number" min="1" max="10" class="form-control input-sm" id="duzinaTermina" name="duzinaTermina" data-error="Molim Vas unesite broj časova (od 1 do 50)" placeholder="Unesite broj časova od 45 min za termin" required>
-                    <div class="help-block with-errors"></div>
-                </div>
-              </div></div>
-              
-              <div class="row">
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group" >
-                      <label for="softveriLab">Potreban softver: </label>
-                      <div>
-                          <span class="multiselect-native-select">
-                            <select id="softveri-predmet" multiple="multiple" class="form-control" data-error="Molim Vas izaberite softver" required>
-                               
-                            </select>
-                        </span>
-                         <div class="help-block with-errors"></div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              
-                <div class="row">
-                	<label style="padding-left:15px;"for="Neophodnost">Hardver u učionici nephodan za izvođenje nastave:</label>
-                </div>
-                <div class="row">
-                	<div class="form-group">
-                	<div class="col-xs-4 col-sm-4 col-md-4">
-                		 <div class="checkbox">
-                		 	<label><input id="projektorPredmet" title="Označiti ako je projektor neophodan za održavanje nastave" type="checkbox"> Projektor</label>
-                		 </div>
-                	</div>
-                	<div class="col-xs-4 col-sm-4 col-md-4">
-                		 <div class="checkbox">
-							<label><input id="tablaPredmet" title="Označiti ako je tabla neophodana za održavanje nastave" type="checkbox">Tabla</label>
-                		 </div>
-                	</div>
-                	<div class="col-xs-4 col-sm-4 col-md-4">
-                		 <div class="checkbox">
-		                    <label><input id="pametnaTablaPredmet" title="Označiti ako je pametna tabla neophodana za održavanje nastave" type="checkbox">Pametna tabla</label>
-                		 </div>
-                	</div> 
-                </div>    	
-                </div>
-                <div class="row">
-		            <label style="padding-left:15px; padding-bottom:8px; padding-top:4px">Operativni sistem:</label>
-		        </div>
-		        
-		        <div class="form-group">        
-                <div class="row">
-
-                	<div class="col-xs-4 col-sm-4 col-md-4">
-                		<label style="font-weight: normal;"><input name="os" type="radio" id="linuxPredmet" title="Označiti ako u učionici postoji Linux OS" value="linux" checked> Linux</label>		                		
-                	</div>
-                	<div class="col-xs-4 col-sm-4 col-md-4">
-                		<label style="font-weight: normal;"><input name="os" id="windowsPredmet" title="Označiti ako u učionici postoji Windows OS" type="radio" value="windows" > Windows</label>      
-                	</div>
-                	<div class="col-xs-4 col-sm-4 col-md-4">
-                		<label style="font-weight: normal;"><input name="os" id="obaOsPredmet" title="Označiti ako u učionici postoje i Linux i Windows OS" type="radio" value="oba" > Linux i Windows</label>
-                	</div>
-                	<div style="padding-left:15px;" class="help-block">Molim Vas označite operativni sistem koji učionica sadrži</div>
-                </div></div>
-                <div class="row">
-                	
-                	<div class="modal-footer">
-                    	<button id="predmetSubmit" type="submit" class="btn btn-primary btn-lg">Dodaj predmet</button>
-                 </div></div>
-
-              </form>
-          </div>
-      </div>
-    </div>
-  </div></div></div></div>
-<!-- Modal -->
-<div id="ucionica" class="modal fade" role="dialog">
-  <div class="modal-dialog">
- 
-    <!-- Modal content-->
-      <div class="modal-content">
-      <div class="modal-header">
-    	<button type="button" class="close" data-dismiss="modal">&times;</button>
-        <div id="ucionicaHeader"><h3 class="modal-title">Dodavanje učionice</h3></div>
-      </div>
-          <div class="row centered-form">
-              <div class="col-xs-12 col-sm-12 col-md-12 ">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                    <form id="ucionicaForm" method="post" class="form-vertical" autocomplete="off">
-                      <div class="row">
-                          <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
-                              <label for="oznakaUcionice">Oznaka učionice:</label>
-                              <input type="text" class="form-control" id="oznakaUcionice" data-error="Molim Vas unesite oznaku učionice" placeholder="Unesite oznaku učionice" required>
-                              <div class="help-block with-errors"></div>
-                            </div>
-                        </div></div>
-                        <div class="row">
-                          <div class="col-xs-12 col-sm-12 col-md-12">
-                              <div class="form-group">
-                                <label for="opisUcionice">Opis učionice:</label>
-                                <textarea rows="4" cols="50" class="form-control" id="opisUcionice" placeholder="Unesite značajne karakteristike učionice"></textarea>
-                        </div></div></div>
-                        <div class="row">
-                          <div class="col-xs-6 col-sm-6 col-md-6">
-                            <div class="form-group">
-                              <label for="brojMesta">Broj mesta: </label>
-                              <input type="number" min="1" max="100" class="form-control input-sm" id="brojMesta" data-error="Molim Vas unesite broj mesta (od 1 do 100)" placeholder="Unesite broj mesta u učionici" required>
-                              <div class="help-block with-errors"></div>
-                          	</div>
-                          </div></div>
-                          <div class="row">
-                          <div class="col-xs-6 col-sm-6 col-md-6">
-                            <div class="form-group">
-                              <label for="softveriUcionica">Softveri u učionici: </label>
-                              <div>
-                                  <span class="multiselect-native-select">
-                                    <select id="softveri-ucionica" multiple="multiple" class="form-control" data-error="Molim Vas izaberite softver" required>
-                                       
-                                    </select>
-                                  </span>
-                                  <div class="help-block with-errors"></div>
-                              </div>
-                            </div>
-                        </div></div>
-                        
-		                <div class="row">
-		                	<label style="padding-left:15px;"for="Neophodnost">Opremljenost učionice:</label>
-		                </div>
-		                <div class="row">
-		                	
-		                	<div class="col-xs-4 col-sm-4 col-md-4">
-		                		 <div class="checkbox">
-		                		 	<label><input id="projektorUcionica" title="Označiti ako učionica poseduje projektor" type="checkbox"> Projektor</label>
-		                		 </div>
-		                	</div>
-		                	<div class="col-xs-4 col-sm-4 col-md-4">
-		                		 <div class="checkbox">
-									<label><input id="tablaUcionica" title="Označiti ako učionica poseduje tablu" type="checkbox">Tabla</label>
-		                		 </div>
-		                	</div>
-		                	<div class="col-xs-4 col-sm-4 col-md-4">
-		                		 <div class="checkbox">
-				                    <label><input id="pametnaTablaUcionica" title="Označiti ako učionica poseduje pametnu tablu" type="checkbox">Pametna tabla</label>
-		                		 </div>
-		                	</div>
-		                	
-		                </div>
-		                
-		                <div class="row">
-		                	<label style="padding-left:15px;">Operativni sistem:</label>
-		                </div>
-		                
-		                <div class="row">
-		                	<div class="col-xs-4 col-sm-4 col-md-4">
-		                		<label style="font-weight: normal;"><input name="os" type="radio" id="linuxUcionica" title="Označiti ako u učionici postoji Linux OS" value="linux" checked> Linux</label>		                		
-		                	</div>
-		                	<div class="col-xs-4 col-sm-4 col-md-4">
-		                		<label style="font-weight: normal;"><input name="os" id="windowsUcionica" title="Označiti ako u učionici postoji Windows OS" type="radio" value="windows" > Windows</label>      
-		                	</div>
-		                	<div class="col-xs-4 col-sm-4 col-md-4">
-		                		<label style="font-weight: normal;"><input name="os" id="obaUcionica" title="Označiti ako u učionici postoje i Linux i Windows OS" type="radio" value="oba" > Linux i Windows</label>
-		                	</div>
-		                	<div style="padding-left:15px; padding-bottom:8px; padding-top:4px" class="help-block">Molim Vas označite operativni sistem koji učionica sadrži</div>
-		                </div>
-                    
-                        
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="modal-footer">
-                              <button id="ucionicaSubmit" type="submit" class="btn btn-primary btn-lg">Dodaj učionicu</button>
-                        </div></div></div>
-                      </form>
-                    </div>
-                </div>
-              </div>
-            </div></div></div></div>
-         
- 
-<!-- Modal -->
-<div id="smer" class="modal fade" role="dialog">
-    <div class="modal-dialog">
- 
-       <!-- Modal content-->
-       <div class="modal-content">
-       		<div class="modal-header">
-    			<button type="button" class="close" data-dismiss="modal">&times;</button>
-        		<div id="smerHeader"><h3 class="modal-title">Dodavanje smera</h3></div>
-    		</div>
-          <div class="container">
-              <form id="smerForm" method="post" class="form-vertical" autocomplete="off">
-                <div class="row">
-                <div class="form-group">
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                    <label for="nazivSmera"><br>Naziv smera:</label>
-                    <input type="text" class="form-control" id="nazivSmera" data-error="Molim Vas unesite naziv smera" placeholder="Unesite naziv smera" required>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div></div>
-                <div class="row">
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                    <label for="oznakaSmera">Oznaka smera:</label>
-                    <input type="text" class="form-control" id="oznakaSmera" data-error="Molim Vas unesite oznaku smera" placeholder="Unesite oznaku (skracenicu) smera" required>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div></div>
-                <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6">
-                      <div class="form-group">
-                      <label for="datumSmera">Datum osnivanja:</label>
-                      <input type="date" min="1900-01-01" max="2019-01-01" class="form-control" name="datumSmeraId" id="datumSmeraId" data-error="Molim Vas unesite datum osnivanja smera (nakon 1.1.1900.)" placeholder="Unesite datum kada je smer osnovan" required>
-                      <div class="help-block with-errors"></div>
-                    </div>
-                  </div></div>
-                <div class="row">
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                  <div class="form-group">
-                    <label for="opisSmera">Opis smera:</label>
-                    <textarea rows="4" cols="50" class="form-control" id="opisSmera" placeholder="Unesite znacajne karakteristike smera"></textarea>
-                  </div></div></div>
-              <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                <div class="modal-footer">
-                  <button type="submit" id="smerSubmit" class="btn btn-primary btn-lg">Dodaj smer</button>
-              </div></div></div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-       
- 
-<!-- Modal -->
-<div id="softver" class="modal fade" role="dialog">
-    <div class="modal-dialog">
- 
-       <!-- Modal content-->
-       <div class="modal-content">
-	       <div class="modal-header">
-	    		<button type="button" class="close" data-dismiss="modal">&times;</button>
-	        	<div id="softverHeader"><h3 class="modal-title">Dodavanje novog softvera</h3></div>
-	       </div>
-          <div class="row centered-form">
-            <div class="col-xs-12 col-sm-12 col-md-12 ">
-             <div class="panel panel-default">
-             <div class="panel-heading">
-              <form id="softverForm" method="post" class="form-vertical" autocomplete="off">
-                <div class="row">
-                <div class="form-group">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                    <label for="nazivSmera"><br>Naziv softvera:</label>
-                    <input type="text" class="form-control" id="nazivSoftvera" data-error="Molim Vas unesite naziv softvera" placeholder="Unesite naziv softvera" required>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div></div>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                    <label for="oznakaSmera">Oznaka softvera:</label>
-                    <input type="text" class="form-control" id="oznakaSoftvera" data-error="Molim Vas unesite oznaku softvera" placeholder="Unesite oznaku (skraćenicu) softvera" required>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div></div>
-                <div class="row">
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <label for="datumSmera">Godina izdavanja:</label>
-                        <input type="number" min="1950" max="2019" class="form-control" id="datumIzdavanja"  data-error="Molim Vas unesite godinu izdavanja softvera (od 1950.)" placeholder="Unesite godinu kada je softver izdat" required>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                  </div>
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <label for="oznakaSmera">Cena softvera:</label>
-                        <input type="number" min="0" max="99999999" class="form-control" id="cenaSoftvera" data-error="Molim Vas unesite cenu softvera" placeholder="Unesite cenu softvera" required>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                  </div>
-                  </div>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                    <label for="oznakaSmera">Proizvođač softvera:</label>
-                    <input type="text" class="form-control" id="proizvodjacSoftvera" data-error="Molim Vas unesite proizvođača softvera" placeholder="Unesite proizvođača softvera" required>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div></div>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                    <label for="oznakaSmera">Sajt softvera:</label>
-                    <input type="text" class="form-control" id="sajtSoftvera" data-error="Molim Vas unesite sajt softvera" placeholder="Unesite sajt softvera" required>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                </div></div>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                  <div class="form-group">
-                    <label for="opisSmera">Opis softvera:</label>
-                    <textarea rows="4" cols="50" class="form-control" id="opisSoftvera" placeholder="Unesite opis softvera (nije neophodno)"></textarea>
-                </div></div></div>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12">
-                  <div class="modal-footer">
-                    <button type="submit" id="softverSubmit" class="btn btn-primary btn-lg">Dodaj softver</button>
-              </div></div></div>
-          </form>
-        </div>
-      </div>
-      </div>
-    </div>
-  </div>
-</div></div>
- 
-</div>
- 
-<script type="text/javascript">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.css" rel="stylesheet"/>
+	<script src="https://cdn.jsdelivr.net/sweetalert2/6.4.1/sweetalert2.js"></script>
+	<link rel="stylesheet" href="tooltips.css"/>
 	
-	<!-- MULTISELECT ZA FORME (softver; forma DodajPredmet) -->
-    $(document).ready(function() {
-        $('#softveri-predmet').multiselect({
-            enableFiltering: true,
-            includeSelectAllOption: true,
-            maxHeight: 200
-        });
-    });
-    
-    <!-- ISPRAZNI FORME NAKON CLOSE i DESTROY VALIDATOR! -->
-    $('.modal').on('hidden.bs.modal', function(){
-        $(this).find('form')[0].reset();
-        
-    });
-    
-</script>
-
-<script>
-document.onkeydown = function(e) {
+	<script src="zoomInZoomOut.js"></script>
+	
+  <script>
+ $.fn.exists = function () {
+	    return this.length !== 0;
+	}
+ 
+ 
+ $('[data-toggle="tab"]').tooltip({
+	    trigger: 'hover',
+	    placement: 'bottom',
+	    animate: true,
+	    delay: 500,
+	    container: 'body'
+	});
+ 
+ // SHORTCUTS
+ document.onkeydown = function(e) {
 	  var key = e.which || e.keyCode;
-	  // CTRL + Q  
-	  if (key == 81 && e.ctrlKey) {
-	    $("#predmet").modal('toggle');
-	    // CTRL + W
-	  } else if (key == 87 && e.ctrlKey) {
-		  $("#ucionica").modal('toggle');
-		  // CTRL + E
-	  } else if (key == 69 && e.ctrlKey) {
-		  $("#smer").modal('toggle');
-		  // CTRL + R
-	  } else if (key == 82 && e.ctrlKey) {
-		  $("#softver").modal('toggle');
-		  // F2
+	  // CTRL + s     - save
+	  if (key == 83 && e.ctrlKey) {
+		  e.preventDefault();
+	    save();
+	    // CTRL + u   - ucitaj
+	  } else if (key == 85 && e.ctrlKey) {
+		  ucitajRaspored();
+		// F2 help
 	  } else if (key == 113) {
 		  var win = window.open('pomoc.html', '_blank');
 		  win.focus();
-		  // CTRL + Y
-	  } else if (key == 89 && e.ctrlKey) {
+		  // ctrl + E
+	  } else if (key == 69 && e.ctrlKey) {
 		  e.preventDefault();
-		  window.location.replace('/raspored.html');
+		  window.location.replace('index.html');
 	  }
 }
-</script>
-
  
  
-<script>
-function changePredmetButtonText(){
-	$("#predmetSubmit").text("Dodaj predmet");
-	$("#predmetHeader").text("Dodavanje novog predmeta");
-}
-function changeSmerButtonText(){
-	$("#smerSubmit").text("Dodaj smer");
-	$("#smertHeader").text("Dodavanje novog smera");
-}
-function changeUcionicaButtonText(){
-	$("#ucionicaSubmit").text("Dodaj ucionicu");
-	$("#ucionicaHeader").text("Dodavanje nove ucionice");
-}
-function changeSoftverButtonText(){
-	$("#softverSubmit").text("Dodaj softver");
-	$("#softverHeader").text("Dodavanje novog softvera");
-}
+function ucitajKartice() {
 
-function ucitajSmerove(){
-	$("#smerSelect").empty();
-    $.ajax({
-        type: "GET",
-        url: "/api/smerovi",
-        success: function(smerovi){
-            
-            var selectSmer = document.getElementById("smerSelect");
-            $.each(smerovi, function(i, smer){
-                var optionSmer = document.createElement("OPTION");
-                selectSmer.add(optionSmer);
-                optionSmer.value = smer.oznaka;
-                optionSmer.text = smer.naziv;
-            });
-        }
-    });
-}
- 
-function ucitajSoftvere(){
-    $.ajax({
-        type: "GET",
-        url: "/api/softveri",
-        success: function(softveri){
-            $("#softveri-predmet").empty();
-            $("#softveri-ucionica").empty();
-     
-            $.each(softveri, function(i, softver){
-                $("#softveri-predmet").append($("<option>",{
-                    value: softver.oznaka,
-                    text: softver.naziv
-                  }));
-                $("#softveri-ucionica").append($("<option>",{
-                	value: softver.oznaka,
-                	text: softver.naziv
-                }));
-               });
-            $("#softveri-predmet").multiselect('rebuild');
-            $("#softveri-ucionica").multiselect('rebuild');
-        }
-    });
-}
+      // initialize the external events
+      // -----------------------------------------------------------------
+	  
+      $('#external-events .fc-event').each(function() {
 
-$(document).ready(function(){
-	ucitajSoftvere();
-	ucitajSmerove();
+        // store data so the calendar knows to render an event upon drop
+        $(this).data('event', {
+         //title: $.trim($(this).text()),
+		 title : $(this).text().split(" ")[0], 
+         duration : $(this).attr("duration"),
+		  // use the element's text as the event title
+          stick: true, // maintain when user navigates (see docs on the renderEvent method)
+         brojTermina : $(this).attr("brojTermina"),
+         smer: $(this).attr("smer"),
+         pametnaTabla: $(this).attr("pametnaTabla"),
+         projektor: $(this).attr("projektor"),
+         tabla: $(this).attr("tabla"),
+         softveri: $(this).attr("softveri"),
+         naziv: $(this).attr("naziv"),
+         opSistem: $(this).attr("opSistem"),
+         brojMesta: $(this).attr("brojMesta")
+        });
+
+        // make the event draggable using jQuery UI
+        $(this).draggable({
+          scroll: false,
+          zIndex: 999,
+		  containment: ".fc-agenda-body table",
+		  //appendTo: 'body',
+
+          revert: true,      // will cause the event to go back to its
+          revertDuration: 0  //  original position after the drag
+        });
+
+      });   
+};
+    
+$( document ).ready(function() {
+
+
+	
+});
+var ucioniceGlobal = [];
+
+var tabeleOznake = [];
+
+$.ajax({
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(ucionice){
+				var i = 0;
+			  ucionice.forEach(function(ucionica) {
+				    ucioniceGlobal.push(ucionica);
+				    
+			  		var liClass = '';
+			  		var tab = '';
+			  		var tabContent = '';
+			  		var tabClass = 'class="tab-pane fade"';
+					if (i == 0){
+						liClass = 'class="active"';
+						tabClass = 'class="tab-pane fade in active"';
+						
+					}
+					i++;
+					
+					// DODAVANJE TOOLTIP-a !!!
+					var dataToolTip = ' data-toggle="tooltip" data-placement="bottom" title=';
+					var softs = ucionica.softveri;
+	                var temp = "";
+	                if (softs.length > 0) {
+	              	   softs.forEach(function(softver) {
+	              	   	   temp = temp + softver.naziv + ", "; 
+	              	    })       
+	                 }
+	                var softveri = temp.substring(0, temp.length-2);
+					var toolTip = "Broj mesta: " + ucionica.brojMesta + "\n";
+					toolTip += "Operativni sistem: " + ucionica.opSistem + "\n";
+					toolTip += "Projektor: " + (ucionica.projektor ? "da" : "ne") + "\n";
+					toolTip += "Tabla: " + (ucionica.tabla ? "da" : "ne") + "\n";
+					toolTip += "Pametna tabla: " + (ucionica.pametnaTabla ? "da" : "ne") + "\n";
+					toolTip += "Softveri: " + softveri;
+					dataToolTip += '"' + toolTip + '" ';
+					
+					// KRAJ DODAVANJA TOOLTIP-a !!
+					liClass += dataToolTip;
+					
+					
+					var tab = '<li '+ liClass + '><a data-toggle="tab" href="#tab_' + ucionica.oznaka +'">' +ucionica.oznaka +'</a></li>';
+					$("#tabs").append(tab);
+					var podaci = '<div class="podaci"><p>Broj mesta: <span class="opisUcionice">'+ ucionica.brojMesta + '</span><br>Operativni sistem: <span class="opisUcionice">'+ (ucionica.opSistem =="WINLINUX" ? "WINDOWS I LINUX" : ucionica.opSistem) + '</span><br>Tabla: <span class="opisUcionice">' + (ucionica.tabla ? "da" : "ne") + '</span><br>Pametna tabla: <span class="opisUcionice">' + (ucionica.pametnaTabla ? "da" : "ne") + '</span><br>Projektor: <span class="opisUcionice">' + (ucionica.projektor ? "da":"ne") + '</span></p></div>';
+					var tabContent =  '<div  id="tab_' + ucionica.oznaka +'" '+ tabClass +'><div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div>'+podaci+'</div>';
+					$("#tabsContent").append(tabContent);
+					i++;
+					
+					
+					$("#calendar_" + ucionica.oznaka).css("max-width", "900px;");
+					$("#calendar_" + ucionica.oznaka).css("margin", "20px auto;");
+					tabeleOznake.push(ucionica.oznaka);
+					
+					liClass = '';
+					
+				});
+			  	initTable(tabeleOznake[0], []);
+				$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+					  var target = $(e.target).attr("href") // activated tab
+					  
+					  initTable((target.split("_"))[1], []);
+					  //alert(target);
+				});
+			  	$('.fc-axis').each(function(){
+					//ispravlja bag u kaledaru
+					($(this)).css('width' , '56px');
+
+			  	 });
+			  	tabeleOznake = [];
+			  
+    },
+    processData: false,
+    type: 'GET',
+    url: '/api/ucionice'
+});
+var predmetiUcitani = 0;
+var predmetiGlobal = [];
+$.ajax({
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(predmeti){
+				
+			  predmeti.forEach(function(predmet) {
+				  predmetiGlobal.push(predmet);
+				    var hours = Math.floor( (predmet.duzinaTermina * 45) / 60);          
+				    var minutes = (predmet.duzinaTermina*45) % 60;
+				    var softs = predmet.softveri;
+	                var temp = "";
+	                if (softs.length > 0) {
+	              	   softs.forEach(function(softver) {
+	              	   	   temp = temp + softver.naziv + ", "; 
+	              	    })       
+	                 }
+	                var softveri = temp.substring(0, temp.length-2);
+	                
+				    var kartica = '<div data-toggle="tooltip" data-placement="bottom" title="" id="kartica_'+ predmet.oznaka +'" class="fc-event" duration="' +hours + ':' + minutes +'" brojTermina="'+ predmet.brojTermina +'" smer="' + predmet.smer.oznaka + '" projektor="' + predmet.projektor + '" tabla="' + predmet.tabla + '" pametnaTabla="' + predmet.pametnaTabla + '" opSistem="' + predmet.opSistem + '" naziv="' + predmet.naziv + '" softveri="' + softveri + '" brojMesta="' + predmet.velicinaGrupe + '">'  + '</div>';		
+				    var id = "#kartica_" + predmet.oznaka;
+				    $("#predmeti").append(kartica);
+				    // ova dole sa uglastim ipak ne treba
+				    var tx = predmet.oznaka + " [" + predmet.brojTermina + "]\n";
+				    tx = predmet.oznaka + " " + "\n";
+				    tx += predmet.naziv + "\n";
+				    tx += "Broj termina: " + predmet.brojTermina + "\n";
+				    tx += "Smer: " + predmet.smer.oznaka + "\n";
+				    
+				    var tip = "";
+				    tip += "Broj mesta: " + predmet.velicinaGrupe + "\n";
+				    tip += "OS: " + predmet.opSistem + "\n";
+				    tip += "Pametna tabla: " + (predmet.pametnaTabla ? "da" : "ne") + "\n";
+				    tip += "Tabla: " + (predmet.tabla ? "da" : "ne") + "\n";
+				    tip += "Projektor: " + (predmet.projektor? "da" : "ne") + "\n";
+				    tip += "Softver: " + softveri + "\n";
+				    var obj = $(id).text(tx);
+				    obj.attr("title", tip);
+				    obj.html(obj.html().replace(/\n/g,'<br/>'));
+				    			
+				});
+			  ucitajKartice();
+	
+    },
+    processData: false,
+    type: 'GET',
+    url: '/api/predmeti'
 });
 
-<!-- SUBMIT Forme za dodavanje softvera -->
-
-$('#softver').on('shown.bs.modal', function (e) {
-		$(this).find('form').validator();
-		
-		$('#softverForm').on('submit', function (e) {
-		    if (e.isDefaultPrevented()) {
-		    	// ako je forma invalid
-		    } else {
-		      prikupiSoftver();
-		      e.preventDefault() // if you're using AJAX
-		    }
-		  })
-		$('#softver').on('hidden.bs.modal', function (e) {
-			$(this).find('form').off('submit').validator('destroy');
-		})
-});
 
 
-function prikupiSoftver() {
-	var softver = {};
-    softver.naziv = $("#nazivSoftvera").val();
-    softver.oznaka = $("#oznakaSoftvera").val();
-    softver.proizvodjac = $("#proizvodjacSoftvera").val();
-    softver.opis = $("#opisSoftvera").val();
-    softver.sajt = $("#sajtSoftvera").val();
-    softver.godinaIzdavanja = $("#datumIzdavanja").val();
-    softver.cena = $("#cenaSoftvera").val();
-    
-    if($("#softverSubmit").text() == "Dodaj softver"){
-    	$.ajax({
-            type: "POST",
-            contentType: 'application/json',
-            url: "/api/dodajSoftver",
-            data: JSON.stringify(softver),
-            success:function(responce){
-                uspesnoSwal("Softver uspešno dodat!");
-                $("#softver").modal("hide");
-            },
-            error: function(err){
-                neuspesnoSwal("Softver sa ovom oznakom već postoji!");
-            },
-            processData: false,
-      });
-    }else{
-    	softver.id = softver_global_id;
-    	$.ajax({
-            type: "POST",
-            contentType: 'application/json',
-            url: "/api/izmeniSoftver",
-            data: JSON.stringify(softver),
-            success:function(responce){
-                uspesnoSwal("Softver uspešno izmenjen!");
-            },
-            error: function(err){
-                neuspesnoSwal("Softver sa ovom oznakom već postoji!");
-            },
-            processData: false,
-      });
-    }
-}	 
 
-<!-- SUBMIT Forme za dodavanje ucionice -->
-
-$('#ucionica').on('shown.bs.modal', function (e) {
-		$(this).find('form').validator();
-		
-		$('#ucionicaForm').on('submit', function (e) {
-		    if (e.isDefaultPrevented()) {
-		      	// ako su podaci invalid
-		    } else {
-		      prikupiUcionica();
-		      e.preventDefault() // if you're using AJAX
-		    }
-		  })
-		$('#ucionica').on('hidden.bs.modal', function (e) {
-			$(this).find('form').off('submit').validator('destroy');
-		})
-});
-
-function prikupiUcionica() {
-	var ucionica = {};
-    ucionica.oznaka = $("#oznakaUcionice").val();
-    ucionica.opis = $("#opisUcionice").val();
-    ucionica.brojMesta = $("#brojMesta").val();
-    ucionica.projektor = $('#projektorUcionica:checked').val()?true:false;
-    ucionica.tabla = $('#tablaUcionica:checked').val()?true:false;
-    ucionica.pametnaTabla = $('#pametnaTablaUcionica:checked').val()?true:false;
-   
-    var lin = $('#linuxUcionica:checked').val()?true:false;
-    if(lin){
-        ucionica.opSistem = 'LINUX';
-    }
-    var win = $('#windowsUcionica:checked').val()?true:false;
-    if(win){
-        ucionica.opSistem = 'WINDOWS';
-    }
-    var winlin = $('#obaUcionica:checked').val()?true:false;
-    if(winlin){
-        ucionica.opSistem = 'WINLINUX';
-    }
-    
-    var softwares = $("#softveri-ucionica option:selected");
-    var selectedSoftware = [];
-    $(softwares).each(function(index, s) {
-      	selectedSoftware.push($(this).val());
-    });
-    ucionica["softveri"] = [];
-    var temp = [];
-    
-    for (i = 0; i < selectedSoftware.length; i++) {
-    	var s = {"oznaka" : selectedSoftware[i]};
-    	temp.push(s);
-    }
-    ucionica["softveri"] = temp;
-    
-    if($("#ucionicaSubmit").text() == "Dodaj ucionicu"){
-    	$.ajax({
-            type: "POST",
-            contentType: 'application/json',
-            url: "/api/dodajUcionicu",
-            data: JSON.stringify(ucionica),
-            success:function(responce){
-                uspesnoSwal("Uspešno dodavanje učionice!");
-                $("#ucionica").modal("hide");
-            },
-            error: function(err){
-                neuspesnoSwal("Učionica sa ovom oznakom već postoji!");
-            },
-            processData: false,
-      	});
-    }else{
-    	ucionica.id = ucionica_global_id;
-    	$.ajax({
-            type: "POST",
-            contentType: 'application/json',
-            url: "/api/izmeniUcionicu",
-            data: JSON.stringify(ucionica),
-            success:function(responce){
-                uspesnoSwal("Uspešna izmena učionice!");
-            },
-            error: function(err){
-                neuspesnoSwal("Učionica sa ovom oznakom već postoji!");
-            },
-            processData: false,
-      	});
-    }
-}
-
-var dodajPredmet = 0;
-<!-- SUBMIT Forme za dodavanje predmeta -->
-
-    $('#predmet').on('shown.bs.modal', function (e) {
-  		$(this).find('form').validator();
-  		
-  		$('#predmetForm').on('submit', function (e) {
-  		    if (e.isDefaultPrevented()) {
-  		      	// ako su podaci invalid
-  		    } else {
-  		  		prikupiPredmet();
-  		  			
-	            e.preventDefault() // if you're using AJAX
-  		    }
-  		  })
-  		$('#predmet').on('hidden.bs.modal', function (e) {
-    		$(this).find('form').off('submit').validator('destroy');
-  		})
-    });
-
-
-function prikupiPredmet() {
-    var predmet = {};
-    predmet.naziv = $("#nazivPredmeta").val();
-    predmet.oznaka = $("#oznakaPredmeta").val();
-    predmet.opis = $("#opisPredmeta").val();
-    predmet.velicinaGrupe = $("#velicinaGrupe").val();
-    predmet.duzinaTermina = $("#duzinaTermina").val();
-    predmet.brojTermina = $("#brojTermina").val();
-    predmet.projektor = $('#projektorPredmet:checked').val()?true:false;
-    predmet.tabla = $('#tablaPredmet:checked').val()?true:false;
-    predmet.pametnaTabla = $('#pametnaTablaPredmet:checked').val()?true:false;
-
-    var linux = $('#linuxPredmet:checked').val()?true:false;
-    var windows = $('#windowsPredmet:checked').val()?true:false;
-    var winlinux = $('#obaOsPredmet:checked').val()?true:false;
-    if(linux){
-        predmet.opSistem = 'LINUX';
-    }
-    else if(windows){
-        predmet.opSistem = 'WINDOWS';
-    }
-    else if(winlinux){
-        predmet.opSistem = 'WINLINUX';
-    }
-    else{
-        predmet.opSistem = '';
-    }
-    var smer = {"oznaka" : $("#smerSelect").val()};
-    predmet["smer"] = {};
-    predmet["smer"] = smer;
-    
-    var softwares = $("#softveri-predmet option:selected");
-    var selectedSoftware = [];
-    $(softwares).each(function(index, s) {
-      	selectedSoftware.push($(this).val());
-    });
-    predmet["softveri"] = [];
-    var temp = [];
-    
-    for (i = 0; i < selectedSoftware.length; i++) {
-    	var s = {"oznaka" : selectedSoftware[i]};
-    	temp.push(s);
-    }
-    predmet["softveri"] = temp;
-    
-    if($("#predmetSubmit").text() == "Dodaj predmet"){
-    	$.ajax({
-            type: "POST",
-            contentType: 'application/json',
-            url: "/api/dodajPredmet",
-            data: JSON.stringify(predmet),
-            success:function(responce){
-                uspesnoSwal("Uspešno dodavanje predmeta!");
-                $("#predmet").modal("hide");
-            },
-            error: function(err){
-                neuspesnoSwal("Predmet sa ovom oznakom već postoji!");
-            },
-            processData: false,
-       });
-    }else{
-    	var stariPredmetId = $("#izmeniPredmet" + predmet_global_id).val();
-        predmet.id = stariPredmetId;
-    	$.ajax({
-            type: "POST",
-            contentType: 'application/json',
-            url: "/api/izmenaPredmeta",
-            data: JSON.stringify(predmet),
-            success:function(responce){
-                uspesnoSwal("Uspešno izmenjen predmet!");
-            },
-            error: function(err){
-                neuspesnoSwal("Predmet sa ovom oznakom već postoji!");
-            },
-            processData: false,
-       });
-    }
-    
-}
-
-<!-- SUBMIT ZA DODAVANJE SMERA -->
-		$('#smer').on('shown.bs.modal', function (e) {
-			$(this).find('form').validator();
-			
-			$('#smerForm').on('submit', function (e) {
-			    if (e.isDefaultPrevented()) {
-			      	// ako su podaci invalid
-			    } else {
-			      prikupiSmer();
-			     
-			      e.preventDefault() // if you're using AJAX
-			    }
-			  })
-			$('#smer').on('hidden.bs.modal', function (e) {
-				$(this).find('form').off('submit').validator('destroy');
-			})
+function initTable(id, raspored){
+	var events = [];
+	var event;
+	if (raspored.length != 0){
+		raspored.termini.forEach(function(termin){
+			if (termin.ucionica.oznaka == id){
+				var dateNow = new Date();
+				var dateStart = new Date();
+				var dateEnd = new Date();
+				var dayOfWeekNow = dateNow.getDay();
+				var dayOfWeekCard = termin.dayOfWeek;
+				var daysToAdd = daysReversed[dayOfWeekCard] - dayOfWeekNow;
+				dateEnd = dateEnd.addDays(daysToAdd);
+				dateStart = dateStart.addDays(daysToAdd);
+				dateEnd.setHours(termin.endHours);
+				dateEnd.setMinutes(termin.endMinutes)
+				dateStart.setHours(termin.startHours);
+				dateStart.setMinutes(termin.startMinutes);
+				event = {start: moment(dateStart).format('YYYY-MM-DDTHH:mm:ss'), end: moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss') , title: termin.oznaka, naziv : termin.naziv, smer : termin.smer};
+				events.push(event);
+				
+			}
 		});
 
+		
+	}
 
-function prikupiSmer() {
-	 var smer = {};
-     smer.naziv = $("#nazivSmera").val();
-     smer.oznaka = $("#oznakaSmera").val();
-     smer.datum = $("#datumSmeraId").val();
-     smer.opis = $("#opisSmera").val();
-     
-     if($("#smerSubmit").text() == "Dodaj smer"){
-    	 $.ajax({
-             type: "POST",
-             contentType: 'application/json',
-             url: "/api/dodajSmer",
-             data: JSON.stringify(smer),
-             success:function(responce){
-                 uspesnoSwal("Uspešno dodavanje smera!");
-                 $("#smer").modal("hide");
-             },
-             error: function(err){
-                 neuspesnoSwal("Smer sa ovom oznakom već postoji!");
-                 
-             },
-             processData: false,
-         });
-     }
-     else{
-    	 smer.id = smer_global_id; 
-    	 $.ajax({
-             type: "POST",
-             contentType: 'application/json',
-             url: "/api/izmeniSmer",
-             data: JSON.stringify(smer),
-             success:function(responce){
-                 uspesnoSwal("Uspešna izmena smera!");
-             },
-             error: function(err){
-                 neuspesnoSwal("Smer sa ovom oznakom već postoji!");
-             },
-             processData: false,
-         });
-     }
+      $('#calendar_' + id).fullCalendar({
+	slotLabelFormat : 'HH:mm',
+   	events : events,
+    timezone: 'UTC',
+    timeFormat: 'H:mm',
+    hiddenDays: [ 0 ],
+    defaultView: 'agendaWeek',
+    allDaySlot: false,
+    slotEventOverlap: false,
+    slotDuration: '00:15:00',
+    slotLabelInterval: '01:45',
+    minTime: '07:00:00',
+    maxTime: '22:00:00',
+    eventOverlap: false,
+    defaultTimedEventDuration: '00:45:00',
+    eventDurationEditable : false,
+    editable: true,
+    droppable: true, // this allows things to be dropped onto the calendar
+    eventResize: function(event, delta, revertFunc) {
 
-}
+      var duration = moment.duration(event.end - event.start);
+      var limit = moment.duration(45, 'minutes');
+      if ( duration < limit) {
+        revertFunc();
+      }
 
-
-<!-- SWAL za success -->
-function uspesnoSwal(poruka){
-		swal({
-			  type: 'success',
-			  title: 'Uspešno!',
-			  text: poruka
-		}).then(function(){ 
-			if (!demo){
-		       location.reload();
+    },
+	
+	eventAllow : function(dropLocation, draggedEvent){
+			var allowed = true;
+			var ucionicaName = $('.nav-tabs .active').text();
+			var predmetName = draggedEvent.title;
+			//provera da li novi interval upada u neki postojeci
+			var draggedEventStart = moment(draggedEvent.start);
+			var draggedEventEnd = moment(draggedEvent.end);
+	        var events = $("#calendar_" + id).fullCalendar('clientEvents');
+			//var duration = moment.duration(event.end - event.start);
+			if (draggedEventStart.hours() < 7 || draggedEventEnd.hours() > 22 || (draggedEventEnd.hours() == 22 && draggedEventEnd.minutes() > 0) || draggedEventEnd.hours() < draggedEventStart.hours()){
+				return false;
 			}
-		   });
+			
+			
+	  		var ucionica;
+	  		var predmet;
+			ucioniceGlobal.forEach(function(u){
+				if (u.oznaka == ucionicaName){
+					ucionica = u;
+				}
+				
+			});
+			predmetiGlobal.forEach(function(p){
+				if (p.oznaka == predmetName){
+					predmet = p;
+				}
+				
+			});
+			if (predmet.velicinaGrupe > ucionica.brojMesta){
+				greska("Učionica nema dovoljan broj mesta!");
+				allowed = false;
+			}
+	  		if (predmet.projektor == 1 && ucionica.projektor == 0 ){
+	  			greska("Učionica nema projektor!");
+	  			allowed = false;
+	  		}
+	  		if (predmet.tabla == 1 && ucionica.tabla == 0 ){
+	  			greska("Učionica nema tablu!");
+
+	  			allowed = false;
+	  		}
+	  		if (predmet.pametnaTabla == 1 && ucionica.pametnaTabla == 0 ){
+	  			greska("Učionica nema pametnu tablu!");
+	  			allowed = false;
+	  		}
+	  		if (ucionica.opSistem != "WINLINUX" && predmet.opSistem != ucionica.opSistem) {
+	  			greska("Učionica nema potreban operativni sistem!");
+	  			allowed = false;
+	  		}
+	  		
+	  		// softveri
+	  		var ucionice_sID = ucionica.softveri.map(function(obj) { 
+  				return obj.oznaka; 
+			});
+	  		var predmet_sID = predmet.softveri.map(function(obj) {
+	  			return obj.oznaka;
+	  		});
+	  		
+	  		var isSuperset = predmet_sID.every(function(val) {
+	  			return ucionice_sID.indexOf(val) >= 0;
+	  		});
+	  		
+	  		if (isSuperset == false) {
+	  			greska("Učionica ne poseduje potreban softver!");
+	  			allowed = false;
+	  		}
+	  		
+	  		return allowed;
+
+	  		
+	},
+    drop: function(date, jsEvent, ui, resourceId) {
+    	// is the "remove after drop" checkbox checked?
+
+		  var brTermina = $(this).attr("brojTermina");
+		  brTermina = brTermina - 1;
+        if (brTermina < 1) {
+      	  $(this).remove();
+        }
+        
+        $(this).attr("brojTermina", brTermina);
+        
+        var tx = $(this).text().split(" ")[0] + " [" + brTermina + "]";
+        
+        $(this).text($(this).text().split(" ")[0] + " [" + brTermina + "]");
+        tx = $(this).text().split(" ")[0] + " ";
+        tx += "\n" + $(this).attr("naziv") + "\n";
+        tx += "Broj termina: " + $(this).attr("brojTermina") + "\n";
+        //tx += "Naziv: " + $(this).attr("naziv") + "\n";
+        tx += "Smer: " + $(this).attr("smer") + "\n";
+        
+        //tx += "Broj mesta: " + $(this).attr("brojMesta") + "\n";
+	    //tx += "OS: " + $(this).attr("opSistem") + "\n";
+	    //tx += "Pametna tabla: " + ($(this).attr("pametnaTabla") ? "da" : "ne") + "\n";
+	    //tx += "Tabla: " + ($(this).attr("tabla") ? "da" : "ne") + "\n";
+	    //tx += "Projektor: " + ($(this).attr("projektor") ? "da" : "ne") + "\n";
+	    //tx += "Softver: " + $(this).attr("softveri") + "\n";
+	    var obj = $(this).text(tx);
+	    obj.html(obj.html().replace(/\n/g,'<br/>'));
+        
+        
+		 
+        // ovo ne treba vise
+        if ($('#drop-remove').is(':checked')) {
+          // if so, remove the element from the "Draggable Events" list
+
+          $(this).remove();
+        }
+    },
+    
+    eventRender: function(event, element) { 
+        element.find('.fc-title').append("<br/>" + event.naziv  + "<br/>" + "Smer: " + event.smer); 
+    }, 
+    
+	eventDrop: function(event, delta, revertFunc) {
+        //inner column movement drop so get start and call the ajax function......
+		//alert(moment("07:00", "HH:mm"));
+
+		var momentNewStart = moment(event.start);
+		var momentNewEnd = moment(event.end);
+		var duration = moment.duration(event.end - event.start);
+		if (momentNewStart.hours() < moment("07:00:00", "HH:mm:ss").hours()){
+			//event.start = moment("07:00", "HH:mm").format();
+			
+			momentNewStart.hours(7).valueOf();
+			momentNewStart.minutes(0).valueOf();
+			momentNewEnd.hours(7 + duration.hours()).valueOf();
+			momentNewEnd.minutes(0 + duration.minutes()).valueOf();
+			event.end = momentNewEnd.format();
+			event.start = momentNewStart.format();
+		}
+		if (momentNewEnd.hours() == moment("22:00:00", "HH:mm:ss").hours() && momentNewEnd.minutes() >0){
+			
+			momentNewEnd.hours(22).valueOf();
+			momentNewStart.hours(22 - duration.hours() - 1).valueOf();
+			momentNewEnd.minutes(0).valueOf();
+			momentNewStart.minutes(60 - duration.minutes()).valueOf();
+			event.end = momentNewEnd.format();
+			event.start = momentNewStart.format();
+		}else if (momentNewEnd.hours() > moment("22:00:00", "HH:mm:ss").hours() || momentNewEnd.hours() < momentNewStart.hours()){
+			if (momentNewEnd.hours() < momentNewStart.hours()){
+				momentNewEnd.date(momentNewEnd.date() - 1);
+				//alert(momentEnd().date());
+			}
+			momentNewEnd.hours(22).valueOf();
+			
+			momentNewStart.hours(22 - duration.hours() - 1).valueOf();
+			momentNewEnd.minutes(0).valueOf();
+			momentNewStart.minutes(60 - duration.minutes()).valueOf();
+			event.end = momentNewEnd.format();
+			event.start = momentNewStart.format();
+		}
+		return false;
+        $('#calendar_' + id).fullCalendar('updateEvent', event);
+
+    },
+	eventDragStop: function( event, jsEvent, ui, view ) {
+        
+        if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
+        	
+            $('#calendar_' + id).fullCalendar('removeEvents', event._id);
+            var kartica = $("#kartica_" + event.title.split(" ")[0]);
+            if (kartica.exists() == true){
+            	//alert(kartica.attr("brojTermina"));
+    			var brTermina = parseInt(kartica.attr("brojTermina"));
+    			brTermina++;
+    			kartica.attr("brojTermina", brTermina);
+    			
+    			var tx = kartica.text().split(" ")[0] + " [" + brTermina + "]";
+    		    tx = kartica.text().split(" ")[0] + " ";
+    			tx += "\n" + kartica.attr("naziv") + "\n";
+   		        tx += "Broj termina: " + kartica.attr("brojTermina") + "\n";
+   		        //tx += "Naziv: " + kartica.attr("naziv") + "\n";
+   		        tx += "Smer: " + kartica.attr("smer") + "\n"; 
+   		        //tx += "Broj mesta: " + kartica.attr("brojMesta") + "\n";
+   			    //tx += "OS: " + kartica.attr("opSistem") + "\n";
+   			    //tx += "Pametna tabla: " + (kartica.attr("pametnaTabla") ? "da" : "ne") + "\n";
+   			    //tx += "Tabla: " + (kartica.attr("tabla") ? "da" : "ne") + "\n";
+   			    //tx += "Projektor: " + (kartica.attr("projektor") ? "da" : "ne") + "\n";
+   			    //tx += "Softver: " + kartica.attr("softveri") + "\n";
+   			    var obj = kartica.text(tx);
+   			    obj.html(obj.html().replace(/\n/g,'<br/>'));
+            }
+            else {
+            	
+            	var momentStart = moment(event.start);
+            	var momentEnd = moment(event.end);
+            	var momentDuration = moment.duration(event.end - event.start);
+            	//alert(momentDuration);
+				var hours = momentDuration.hours();
+				var minutes = momentDuration.minutes();
+				var tx = event.title + " \n";
+				tx += event.naziv + "\n";
+				tx += "Broj termina: 1\n";
+				tx += "Smer: " + event.smer + "\n";
+				var tip="";
+				tip += "Broj mesta: " + event.brojMesta + "\n";
+				tip += "OS: " + event.opSistem + "\n";
+				tip += "Pametna tabla: " + (event.pametnaTabla ? "da" : "ne") + "\n";
+				tip += "Tabla: " + (event.tabla ? "da" : "ne") + "\n";
+				tip += "Projektor: " + (event.projektor ? "da" : "ne") + "\n";
+				tip += "Softver: " + event.softveri + "\n";
+				
+            	var el2 = $('<div data-toggle="tooltip" data-placement="bottom" title="" id="kartica_'+ event.title +'" class="fc-event" duration="' + hours + ':' + minutes +'" brojTermina="1" opSistem="' + event.opSistem + '" naziv="' + event.naziv + '" projektor="' + event.projektor + '" pametnaTabla="' + event.pametnaTabla + '" tabla="' + event.tabla + '" softveri="' + event.softveri + '" smer="' + event.smer + '" brojMesta="' + event.brojMesta + '">' + event.title + ' [1]' + '</div>').appendTo("#predmeti");
+				var imeKartice = "#kartica_" + event.title;
+				var k = $(imeKartice).text(tx);
+				k.attr("title", tip);
+				k.html(k.html().replace(/\n/g, '<br/>'));
+            	el2.data('event', {
+                    title: event.title,
+                    //id: event.id,
+          		  	duration: el2.attr("duration"),       		 	
+          		  	brojTermina: el2.attr("brojTermina"),
+                    stick: true, // maintain when user navigates (see docs on the renderEvent method)
+            		opSistem: el2.attr("opSistem"),
+            		naziv: el2.attr("naziv"),
+            		projektor: el2.attr("projektor"),
+            		pametnaTabla: el2.attr("pametnaTabla"),
+            		tabla: el2.attr("tabla"),
+            		softveri: el2.attr("softveri"),
+            		smer: el2.attr("smer"),
+            		brojMesta: el2.attr("brojMesta")
+                  });
+            	el2.draggable({
+            		zIndex: 999,
+            		containment: ".fc-agenda-body table",
+            		scroll: false,
+            		revert: true,
+            		revetDuration: 0
+            	});
+            	$('#calendar_' + id).fullCalendar('updateEvent', event);
+            	
+           	
+            }
+       }
+    }
+  });
+      
+      var isEventOverDiv = function(x, y) {
+
+	        var external_events = $( '#external-events' );
+	        var offset = external_events.offset();
+	        offset.right = external_events.width() + offset.left;
+	        offset.bottom = external_events.height() + offset.top;
+	
+	        // Compare
+	        if (x >= offset.left
+	            && y >= offset.top
+	            && x <= offset.right
+	            && y <= offset .bottom) { return true; }
+	        return false;
+
+	    }
+      
+    $(".fc-header-toolbar").empty();
+  	$(".fc-mon").children().html("<span>PONEDELJAK<span>");
+  	$(".fc-tue").children().html("<span>UTORAK<span>");
+  	$(".fc-wed").children().html("<span>SREDA<span>");
+  	$(".fc-thu").children().html("<span>ČETVRTAK<span>");
+  	$(".fc-fri").children().html("<span>PETAK<span>");
+  	$(".fc-sat").children().html("<span>SUBOTA<span>");
+}
+var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var daysReversed = {'Sunday' : 0,'Monday' : 1,'Tuesday' : 2,'Wednesday' : 3,'Thursday': 4,'Friday' : 5,'Saturday' : 6}
+Date.prototype.addDays = function(days) {
+	  var dat = new Date(this.valueOf());
+	  dat.setDate(dat.getDate() + days);
+	  return dat;
+}
+function save(){
+
+	swal({
+		  title: 'Unesite ime rasporeda',
+		  input: 'text',
+		  inputAttributes: {
+		    autocapitalize: 'off'
+		  },
+		  showCancelButton: true,
+		  confirmButtonText: 'Sačuvaj'
+
+		}).then((result) => {
+			
+		  if (result) {
+			  var termini = [];
+				$.ajax({
+				    contentType: 'application/json',
+				    dataType: 'json',
+				    success: function(ucionice){
+								var i = 0;
+							  ucionice.forEach(function(ucionica) {
+								  //svaki calendar ima svoju ucionicu
+								  if ($("#calendar_" + ucionica.oznaka) == null){
+									  alert("asd");
+								  }
+								  var events = $("#calendar_" + ucionica.oznaka).fullCalendar('clientEvents');
+									for (var i = 0; i< events.length; i++){
+										
+										//if event == BUG XD
+										if (events[i].start == null){
+											continue;
+										}
+										var start_date = new Date(events[i].start._d);
+								        var end_date = '';
+								        if (events[i].end != null) {
+								            end_date = new Date(events[i].end._d);
+								        }
+								        
+								        var title = events[i].title;
+								        var startHours = start_date.getHours() -2;
+								        var startMinutes = start_date.getMinutes();
+								        var endHours = end_date.getHours();
+								        if (endHours == 0){
+								        	endHours = 22;
+								        }else{
+								        	endHours = end_date.getHours() -2 ;
+								        }
+								        var endMinutes = end_date.getMinutes();
+								        var dayOfWeek = days[start_date.getDay()];
+
+								        
+								        var termin = {ucionica : ucionica, oznaka : title ,startHours: startHours, startMinutes : startMinutes, endHours : endHours, endMinutes : endMinutes, dayOfWeek : dayOfWeek, naziv : events[i].naziv, smer : events[i].smer };
+
+								        termini.push(termin);
+							  		} 
+				    		});
+								var kartice = [];
+								predmetiGlobal.forEach(function(predmet){
+									
+									if ($("#kartica_" + predmet.oznaka).attr("brojTermina") != null){
+										var kartica = {oznaka: predmet.oznaka, 
+													   brojTermina : $("#kartica_" + predmet.oznaka).attr("brojTermina"),
+													   duration : $("#kartica_" + predmet.oznaka).attr("duration"),
+													   naziv : $("#kartica_" + predmet.oznaka).attr("naziv"),
+													   smer : $("#kartica_" + predmet.oznaka).attr("smer"),
+													   tabla : $("#kartica_" + predmet.oznaka).attr("tabla"),
+													   pametnaTabla : $("#kartica_" + predmet.oznaka).attr("pametnaTabla"),
+													   projektor : $("#kartica_" + predmet.oznaka).attr("projektor"),
+													   opSistem : $("#kartica_" + predmet.oznaka).attr("opSistem"),
+													   softveri : $("#kartica_" + predmet.oznaka).attr("softveri"),
+													   velicinaGrupe : $("#kartica_" + predmet.oznaka).attr("brojMesta")
+													   };
+										
+										
+										kartice.push(kartica);
+									}
+									
+								});
+							  var naziv = result;
+							  var raspored = {kartice : kartice, termini : termini ,naziv : naziv};
+								sendRaspored(raspored);
+				    },
+				    processData: false,
+				    type: 'GET',
+				    url: '/api/ucionice'
+				});
+		  }
+		})
+	
+}
+function sendRaspored(raspored){
+	$.ajax({
+	    contentType: 'application/json',
+	    data: JSON.stringify(raspored),
+	    dataType: 'json',
+	    success: function(raspored){
+	    	swal("Zapamćeno!", "Ime rasporeda : " + raspored.naziv, "success");
+	    },
+	    error: function(data){
+	    	alert("username already exists");
+	    },
+	    processData: false,
+	    type: 'POST',
+	    url: '/api/raspored'
+	});
 }
 
-<!-- SWAL za unseccess -->
-function neuspesnoSwal(poruka){
+function ucitajRaspored(){
+	var rasporedi = {};
+	$.ajax({
+	    contentType: 'application/json',
+	    dataType: 'json',
+	    success: function(rasporediUcitani){
+				rasporediUcitani.forEach(function(raspored){
+					rasporedi[raspored.naziv] = raspored.naziv;
+				});
+				swal({
+					  title: 'Izaberite raspored',
+					  input: 'select',
+					  inputOptions: rasporedi
+					  ,
+					  
+					  showCancelButton: true,
+					  inputValidator: function (value) {
+					    return new Promise(function (resolve, reject) {
+					      if (value !== '') {
+					        resolve();
+					      } else {
+					        reject('You need to select a Tier');
+					      }
+					    });
+					  }
+					}).then(function (result) {
+						var raspored;
+						$.ajax({
+						    contentType: 'application/json',
+						    dataType: 'json',
+						    success: function(rasporedUcitan){
+						    	swal("Učitano!", "raspored : " + rasporedUcitan.naziv, "success");
+
+						    	$("#predmeti").empty();
+								$("#tabsContent").empty();
+								$("#tabs").empty();
+									raspored = rasporedUcitan;
+									//POREDJAJ kartice levo
+									raspored.kartice.forEach(function(kartica){
+									    var karticaZaDodavanje = '<div data-toggle="tooltip" data-placement="bottom" title="a" id="kartica_'+ kartica.oznaka +'" class="fc-event" duration="'+ kartica.duration +'" brojTermina="'+ kartica.brojTermina +'" smer="' + kartica.smer + '" projektor="' + kartica.projektor + '" tabla="' + kartica.tabla + '" pametnaTabla="' + kartica.pametnaTabla + '" opSistem="' + kartica.opSistem + '" naziv="' + kartica.naziv + '" softveri="' + kartica.softveri + '" brojMesta="' + kartica.velicinaGrupe + '">'  + '</div>';		
+									    $("#predmeti").append(karticaZaDodavanje);
+									    
+									    var tx = kartica.oznaka + " [" + kartica.brojTermina + "]\n";
+									    tx = kartica.oznaka + " " + "\n";
+									    tx += kartica.naziv + "\n";
+									    tx += "Broj termina: " + kartica.brojTermina + "\n";
+									    tx += "Smer: " + kartica.smer + "\n";
+									    var tip = "";
+									    tip += "Broj mesta: " + kartica.velicinaGrupe + "\n";
+									    tip += "OS: " + kartica.opSistem + "\n";
+									    tip += "Pametna tabla: " + (kartica.pametnaTabla ? "da" : "ne") + "\n";
+									    tip += "Tabla: " + (kartica.tabla ? "da" : "ne") + "\n";
+									    tip += "Projektor: " + (kartica.projektor? "da" : "ne") + "\n";
+									    tip += "Softver: " + kartica.softveri + "\n";
+									    var id = "#kartica_" + kartica.oznaka;
+									    var obj = $(id).text(tx);
+									    obj.attr("title", tip);
+									    obj.html(obj.html().replace(/\n/g,'<br/>'));
+									});
+									ucitajKartice();
+										
+						    },
+						    async : false,
+						    processData: false,
+						    type: 'GET',
+						    url: '/api/raspored/' + result
+						});
+					
+						
+						
+
+						$.ajax({
+						    contentType: 'application/json',
+						    dataType: 'json',
+						    success: function(ucionice){
+										var i = 0;
+									  ucionice.forEach(function(ucionica) {
+									  		var liClass = '';
+									  		var tab = '';
+									  		var tabContent = '';
+									  		var tabClass = 'class="tab-pane fade"';
+											if (i == 0){
+												liClass = 'class="active"';
+												tabClass = 'class="tab-pane fade in active"';
+											}
+											var tab = '<li '+ liClass + '><a data-toggle="tab" href="#tab_' + ucionica.oznaka +'">' +ucionica.oznaka +'</a></li>';
+											$("#tabs").append(tab);
+											var podaci = '<div class="podaci"><p>Broj mesta: <span class="opisUcionice">'+ ucionica.brojMesta + '</span><br>Operativni sistem: <span class="opisUcionice">'+ (ucionica.opSistem =="WINLINUX" ? "WINDOWS I LINUX" : ucionica.opSistem) + '</span><br>Tabla: <span class="opisUcionice">' + (ucionica.tabla ? "da" : "ne") + '</span><br>Pametna tabla: <span class="opisUcionice">' + (ucionica.pametnaTabla ? "da" : "ne") + '</span><br>Projektor: <span class="opisUcionice">' + (ucionica.projektor ? "da":"ne") + '</span></p></div>';
+											var tabContent =  '<div  id="tab_' + ucionica.oznaka +'" '+ tabClass +'><div class="calendar-container"><div class="calendarCss" id="calendar_' + ucionica.oznaka +'"></div></div>'+podaci+'</div>';
+											$("#tabsContent").append(tabContent);
+											i++;
+										
+											
+											$("#calendar_" + ucionica.oznaka).css("max-width", "900px;");
+											$("#calendar_" + ucionica.oznaka).css("margin", "20px auto;");
+											tabeleOznake.push(ucionica.oznaka);
+											
+											liClass = '';
+											
+										});
+									  	initTable(tabeleOznake[0], raspored);
+										$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+											  var target = $(e.target).attr("href") // activated tab
+											  
+											  initTable((target.split("_"))[1], raspored);
+											  //alert(target);
+										});
+									  	//tabeleOznake.forEach(function(oznaka){
+									  		
+									  		//initTable(oznaka, raspored);
+									  	//});
+									  	$('.fc-axis').each(function(){
+											//ispravlja bag u kaledaru
+											($(this)).css('width' , '56px');
+
+									  	 });
+									  	$("#calendar_L4").fullCalendar('render');
+									  	
+									  	
+									  			  
+						    },
+						    processData: false,
+						    type: 'GET',
+						    url: '/api/ucionice'
+						});
+
+					});	
+	    },
+	    error : function(){
+	    	swal({
+	    		  type: 'error',
+	    		  title: 'Greška',
+	    		  text: 'Trenutno nema sačuvanih rasporeda.',
+	    		  
+	    		})
+	    },
+	    processData: false,
+	    type: 'GET',
+	    url: '/api/raspored'
+	});
+	
+	
+	
+	
+}
+
+function greska(poruka){
 	swal({
 		  type: 'error',
-		  title: 'Greška!',
+		  title: 'Greška',
 		  text: poruka,
 		  
 		})
 }
-</script>
- 
- 
- 
-<!-- Nav meni --> 
-<div class="container">
-
-	<div class="row" style="display:inline" >
-		<div id="meniDiv" style="background-color:white;display:inline" >
-	    	<span id="meniBtn" style="font-size:45px;cursor:pointer;" onclick="openNav()">&#9776; Meni</span> 
-		</div>
-	    <button id="buttonZoomout" type="button" class="btn btn-default btn-lg" onclick="zoomout()" style="margin-left:62%;display:inline" >
-	      <span class="glyphicon glyphicon-zoom-out"></span> Zoom-out
-	    </button>
-	    <button id="buttonZoomin" type="button" class="btn btn-default btn-lg" onclick="zoomin()">
-	      <span class="glyphicon glyphicon-zoom-in"></span> Zoom-in
-	    </button>
+var clickEnabled = false;
+async function demo(){
+	var activeTabId = ($(".tab-pane.fade.active.in")).attr("id");
+	var activeCalendarId = "#calendar_" + activeTabId.split("_")[1];
 	
+	$(activeCalendarId).fullCalendar('removeEvents');
+	await sleep(300);
+	$(document).on("click",function() {
+		if (clickEnabled == false){
+			location.reload();		
+		}
+    });
+	$('html, body').css({
+	    overflow: 'hidden',
+	    height: '100%'
+	});
+	$(document).on("keydown",function() {
+		location.reload();
+    });
+	showModal("external-events", 0, 0, 400, 200, 'Ovo je demonstracija aplikacije. Za izlaz pritisnuti bilo koje dugme na tastaturi ili kliknuti mišem.');
+	await sleep(4000);
+
+	var functionComplete = 0;
+	//alert("a");
+	showModal("external-events", 0, 0, 200, 0, 'Sa leve strane prozora nalaze se predmeti koji se prevlače na raspored.');
+	await sleep(4000);
+	emptyModal();
+	
+	var dateStart = '2018-06-18T09:00:00'
+	var dateEnd = '2018-06-18T10:30:00'
+	var  event = {start: moment(dateStart), end: moment(dateEnd), title: 'MRS', naziv : 'Metodologije razvoja softvera', smer : 'siit'};
+	$(activeCalendarId).fullCalendar( 'renderEvent', event , true );
+	$(activeCalendarId).fullCalendar( 'refetchEvents' );
+	await sleep(1000);
+	dateStart = '2018-06-21T11:00:00'
+	dateEnd = '2018-06-21T13:15:00'
+	event = {start: moment(dateStart), end: moment(dateEnd), title: 'ISA', naziv : 'Internet softverske arhitekture', smer : 'siit'};
+	$(activeCalendarId).fullCalendar( 'renderEvent', event , true );
+	$(activeCalendarId).fullCalendar( 'refetchEvents' );
+	await sleep(1000);
+	dateStart = '2018-06-20T10:45:00'
+	dateEnd = '2018-06-20T12:15:00'
+	event = {start: moment(dateStart), end: moment(dateEnd), title: 'HCI', naziv : 'Interakcija čovek računar', smer : 'siit'};
+	$(activeCalendarId).fullCalendar( 'renderEvent', event , true );
+	$(activeCalendarId).fullCalendar( 'refetchEvents' );
+	await sleep(3000);
+	
+	showModal("save", -29, 0 , 0, 100, 'Nakon prevlačenja predmeta, možete sačuvati raspored klikom na označeno dugme "sačuvaj"', 3000);
+	await sleep(3000);
+	emptyModal();
+	save();
+	await sleep(1000);
+	$(".swal2-input").val("de");
+	await sleep(200);
+	$(".swal2-input").val("demo");
+	await sleep(200);
+	$(".swal2-input").val("demo ra");
+	await sleep(200);
+	$(".swal2-input").val("demo rasp");
+	await sleep(200);
+	$(".swal2-input").val("demo raspore");
+	await sleep(200);
+	$(".swal2-input").val("demo raspored 2");
+	await sleep(200);
+	$(".swal2-input").val("demo raspored 201");
+	await sleep(200);
+	$(".swal2-input").val("demo raspored 2018");
+	await sleep(2000);
+	clickEnabled = true;
+	$(".swal2-confirm").click();
+	clickEnabled = false;
+	await sleep(2000);
+	clickEnabled = true;
+	$(".swal2-confirm").click();
+	clickEnabled = false;
+	await sleep(2000);
+	showModal("loadNew", 0, 0 , 0, 100, 'U svakom trenutku možete učitati raspored koji ste ranije zapamtili.', 3000);
+	await sleep(3000);
+	emptyModal();
+	
+	ucitajRaspored();
+	await sleep(3000);
+	$(".swal2-select").val("demo raspored 2018");
+	await sleep(2000);
+	clickEnabled = true;
+	$(".swal2-confirm").click();
+	clickEnabled = false;
+	await sleep(2000);
+	clickEnabled = true;
+	$(".swal2-confirm").click();
+	clickEnabled = false;
+	await sleep(3000);
+	showModal("entiteti", 0, 0, 0, 100, 'Pritiskom na dugme "Entiteti" prikazaće se prozor na kome možete pretraživati, dodavati, menjati i brisati entitete aplikacije.');
+	await sleep(4000);
+	window.location.replace('/entiteti.html?demo=true');
+	
+
+}
+function sleep(ms) {
+	  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+
+
+  </script>
+  <style>
+    html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    font-size: 16px;
+  }
+	.podaci{
+	
+	margin-top:50px;
+	margin-left:300px;
+	right:20px;
+	display:inline;
+	
+	word-wrap: break-word;
+	
+	}
+    #external-events {
+      position: fixed;
+      z-index: 2;
+      top: 20px;
+      left: 20px;
+      height: 90vh;
+      width: 150px;
+      max-width: 150px;
+      padding: 0 10px;
+      border: 1px solid #ccc;
+      background: #eee;
+      overflow-y: auto;
+      overflow-x: hidden;
+      
+    }
+
+    #external-events .fc-event {
+      margin: 1em 0;
+      cursor: move;
+    }
+
+    #calendar-container {
+      position: relative;
+      z-index: 1;
+      margin-left: 500px;
+      
+    }
+
+    .calendarCss {
+      max-width: 900px;
+      margin: 20px auto;
+      margin-left: 300px ;
+      margin-right:20px;
+      float:left;
+      
+    }
+    .opisUcionice{
+    	color:#428bca;
+    }
+	#calendar1 {
+      max-width: 900px;
+      margin: 20px auto;
+    }
+	#calendar2 {
+      max-width: 900px;
+      margin: 20px auto;
+    }
+	#calendar3 {
+      max-width: 900px;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+
+<body>
+ 
+  <div id='external-events'>
+    <p>
+      <strong>Predmeti</strong>
+    </p>
+    	<div id="predmeti">
+
+    	</div>
+    
   </div>
- </div>
-<!-- Container entiteti --> 
+  
+  	<ul class="nav nav-tabs" id="tabs" style="margin-bottom:20px;margin-left:20%;margin-top:20px;">
+    
 
-<div id="container" id="tableDemo" class="container"style="margin-top:5%;margin-bottom:100px;" ondblclick="zoomin()">
- 
-  <h2><b>Entiteti</b></h2>
-  <ul class="nav nav-tabs" style="margin-bottom:20px;">
-    <li class="active"><a data-toggle="tab" id="predmetiDemo" href="#home">Predmeti</a></li>
-    <li><a data-toggle="tab" href="#menu1">Smerovi</a></li>
-    <li><a data-toggle="tab" href="#menu2">Učionice</a></li>
-    <li><a data-toggle="tab" href="#menu3">Softveri</a></li>
-  </ul>
- 
-  <div class="tab-content">
-    <div id="home" class="tab-pane fade in active">
-      <table id="predmeti" class="table table-striped table-bordered" style="width:100%">
-        <thead>
-            <tr>
-
-                <th >Oznaka<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Naziv<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Opis<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Smer<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Veličina Grupe<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>OP sistem<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Broj termina<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Dužina termina<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Projektor<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Tabla<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Pametna tabla<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Softver</th>
-                <th> </th>
-                             
-            </tr>
-        </thead>
-        <tbody id="tableBodyPredmeti">
-           
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>Oznaka</th>
-                <th>Naziv</th>
-                <th>Opis</th>
-                <th>Smer</th>
-                <th>Veličina Grupe</th>
-                <th>OP sistem</th>
-                <th>Broj termina</th>
-                <th>Dužina termina</th>
-                <th>Projektor</th>
-                <th>Tabla</th>
-                <th>Pametna tabla</th>
-                <th>Softver</th>
-                <th> </th>
-                
-            </tr>
-        </tfoot>
-    </table>
-    </div>
-    <div id="menu1" class="tab-pane fade">
-     <table id="smerovi" class="table table-striped table-bordered" style="width:100%;margin-top:20px">
-        <thead>
-            <tr>
-                <th>Oznaka<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Naziv<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Datum<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Opis<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-   				<th> </th>
-            </tr>
-        </thead>
-        <tbody id="tableBodySmerovi">
- 
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>Oznaka</th>
-                <th>Naziv</th>
-                <th>Datum</th>
-                <th>Opis</th>
-                <th> </th>
-            </tr>
-        </tfoot>
-    </table>
-    </div>
-    <div id="menu2" class="tab-pane fade" >
-      <table id="ucionice" class="table table-striped table-bordered" style="width:100%;margin-top:20px">
-        <thead>
-            <tr>
-
-                <th>Oznaka<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Opis<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Broj mesta<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Projektor<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Tabla<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Pametna tabla<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Operativni Sistem<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-				<th>Softver</th>
-				<th> </th>
-            
-             
-   
-            </tr>
-        </thead>
-        <tbody id="tableBodyUcionice">
- 
-        </tbody>
-        <tfoot>
-            <tr>
-              <th>Oznaka</th>
-                <th>Opis</th>
-                <th>Broj mesta</th>
-                <th>Projektor</th>
-                <th>Tabla</th>
-                <th>Pametna tabla</th>
-                <th>Operativni Sistem</th>
-                <th>Softver</th>
-                <th> <th>
-            </tr>
-        </tfoot>
-    </table>
-    </div>
-    <div id="menu3" class="tab-pane fade" >
-             <table id="softveri" class="table table-striped table-bordered" style="width:100%;margin-top:20px">
-        <thead>
-            <tr>
-                <th>Oznaka<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Naziv<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Proizvođač<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Sajt<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Godina izadavanja<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Opis<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-                <th>Cena (din)<span class="glyphicon glyphicon-sort" style="background-color:white;color:grey;display:inline;margin-left:5px;"></span></th>
-             	<th> </th>
-   
-            </tr>
-        </thead>
-        <tbody id="tableBodySoftveri">
- 
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>Oznaka</th>
-                <th>Naziv</th>
-                <th>Proizvođač</th>
-                <th>Sajt</th>
-                <th>Godina izadavanja</th>
-                <th>Opis</th>
-                <th>Cena (din)</th>
-                <th> </th>
-            </tr>
-        </tfoot>
-    </table>
+  	</ul>
+  <div class = "row">
+	  <button id="save" onclick="save()" type="button" class="btn btn-success btn-lg" style="margin-left:30%;">Sačuvaj</button>
+	  <button id="loadNew" onclick="ucitajRaspored()" type="button" class="btn btn-success btn-lg" style="display:inline-block;">Učitaj raspored</button>
+	  <a href="entiteti.html">
+	  	<button id="entiteti"  type="button" class="btn btn-primary btn-lg" style="display:inline-block;">Entiteti</button>
+	  </a>
+	  <button id="demo" onclick="demo()"  type="button" class="btn btn-primary btn-lg" style="display:inline-block;">DEMO</button>
+	  
+	  <button id="buttonZoomout" type="button" class="btn btn-default btn-lg" onclick="zoomout()" >
+	    <span class="glyphicon glyphicon-zoom-out"></span> Zoom-out
+	  </button>
+	  <button id="buttonZoomin" type="button" class="btn btn-default btn-lg" onclick="zoomin()">
+	    <span class="glyphicon glyphicon-zoom-in"></span> Zoom-in
+	  </button>
   </div>
-</div>
-</div>
- 
-</div>
-  <div id="demo-modal" class="demo-modal">
+   <div  class="tab-content" id="tabsContent">
+ 		
+
+   </div>
+   <div id="demo-modal" class="demo-modal">
   		<!-- Modal content -->
  		 <div id="modal-content">
    			 <span class="close">&times;</span>
@@ -1077,596 +1040,10 @@ function neuspesnoSwal(poruka){
   		<div id="highlight">
 		</div>
 </div>
- 
- 
- 
-<!-- SIDE NAV -->
-<script>
-  function openNav() {
-      document.getElementById("mySidenav").style.width = "250px";
-      document.getElementById("main").style.marginLeft = "250px";
-      document.getElementById("meniBtn").style.visibility = "hidden";
-      //document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-  }
- 
-  function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-      document.getElementById("main").style.marginLeft= "0";
-      document.getElementById("meniBtn").style.visibility = "visible";
-      //document.body.style.backgroundColor = "white";
-  }
-</script>
 </body>
 
-<!-- AJAX pozivi za popunjavanje tabele entiteta -->
 <script>
-$.ajax({
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function(predmeti){
-               
-              predmeti.forEach(function(predmet) {
-	            	// formatiraj softvere
-	                  var softs = predmet.softveri;
-	                  var temp = "";
-	                  var temp2 = "";
-	                  if (softs.length > 0) {
-	                  	 softs.forEach(function(softver) {
-	                  		 temp = temp + softver.naziv + ", ";
-	                  		temp2 = temp2 + softver.oznaka + ", ";
-	                  	 })       
-	                  }
-	                
-                   var softveri = temp.substring(0, temp.length-2);
-                   var softveri2 = temp2.substring(0, temp2.length-2);
-                    var tableData = '';
-                    tableData += '<tr>';
-                    tableData += '<td>'+ predmet.oznaka +'</td>';
-                    tableData += '<td>' + predmet.naziv + '</td>';
-                    tableData += '<td>' + predmet.opis + '</td>';
-                    tableData += '<td>' + predmet.smer.oznaka + '</td>';
-                    tableData += '<td>' + predmet.velicinaGrupe + '</td>';
-                    tableData += '<td>' + predmet.opSistem + '</td>';
-                    tableData += '<td>' + predmet.brojTermina + '</td>';
-                    tableData += '<td>' + predmet.duzinaTermina + '</td>';
-                    
-                    tableData += '<td>' + ((predmet.projektor == true) ? 'da' : 'ne') + '</td>';
-                    tableData += '<td>' + ((predmet.tabla == true) ? 'da' : 'ne') + '</td>';
 
-
-                   
-                   
-                    tableData += '<td>' + ((predmet.pametnaTabla == true) ? 'da' : 'ne') + '</td>';           
-                    tableData += '<td>' + softveri + '</td>';
-                    tableData += '<td><button type="button"  onclick="deletePredmet(\'' + predmet.id + '\')" class="btn btn-danger">Izbriši</button><br><br>' +
-                   				 '<button type="button" id="izmeniPredmet' + predmet.id+'" value="'+predmet.id+ '" data-toggle="modal" data-target="#predmet" onclick="selektujSmerIzmenaPredmeta(\''+predmet.smer.naziv + ',' + predmet.id +'\');selektujSoftvereIzmenaPredmeta(\'' +softveri2+'\'); popuniFormuIzmeniPredmet(\'' + predmet.oznaka + '\');" class="btn btn-primary">Izmeni</button></td></tr>';
-
-                    $("#tableBodyPredmeti").append(tableData);       
-                });
-             
-             
-              $('#predmeti').DataTable();
-              $("#dodajEntitet_predmeti").click(function(){
-                });
-    
-    },
-    processData: false,
-    type: 'GET',
-    url: '/api/predmeti'
-});
-
-var predmet_global_id;
-
-function selektujSmerIzmenaPredmeta(nazivSmeraIId){
-	var rez = nazivSmeraIId.split(",");
-	var nazivSmera = rez[0];
-	predmet_global_id = rez[1];
-	
-	$("#smerSelect").empty();
-    $.ajax({
-        type: "GET",
-        url: "/api/smerovi",
-        success: function(smerovi){
-            
-            var selectSmer = document.getElementById("smerSelect");
-            $.each(smerovi, function(i, smer){
-                var optionSmer = document.createElement("OPTION");
-                selectSmer.add(optionSmer);
-                optionSmer.value = smer.oznaka;
-                optionSmer.text = smer.naziv;
-                if(smer.naziv == nazivSmera){
-                	optionSmer.selected = true;
-                }
-            });
-        }
-    });
-}
-function selektujSoftvereIzmenaPredmeta(predmetSoftveri){
-	var selectedSoftveri = predmetSoftveri.split(", ");
-
-	$("#softveri-predmet").multiselect('select', selectedSoftveri);
-  	
-}
-
-<!-- izmeni predmet -->
-function popuniFormuIzmeniPredmet(oznaka){
-	
-	swal("Obaveštenje!", "Izmene će biti validne u rasporedima koji se prave nakon izmene!", "info");
-	
-	$("#predmetHeader").text("Izmena predmeta");
-	$("#predmetSubmit").text("Izmeni predmet");
-	
-	$.ajax({
-		type: "GET",
-		url: '/api/predmet'+ oznaka,
-		success: function(predmet){
-			document.getElementById("nazivPredmeta").value = predmet.naziv;
-		    document.getElementById("oznakaPredmeta").value = predmet.oznaka;
-		    document.getElementById("opisPredmeta").value = predmet.opis;
-		    document.getElementById("velicinaGrupe").value = predmet.velicinaGrupe;
-		    document.getElementById("duzinaTermina").value = predmet.duzinaTermina; 
-		    document.getElementById("brojTermina").value = predmet.brojTermina;
-		    if(predmet.projektor){
-		    	$('#projektorPredmet').prop('checked', true);	
-		    }
-		    if(predmet.tabla){
-		    	$('#tablaPredmet').prop('checked', true);
-		    }
-		    if(predmet.pametnaTabla){
-		    	$('#pametnaTablaPredmet').prop('checked', true);
-		    }
-
-		    if(predmet.opSistem == 'LINUX'){
-		    	$('#linuxPredmet').prop('checked', true);
-		    }
-		    else if( predmet.opSistem == 'WINDOWS'){
-		    	$('#windowsPredmet').prop('checked', true);
-		    }
-		    else{
-		    	$('#obaOsPredmet').prop('checked', true);
-		    }
-		}
-	});
-}
-
-function deletePredmet(id){
-	$.ajax({
-	    contentType: 'application/json',
-	    dataType: 'json',
-	    success: function(success){
-			if (success){
-				uspesnoSwal("Predmet uspešno obrisan.");
-			}else{
-				neuspesnoSwal("Greška prilikom brisanja");
-
-			}
-	    },
-	    processData: false,
-	    type: 'DELETE',
-	    url: '/api/predmeti/'+ id
-	});
-	
-}
-function deleteUcionica(id){
-	$.ajax({
-	    contentType: 'application/json',
-	    dataType: 'json',
-	    success: function(success){
-			if (success){
-				uspesnoSwal("Učionica uspešno obrisana.");
-			}else{
-				neuspesnoSwal("Greška prilikom brisanja");
-
-			}
-	    },
-	    error: function(data) {
-	    	if (data.status == '500') {
-	    		neuspesnoSwal("Učionica se ne moze obrisati jer postoji sačuvan raspored za ovu učionicu!");
-	    	}
-	    },
-	    processData: false,
-	    type: 'DELETE',
-	    url: '/api/ucionice/'+ id
-	});
-	
-}
-function deleteSmer(id){
-	$.ajax({
-	    contentType: 'application/json',
-	    dataType: 'json',
-	    success: function(success){
-			if (success){
-				uspesnoSwal("Smer uspešno obrisan.");
-			}else{
-				neuspesnoSwal("Greška prilikom brisanja");
-
-			}
-	    },
-	    error : function(data){
-	    	if (data.status == '500'){
-	    		neuspesnoSwal("Prvo je potrebno izbrisati sve predmete za ovaj smer.");
-	    	}
-	    	
-	    },
-	    processData: false,
-	    type: 'DELETE',
-	    url: '/api/smerovi/'+ id
-	});
-	
-}
-function deleteSoftver(id){
-	$.ajax({
-	    contentType: 'application/json',
-	    dataType: 'json',
-	    success: function(success){
-			if (success){
-				uspesnoSwal("Softver uspešno obrisan.");
-			}else{
-				neuspesnoSwal("Greška prilikom brisanja");
-
-			}
-	    },
-	    error : function(data){
-	    	if (data.status == '500'){
-	    		neuspesnoSwal("Prvo je potrebno izbrisati sve predmete i učionice koje zahtevaju ovaj softver");
-	    	}
-	    	
-	    },
-	    processData: false,
-	    type: 'DELETE',
-	    url: '/api/softveri/' + id
-	});
-	
-}
-$.ajax({
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function(smerovi){
-               
-              smerovi.forEach(function(smer) {
-                    var tableData = '';
-                    tableData += '<tr>';
-                    tableData += '<td>'+ smer.oznaka +'</td>';
-                    tableData += '<td>' + smer.naziv + '</td>';
-                    tableData += '<td>' + smer.datum + '</td>';
-                    tableData += '<td>' + smer.opis + '</td>';
-                    tableData += '<td><button type="button"  onclick="deleteSmer(\'' + smer.id + '\')" class="btn btn-danger">Izbriši</button><br><br>' +
-                    	'<button type="button" id="izmeniSmer' + smer.id+'" value="\'' +smer.oznaka+ '\'" onclick="popuniFormuIzmeniSmer(\'' + smer.oznaka + ',' + smer.id + '\')" data-toggle="modal" data-target="#smer" class="btn btn-primary">Izmeni</button></td></tr>';
-                   
-                    $("#tableBodySmerovi").append(tableData);
-                   
-                   
-                });
-             
-              $('#smerovi').DataTable();
-              $("#dodajEntitet_smerovi").click(function(){
-                    alert("dodavanje smerova");
-                });
-    },
-    processData: false,
-    type: 'GET',
-    url: '/api/smerovi'
-});
-
-var smer_global_id;
-
-function popuniFormuIzmeniSmer(oznakaSmeraIId){
-	var rez = oznakaSmeraIId.split(",");
-	var oznakaSmera = rez[0];
-	smer_global_id = rez[1];
-	
-	swal("Obaveštenje!", "Izmene će biti validne u rasporedima koji se prave nakon izmene!", "info");
-	
-	$("#smerSubmit").text("Izmeni smer");
-	$("#smerHeader").text("Izmena smera");
-	
-    $.ajax({
-		type: "GET",
-		url: '/api/smer'+ oznakaSmera,
-		success: function(smer){
-			
-			document.getElementById("nazivSmera").value = smer.naziv;
-			document.getElementById("oznakaSmera").value = smer.oznaka;
-			
-			var date = smer.datum;
-			$('input[name=datumSmeraId]').val(date);
-			
-			document.getElementById("opisSmera").value = smer.opis;
-		}
-	});
-}
-
-$.ajax({
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function(ucionice){
-               
-              ucionice.forEach(function(ucionica) {
-            	    // formatiraj softvere
-	        	    var softs = ucionica.softveri;
-	                var temp = "";
-	                var temp2 = "";
-	                if (softs.length > 0) {
-	              	   softs.forEach(function(softver) {
-	              	   	   temp = temp + softver.naziv + ", ";
-	              	   	   temp2 = temp2 + softver.oznaka + ", ";
-	              	    })       
-	                 }
-	              
-	                var softveri = temp.substring(0, temp.length-2);
-	                var softveri2 = temp2.substring(0, temp2.length-2);
-           	  
-                    var tableData = '';
-                    tableData += '<tr>';
-                    tableData += '<td>'+ ucionica.oznaka +'</td>';
-                    tableData += '<td>' + ucionica.opis + '</td>';
-                    tableData += '<td>' + ucionica.brojMesta + '</td>';
-                    tableData += '<td>' + ((ucionica.projektor == true) ? 'da' : 'ne') + '</td>';
-                    tableData += '<td>' + ((ucionica.tabla == true) ? 'da' : 'ne')  + '</td>';
-                    tableData += '<td>' + ((ucionica.pametnaTabla == true) ? 'da' : 'ne')  + '</td>';
-                    tableData += '<td>' + ucionica.opSistem + '</td>';
-                    tableData += '<td>' + softveri + '</td>';
-                    tableData += '<td><button type="button"  onclick="deleteUcionica(\'' +ucionica.id + '\')" class="btn btn-danger">Izbriši</button><br><br>'+
-                    		 '<button type="button"  id="izmeniUcionicu' + ucionica.id+'" onclick="popuniFormuIzmeniUcionicu(\'' + ucionica.oznaka + ',' + ucionica.id +'\'); selektujSoftvereIzmenaUcionice(\'' +softveri2+'\');" data-toggle="modal" data-target="#ucionica" class="btn btn-primary">Izmeni</button></td></tr>';
-                    $("#tableBodyUcionice").append(tableData);                 
-                });
-             
-              $('#ucionice').DataTable();
-              $("#dodajEntitet_ucionice").click(function(){
-                    alert("dodavanje ucionica");
-                });
-    },
-    processData: false,
-    type: 'GET',
-    url: '/api/ucionice'
-});
-function selektujSoftvereIzmenaUcionice(softveri){
-	var selectedSoftveri = softveri.split(", ");
-
-	$("#softveri-ucionica").multiselect('select', selectedSoftveri);
-}
-
-var ucionica_global_id;
-
-function popuniFormuIzmeniUcionicu(oznakaUcioniceIId){
-	var rez = oznakaUcioniceIId.split(",");
-	var oznakaUcionice = rez[0];
-	ucionica_global_id = rez[1];
-	
-	swal("Obaveštenje!", "Izmene će biti validne u rasporedima koji se prave nakon izmene!", "info");
-	
-	$("#ucionicaSubmit").text("Izmeni ucionicu");
-	$("#ucionicaHeader").text("Izmena ucionice");
-	
-	$.ajax({
-		type: "GET",
-		url: '/api/ucionice/'+ oznakaUcionice,
-		success: function(ucionica){
-			document.getElementById("oznakaUcionice").value = ucionica.oznaka;
-			document.getElementById("opisUcionice").value = ucionica.opis;
-			document.getElementById("brojMesta").value = ucionica.brojMesta;
-			if(ucionica.projektor){
-		    	$('#projektorUcionica').prop('checked', true);	
-		    }
-		    if(ucionica.tabla){
-		    	$('#tablaUcionica').prop('checked', true);
-		    }
-		    if(ucionica.pametnaTabla){
-		    	$('#pametnaTablaUcionica').prop('checked', true);
-		    }
-		
-		    if(ucionica.opSistem == 'LINUX'){
-		    	$('#linuxUcionica').prop('checked', true);
-		    }
-		    else if( ucionica.opSistem == 'WINDOWS'){
-		    	$('#windowsUcionica').prop('checked', true);
-		    }
-		    else{
-		    	$('#obaUcionica').prop('checked', true);
-		    }
-		}
-	});
-}
-
-$.ajax({
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function(softveri){
-               
-              softveri.forEach(function(softver) {
-                    var tableData = '';
-                    tableData += '<tr>';
-                    tableData += '<td>'+ softver.oznaka +'</td>';
-                    tableData += '<td>' + softver.naziv + '</td>';
-                    tableData += '<td>' + softver.proizvodjac + '</td>';
-                    tableData += '<td><a href="http://' + softver.sajt + '">' + softver.sajt + '</a></td>';
-                    tableData += '<td>' + softver.godinaIzdavanja + '</td>';
-                    tableData += '<td>' + softver.opis + '</td>';
-                    tableData += '<td>' + softver.cena + '</td>';
-                    tableData += '<td><button type="button"  onclick="deleteSoftver(\'' + softver.id + '\')" class="btn btn-danger">Izbriši</button><br><br>'+
-                    		 '<button type="button" id="izmeniSoftver' + softver.id+'" onclick="popuniFormuIzmeniSoftver(\'' + softver.oznaka +',' + softver.id + '\')" data-toggle="modal" data-target="#softver" class="btn btn-primary">Izmeni</button></td></tr>';
-                    $("#tableBodySoftveri").append(tableData);
-                 
-                });
-             
-              $('#softveri').DataTable();
-              $("#dodajEntitet_softveri").click(function(){
-                    alert("dodavanje softvera");
-                });
-    },
-    processData: false,
-    type: 'GET',
-    url: '/api/softveri'
-});
-
-var softver_global_id;
-
-function popuniFormuIzmeniSoftver(oznakaSoftveraIId){
-	var rez = oznakaSoftveraIId.split(",");
-	var oznakaSoftvera = rez[0];
-	softver_global_id = rez[1];
-	
-	swal("Obaveštenje!", "Izmene će biti validne u rasporedima koji se prave nakon izmene!", "info");
-	
-	$("#softverSubmit").text("Izmeni softver");
-	$("#softverHeader").text("Izmena softvera");
-	
-    $.ajax({
-		type: "GET",
-		url: '/api/softver'+ oznakaSoftvera,
-		success: function(softver){
-			
-			document.getElementById("nazivSoftvera").value = softver.naziv;
-			document.getElementById("oznakaSoftvera").value = softver.oznaka;
-			document.getElementById("opisSoftvera").value = softver.opis;
-			document.getElementById("proizvodjacSoftvera").value = softver.proizvodjac;
-			document.getElementById("sajtSoftvera").value = softver.sajt;
-			document.getElementById("cenaSoftvera").value = softver.cena;
-			document.getElementById("datumIzdavanja").value = softver.godinaIzdavanja;
-	
-		}
-	});
-}
-
-
-function dodajEntitet(){
-    alert("asd");
-}
-
-var clickEnabled = false;
-var demo = false;
-async function demoFunction(){
-	demo = true;
-	$(document).on("click",function() {
-		if (clickEnabled == false){
-			window.location.replace('/raspored.html');
-		}
-    });
-	$(document).on("keydown",function() {
-		if (clickEnabled == false){
-			window.location.replace('/raspored.html');
-		}
-    });
-
-	$('html, body').css({
-	    overflow: 'hidden',
-	    height: '100%'
-	});
-	$("#meniDiv").css("display", "block");
-	showModal("meniDiv", 0, 0, 200, 0, 'Klikom na ovo dugme otvara se meni. U meniju možete dodavati nove entitete');
-	await sleep(4000);
-	$("#meniDiv").css("display", "inline");
-	emptyModal();
-	clickEnabled = true;
-	$("#meniBtn").click();
-	clickEnabled = false;
-	await sleep(1500);
-	
-	$("#dodajSmer").css("color", "#f1f1f1");
-	await sleep(1500);
-	$("#dodajSmer").css("color", "#818181");
-	clickEnabled = true;
-	$("#dodajSmer").click();
-	clickEnabled = false;
-	await sleep(2000);
-	$("#nazivSmera").val("Auto");
-	await sleep(200);
-	$("#nazivSmera").val("Automatika");
-	await sleep(200);
-	$("#nazivSmera").val("Automatika i rač");
-	await sleep(200);
-	$("#nazivSmera").val("Automatika i računar");
-	await sleep(200);
-	$("#nazivSmera").val("Automatika i računarstvo");
-	await sleep(1000);
-	$("#oznakaSmera").val("DemoE2");
-	await sleep(1000);
-	var dateControl = document.querySelector('input[type="date"]');
-	dateControl.value = '2018-06-01';
-	await sleep(1000);
-	$("#opisSmera").val("op");
-	await sleep(200);
-	$("#opisSmera").val("opis");
-	await sleep(200);
-	$("#opisSmera").val("opis sme");
-	await sleep(200);
-	$("#opisSmera").val("opis smera");
-	await sleep(2000);
-	clickEnabled = true;
-	$("#smerSubmit").click();
-	clickEnabled = false;
-	await sleep(1500);
-	clickEnabled = true;
-	$(".swal2-confirm").click();
-	clickEnabled = false;
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
-    document.getElementById("meniBtn").style.visibility = "visible";
-    $('html, body').css({
-	    overflow: 'auto',
-	    height: 'auto'
-	});
-    window.scrollTo(0, 300);
-
-	await sleep(2000);
-	
-	$("#demo-message").text("U tabeli se nalaze podaci o svim entitetima koje možete pretraživati.");
-	$('#demo-modal').show();
-	await sleep(5000);
-	emptyModal();
-	
-	var e = jQuery.Event("keydown");
-	e.which = 72; //key code
-	clickEnabled = true;
-	$(".form-control.input-sm").focus();
-	$(".form-control.input-sm").val("h");
-	$(".form-control.input-sm").trigger('keyup');
-	await sleep(400);
-	$(".form-control.input-sm").val("hc");
-	$(".form-control.input-sm").trigger('keyup');
-	await sleep(400);
-	$(".form-control.input-sm").val("hci");
-	$(".form-control.input-sm").trigger('keyup');
-	await sleep(1000);
-	$(".form-control.input-sm").val("");
-	await sleep(1000);
-	$(".form-control.input-sm").val("wi");
-	$(".form-control.input-sm").trigger('keyup');
-	await sleep(400);
-	$(".form-control.input-sm").val("windo");
-	$(".form-control.input-sm").trigger('keyup');
-	await sleep(400);
-	$(".form-control.input-sm").val("windows");
-	$(".form-control.input-sm").trigger('keyup');
-	clickEnabled = false;
-
-	await sleep(4000);
-	$("#demo-message").text("Kraj demonstracije.");
-	$('#demo-modal').show();
-	await sleep(2000);
-	emptyModal();
-	demo = false;
-	window.location.replace("/raspored.html")
-
-	
-}
-$( document ).ready(function() {
-	var params = (location.search).split("?");
-	var demo = (params[1].split("="))[1];
-	if (demo == "true"){
-		demoFunction();
-	}
-	
-});
-function sleep(ms) {
-	 return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-
-$(document).ready(function() {
- 
-} );
-
- 
 </script>
+
 </html>
